@@ -43,7 +43,7 @@ const MenuTabs: FC = () => {
     return (
         <Box sx={{ width: "100%" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <Tabs value={value} onChange={handleChange} aria-label="menu tabs">
+                <Tabs value={value} onChange={handleChange} aria-label="menu tabs" centered>
                     <Tab label="IPv4" />
                     <Tab label="IPv6" />
                 </Tabs>
