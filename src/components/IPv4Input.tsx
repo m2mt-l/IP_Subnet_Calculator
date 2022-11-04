@@ -8,7 +8,10 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
+import { generateIpv4Slash } from "../data/ipv4Subnet";
+
 const IPv4Input: FC = () => {
+    const subnetString = generateIpv4Slash();
     return (
         <Stack spacing={2}>
             <TextField
@@ -20,9 +23,13 @@ const IPv4Input: FC = () => {
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Subnet</InputLabel>
                 <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Age">
-                    <MenuItem value={10}>32</MenuItem>
-                    <MenuItem value={20}>31</MenuItem>
-                    <MenuItem value={30}>30</MenuItem>
+                    {subnetString.map((subnetString, index) => {
+                        return (
+                            <MenuItem key={index} value={32 - index}>
+                                {subnetString}
+                            </MenuItem>
+                        );
+                    })}
                 </Select>
             </FormControl>
             <Button variant="contained">Calculate</Button>
