@@ -11,7 +11,7 @@ export function isValidIpv4Address(ipv4Address: string): boolean {
         // Check if this is Number
         if (isNaN(octetValue)) return false;
         // Check if the octet range is from 0 to 255
-        if (octetValue < 0 && octetValue > 255) return false;
+        if (octetValue < 0 || octetValue > 255) return false;
     }
     return true;
 }
