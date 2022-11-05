@@ -1,4 +1,4 @@
-export function validateIpv4Address(ipv4Address: string): boolean {
+export function isValidIpv4Address(ipv4Address: string): boolean {
     const splitIpv4Address: string[] = ipv4Address.split(".");
     const splitIpv4AddressLength: number = splitIpv4Address.length;
 

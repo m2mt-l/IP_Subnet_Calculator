@@ -9,6 +9,7 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { generateIpv4Slash } from "../data/ipv4Subnet";
+import { isValidIpv4Address } from "../util/ipv4AddressValidation";
 
 const IPv4Input: FC = () => {
     // Input IPv4 address state
@@ -16,6 +17,9 @@ const IPv4Input: FC = () => {
 
     // Select subnet state
     const [ipv4Subnet, setIpv4Subnet] = useState<string>("");
+
+    // if IP address is input
+    const [isValidIpv4AddressState, setIsValidIpv4AddressState] = useState<boolean>(true);
 
     const handleIpv4AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { value } = event.target;
@@ -27,6 +31,15 @@ const IPv4Input: FC = () => {
         const { value } = event.target;
         setIpv4Subnet(value);
         // console.log(value);
+    };
+
+    const handleIsValidIpv4Address = (): void => {
+        setIsValidIpv4AddressState(!isValidIpv4AddressState);
+    };
+
+    const handleCalculateClick = (): void => {
+        if (!isValidIpv4Address(ipv4Address)) handleIsValidIpv4Address();
+        console.log(isValidIpv4AddressState);
     };
 
     const subnetString = generateIpv4Slash();
@@ -62,7 +75,9 @@ const IPv4Input: FC = () => {
                     })}
                 </Select>
             </FormControl>
-            <Button variant="contained">Calculate</Button>
+            <Button variant="contained" onClick={handleCalculateClick}>
+                Calculate
+            </Button>
         </Stack>
     );
 };
