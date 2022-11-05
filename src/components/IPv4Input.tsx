@@ -11,12 +11,22 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { generateIpv4Slash } from "../data/ipv4Subnet";
 
 const IPv4Input: FC = () => {
+    // Input IPv4 address state
     const [ipv4Address, setIpv4Address] = useState<string>("");
+
+    // Select subnet state
+    const [ipv4Subnet, setIpv4Subnet] = useState<string>("");
 
     const handleIpv4AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { value } = event.target;
         setIpv4Address(value);
         // console.log(ipv4Address);
+    };
+
+    const handleIpv4SubnetChange = (event: SelectChangeEvent): void => {
+        const { value } = event.target;
+        setIpv4Subnet(value);
+        // console.log(value);
     };
 
     const subnetString = generateIpv4Slash();
@@ -38,6 +48,7 @@ const IPv4Input: FC = () => {
                     id="demo-simple-select"
                     label="Age"
                     defaultValue="24" // refactor
+                    onChange={handleIpv4SubnetChange}
                 >
                     {subnetString.map((subnetString, index) => {
                         return (
