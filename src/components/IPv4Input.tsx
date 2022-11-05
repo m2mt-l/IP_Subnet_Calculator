@@ -39,10 +39,9 @@ const IPv4Input: FC = () => {
     };
 
     const handleCalculateClick = (): void => {
-        console.log("check ipv4");
-        console.log(isValidIpv4Address(ipv4Address));
+        // console.log(isValidIpv4Address(ipv4Address));
         handleIsValidIpv4Address(isValidIpv4Address(ipv4Address));
-        console.log(isValidIpv4AddressState);
+        // console.log(isValidIpv4AddressState);
     };
 
     const subnetString = generateIpv4Slash();
