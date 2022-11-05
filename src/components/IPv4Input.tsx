@@ -7,6 +7,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Typography from "@mui/material/Typography";
 
 import { generateIpv4Slash } from "../data/ipv4Subnet";
 import { isValidIpv4Address } from "../util/ipv4AddressValidation";
@@ -33,12 +34,14 @@ const IPv4Input: FC = () => {
         // console.log(value);
     };
 
-    const handleIsValidIpv4Address = (): void => {
-        setIsValidIpv4AddressState(!isValidIpv4AddressState);
+    const handleIsValidIpv4Address = (isValidIpv4Address: boolean): void => {
+        setIsValidIpv4AddressState(isValidIpv4Address);
     };
 
     const handleCalculateClick = (): void => {
-        if (!isValidIpv4Address(ipv4Address)) handleIsValidIpv4Address();
+        console.log("check ipv4");
+        console.log(isValidIpv4Address(ipv4Address));
+        handleIsValidIpv4Address(isValidIpv4Address(ipv4Address));
         console.log(isValidIpv4AddressState);
     };
 
@@ -78,6 +81,11 @@ const IPv4Input: FC = () => {
             <Button variant="contained" onClick={handleCalculateClick}>
                 Calculate
             </Button>
+            {!isValidIpv4AddressState && (
+                <Typography align="center" sx={{ color: "error.main" }}>
+                    Invalid IP address
+                </Typography>
+            )}
         </Stack>
     );
 };
