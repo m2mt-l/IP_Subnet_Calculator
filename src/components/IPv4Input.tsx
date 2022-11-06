@@ -13,6 +13,7 @@ import Divider from "@mui/material/Divider";
 import { generateIpv4Slash } from "../data/ipv4Subnet";
 import { isValidIpv4Address } from "../util/ipv4AddressValidation";
 import IPv4ResultTable from "./IPv4ResultTable";
+import { DefaultIPv4 } from "../data/ipv4InputDefaultValue";
 
 const IPv4Input: FC = () => {
     // Input IPv4 address state
@@ -60,7 +61,7 @@ const IPv4Input: FC = () => {
                 label="IPv4 address"
                 variant="filled"
                 sx={{ width: 300 }}
-                placeholder="192.0.2.1" // refactor
+                placeholder={DefaultIPv4.placeholder}
                 onChange={handleIpv4AddressChange}
             />
             <FormControl fullWidth>
@@ -68,8 +69,8 @@ const IPv4Input: FC = () => {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    label="Age"
-                    defaultValue="24" // refactor
+                    label="Subnet"
+                    defaultValue={DefaultIPv4.subnet}
                     onChange={handleIpv4SubnetChange}
                 >
                     {subnetString.map((subnetString, index) => {
