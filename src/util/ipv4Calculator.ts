@@ -6,7 +6,7 @@ export function ipv4Calculator(type: string, ipv4Address: string, subnet: string
         [ipv4TypeKey.ipAddress]: displayIPAddress(ipv4Address, subnet),
         [ipv4TypeKey.networkAddress]: getNetworkAddress(ipv4Address, subnet),
         [ipv4TypeKey.hostAddressRange]: getHostAddressRange(ipv4Address, subnet),
-        [ipv4TypeKey.availableHosts]: getAvailableHosts(subnet),
+        [ipv4TypeKey.numberOfHosts]: getNumberOfHosts(subnet),
         [ipv4TypeKey.broadcastAddress]: getBroadcastAddress(ipv4Address, subnet),
         [ipv4TypeKey.subnetMask]: getSubnetMask(subnet),
         [ipv4TypeKey.networkClass]: getNetworkClass(ipv4Address),
@@ -21,7 +21,7 @@ Calculator functions
  -displayIPAddress
  -getNetworkAddress
  -getHostAddressRange
- -getAvailableHosts
+ -getNumberOfHosts
  -getBroadcastAddress
  -getSubnetMask
  -getNetworkClass
@@ -73,12 +73,12 @@ function getHostAddressRange(ipv4Address: string, subnet: string): string {
     return firstHostAddressArray.join(".") + " - " + lastHostAddressArray.join(".");
 }
 
-function getAvailableHosts(subnet: string): string {
+function getNumberOfHosts(subnet: string): string {
     const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
     const bitCountArray: number[] = wildcardArray.map((octet: number) => countBits(octet));
     const totalBits: number = bitCountArray.reduce((total: number, bit: number) => total + bit);
-    const availableHosts: bigint = BigInt(Math.pow(2, totalBits)) - BigInt(2);
-    return availableHosts.toLocaleString();
+    const numberOfHosts: number = Math.pow(2, totalBits);
+    return numberOfHosts.toLocaleString();
 }
 
 function getBroadcastAddress(ipv4Address: string, subnet: string): string {
