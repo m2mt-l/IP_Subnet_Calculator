@@ -17,10 +17,7 @@ const MainPage: FC = () => {
             <Grid item>
                 <MenuTabs />
             </Grid>
-            <Divider flexItem />
-            <Grid item>
-                <IPv4ResultTable />
-            </Grid>
+            <Grid item></Grid>
         </Grid>
     );
 };

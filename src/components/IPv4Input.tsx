@@ -8,9 +8,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 
 import { generateIpv4Slash } from "../data/ipv4Subnet";
 import { isValidIpv4Address } from "../util/ipv4AddressValidation";
+import IPv4ResultTable from "./IPv4ResultTable";
 
 const IPv4Input: FC = () => {
     // Input IPv4 address state
@@ -85,6 +87,8 @@ const IPv4Input: FC = () => {
                     Invalid IP address
                 </Typography>
             )}
+            <Divider flexItem />
+            <IPv4ResultTable />
         </Stack>
     );
 };
