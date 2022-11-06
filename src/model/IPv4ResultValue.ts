@@ -58,6 +58,11 @@ function splitSubnetMask(subnet: string): number[] {
         .map((octet) => parseInt(octet, 10));
 }
 
+/*
+Operation functions
+
+*/
+
 // bitwise AND operation
 function operateAND(n1: number, n2: number): string {
     return (n1 &= n2).toString();
@@ -74,4 +79,11 @@ function getWildcardMaskArray(subnetArray: number[]): number[] {
 
 function getSubnetMask(subnet: string): string {
     return ipv4SubnetHashMap[subnet];
+}
+
+function getNumberOfAvailableHosts(subnet: string) {}
+
+function countBits(subnet: number): number {
+    const bitArray: string[] | null = subnet.toString(2).match(/1/g);
+    return bitArray !== null ? bitArray.length : 0;
 }
