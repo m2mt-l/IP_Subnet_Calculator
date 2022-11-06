@@ -5,7 +5,7 @@ export function ipv4Calculator(type: string, ipv4Address: string, subnet: string
     const ipv4CalculatorHashmap: { [key: string]: string } = {
         [ipv4TypeKey.ipAddress]: displayIPAddress(ipv4Address, subnet),
         [ipv4TypeKey.networkAddress]: getNetworkAddress(ipv4Address, subnet),
-        [ipv4TypeKey.hostAddressRange]: "",
+        [ipv4TypeKey.hostAddressRange]: getHostAddressRange(ipv4Address, subnet),
         [ipv4TypeKey.availableHosts]: getAvailableHosts(subnet),
         [ipv4TypeKey.broadcastAddress]: getBroadcastAddress(ipv4Address, subnet),
         [ipv4TypeKey.subnetMask]: getSubnetMask(subnet),
@@ -35,7 +35,7 @@ function displayIPAddress(ipv4Address: string, subnet: string): string {
 }
 
 function getNetworkAddress(ipv4Address: string, subnet: string): string {
-    let networkAddress: string[] = ["", "", "", ""];
+    let networkAddress: number[] = [0, 0, 0, 0];
 
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
     const subnetArray: number[] = splitSubnetMask(subnet);
@@ -47,18 +47,40 @@ function getNetworkAddress(ipv4Address: string, subnet: string): string {
     return networkAddress.join(".");
 }
 
+function getHostAddressRange(ipv4Address: string, subnet: string): string {
+    const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
+    const subnetArray: number[] = splitSubnetMask(subnet);
+    const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
+
+    let firstHostAddressArray: number[] = [0, 0, 0, 0];
+    const tailIndexFirstHost: number = firstHostAddressArray.length - 1;
+    // network address
+    firstHostAddressArray = firstHostAddressArray.map((octet, index) =>
+        operateAND(ipv4AddressArray[index], subnetArray[index]),
+    );
+    firstHostAddressArray[tailIndexFirstHost] += 1;
+
+    let lastHostAddressArray: number[] = [0, 0, 0, 0];
+    const tailIndexLastHost: number = lastHostAddressArray.length - 1;
+    // broadcast address
+    lastHostAddressArray = lastHostAddressArray.map((octet, index) =>
+        operateOR(ipv4AddressArray[index], wildcardArray[index]),
+    );
+    lastHostAddressArray[tailIndexLastHost] -= 1;
+
+    return firstHostAddressArray.join(".") + " - " + lastHostAddressArray.join(".");
+}
+
 function getAvailableHosts(subnet: string): string {
     const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
     const bitCountArray: number[] = wildcardArray.map((octet: number) => countBits(octet));
     const totalBits: number = bitCountArray.reduce((total: number, bit: number) => total + bit);
-    console.log(wildcardArray);
-    console.log(totalBits);
     const availableHosts: bigint = BigInt(Math.pow(2, totalBits)) - BigInt(2);
     return availableHosts.toLocaleString();
 }
 
 function getBroadcastAddress(ipv4Address: string, subnet: string): string {
-    let broadcastAddress: string[] = ["", "", "", ""];
+    let broadcastAddress: number[] = [0, 0, 0, 0];
 
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
     const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
@@ -92,15 +114,16 @@ function splitSubnetMask(subnet: string): number[] {
 }
 
 // bitwise AND operation
-function operateAND(n1: number, n2: number): string {
-    return (n1 &= n2).toString();
+function operateAND(n1: number, n2: number): number {
+    return (n1 &= n2);
 }
 
 // bitwise OR operation
-function operateOR(n1: number, n2: number): string {
-    return (n1 |= n2).toString();
+function operateOR(n1: number, n2: number): number {
+    return (n1 |= n2);
 }
 
+// ex: subnetArray = [255,255,255,0] return [0,0,0,255]
 function getWildcardMaskArray(subnetArray: number[]): number[] {
     return subnetArray.map((subnet) => 255 - subnet);
 }
