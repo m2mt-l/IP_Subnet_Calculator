@@ -9,6 +9,7 @@ export function ipv4Calculator(type: string, ipv4Address: string, subnet: string
         [ipv4TypeKey.availableHosts]: getAvailableHosts(subnet),
         [ipv4TypeKey.broadcastAddress]: getBroadcastAddress(ipv4Address, subnet),
         [ipv4TypeKey.subnetMask]: getSubnetMask(subnet),
+        [ipv4TypeKey.networkClass]: getNetworkClass(ipv4Address),
         [ipv4TypeKey.ipv4Mapped]: getIpv4MappedAddress(ipv4Address),
         [ipv4TypeKey.sixToFour]: getSixToFourAddress(ipv4Address),
     };
@@ -23,6 +24,7 @@ Calculator functions
  -getAvailableHosts
  -getBroadcastAddress
  -getSubnetMask
+ -getNetworkClass
  -getIpv4MappedAddress
  -getSixToFourAddress
 These functions should be used in ipv4CalculatorHashmap.
@@ -105,6 +107,18 @@ function getSixToFourAddress(ipv4Address: string): string {
     const firstSixToFourAddress = "2002:";
     const lastSixToFourAddress = "::/48";
     return firstSixToFourAddress + getHexAddressFromIPv4Address(ipv4Address) + lastSixToFourAddress;
+}
+
+function getNetworkClass(ipv4Address: string): string {
+    const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
+    const firstOctet: number = ipv4AddressArray[0];
+
+    if (firstOctet >= 0 && firstOctet <= 127) return "A";
+    else if (firstOctet >= 128 && firstOctet <= 191) return "B";
+    else if (firstOctet >= 192 && firstOctet <= 223) return "C";
+    else if (firstOctet >= 224 && firstOctet <= 239) return "D(Multicast)";
+    // firstOctet >= 240 && firstOctet <= 255
+    else return "E";
 }
 
 /*
