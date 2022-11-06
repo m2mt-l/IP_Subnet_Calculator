@@ -19,7 +19,7 @@ const IPv4Input: FC = () => {
     const [ipv4Address, setIpv4Address] = useState<string>("");
 
     // Select subnet state
-    const [ipv4Subnet, setIpv4Subnet] = useState<string>("");
+    const [ipv4Subnet, setIpv4Subnet] = useState<string>("24"); // default value
 
     // If IP address is input or not
     const [isValidIpv4AddressState, setIsValidIpv4AddressState] = useState<boolean>(true);
@@ -46,7 +46,7 @@ const IPv4Input: FC = () => {
     const handleCalculateClick = (): void => {
         // console.log(isValidIpv4Address(ipv4Address));
         handleIsValidIpv4Address(isValidIpv4Address(ipv4Address));
-        if (!isValidIpv4AddressState) setIsCalculated(true);
+        if (!isValidIpv4AddressState || isValidIpv4Address(ipv4Address)) setIsCalculated(true);
         else setIsCalculated(false);
         // console.log(isValidIpv4AddressState);
     };
@@ -93,7 +93,7 @@ const IPv4Input: FC = () => {
                 </Typography>
             )}
             <Divider flexItem />
-            {isCalculated && <IPv4ResultTable />}
+            {isCalculated && <IPv4ResultTable ipv4Address={ipv4Address} subnet={ipv4Subnet} />}
         </Stack>
     );
 };
