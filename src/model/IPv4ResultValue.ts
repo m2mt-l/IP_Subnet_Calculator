@@ -1,15 +1,16 @@
 import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
+import { ipv4TypeKey } from "../data/ipv4ResultTable";
 
 export function ipv4Calculator(type: string, ipv4Address: string, subnet: string): string {
     const ipv4CalculatorHashmap: { [key: string]: string } = {
-        "IP address": displayIPAddress(ipv4Address, subnet),
-        "Network Address": getNetworkAddress(ipv4Address, subnet),
-        "Host Address Range": "",
-        "Number of available hosts": "",
-        "Broadcast Address": getBroadcastAddress(ipv4Address, subnet),
-        "Subnet Mask": getSubnetMask(subnet),
-        "IPv4 Mapped": "",
-        "6to4 Prefix": "",
+        [ipv4TypeKey.ipAddress]: displayIPAddress(ipv4Address, subnet),
+        [ipv4TypeKey.networkAddress]: getNetworkAddress(ipv4Address, subnet),
+        [ipv4TypeKey.hostAddressRange]: "",
+        [ipv4TypeKey.availableHosts]: "",
+        [ipv4TypeKey.broadcastAddress]: getBroadcastAddress(ipv4Address, subnet),
+        [ipv4TypeKey.subnetMask]: getSubnetMask(subnet),
+        [ipv4TypeKey.ipv4Mapped]: "",
+        [ipv4TypeKey.sixToFour]: "",
     };
     return ipv4CalculatorHashmap[type];
 }
