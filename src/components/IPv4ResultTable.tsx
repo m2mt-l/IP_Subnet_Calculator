@@ -13,7 +13,7 @@ import { ipv4ResultTable } from "../data/ipv4ResultTable";
 const IPv4ResultTable: FC = () => {
     return (
         <TableContainer component={Paper}>
-            <TableContainer sx={{ minWidth: 300 }} aria-label="simple table">
+            <Table sx={{ minWidth: 300 }} aria-label="simple table">
                 <TableBody>
                     {ipv4ResultTable.map((type, index) => (
                         <TableRow key={index}>
@@ -22,7 +22,7 @@ const IPv4ResultTable: FC = () => {
                         </TableRow>
                     ))}
                 </TableBody>
-            </TableContainer>
+            </Table>
         </TableContainer>
     );
 };
