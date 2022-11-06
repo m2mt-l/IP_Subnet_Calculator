@@ -19,7 +19,7 @@ const IPv4Input: FC = () => {
     const [ipv4Address, setIpv4Address] = useState<string>("");
 
     // Select subnet state
-    const [ipv4Subnet, setIpv4Subnet] = useState<string>("");
+    const [ipv4Subnet, setIpv4Subnet] = useState<string>("24"); // default value
 
     // If IP address is input or not
     const [isValidIpv4AddressState, setIsValidIpv4AddressState] = useState<boolean>(true);
