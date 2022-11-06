@@ -15,6 +15,20 @@ export function ipv4Calculator(type: string, ipv4Address: string, subnet: string
     return ipv4CalculatorHashmap[type];
 }
 
+/*
+Calculator functions
+ -displayIPAddress
+ -getNetworkAddress
+ -getHostAddressRange
+ -getAvailableHosts
+ -getBroadcastAddress
+ -getSubnetMask
+ -getIpv4MappedAddress
+ -getSixToFourAddress
+These function should be used in ipv4CalculatorHashmap.
+The arguments are only ipv4Address or subnet.
+*/
+
 // Show IP address and CIDR
 function displayIPAddress(ipv4Address: string, subnet: string): string {
     return ipv4Address + "/" + subnet;
@@ -46,6 +60,15 @@ function getBroadcastAddress(ipv4Address: string, subnet: string): string {
     return broadcastAddress.join(".");
 }
 
+function getSubnetMask(subnet: string): string {
+    return ipv4SubnetHashMap[subnet];
+}
+
+/*
+Operation functions
+These functions are used in Calculator functions.
+*/
+
 // [192, 168, 0, 1]
 function splitIPv4Address(ipv4Address: string): number[] {
     return ipv4Address.split(".").map((octet) => parseInt(octet, 10));
@@ -57,11 +80,6 @@ function splitSubnetMask(subnet: string): number[] {
         .split(".")
         .map((octet) => parseInt(octet, 10));
 }
-
-/*
-Operation functions
-
-*/
 
 // bitwise AND operation
 function operateAND(n1: number, n2: number): string {
@@ -75,10 +93,6 @@ function operateOR(n1: number, n2: number): string {
 
 function getWildcardMaskArray(subnetArray: number[]): number[] {
     return subnetArray.map((subnet) => 255 - subnet);
-}
-
-function getSubnetMask(subnet: string): string {
-    return ipv4SubnetHashMap[subnet];
 }
 
 function getNumberOfAvailableHosts(subnet: string) {}
