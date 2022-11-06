@@ -46,7 +46,6 @@ const IPv4Input: FC = () => {
     const handleCalculateClick = (): void => {
         // console.log(isValidIpv4Address(ipv4Address));
         handleIsValidIpv4Address(isValidIpv4Address(ipv4Address));
-        console.log(isValidIpv4AddressState);
         if (!isValidIpv4AddressState) setIsCalculated(true);
         else setIsCalculated(false);
         // console.log(isValidIpv4AddressState);
