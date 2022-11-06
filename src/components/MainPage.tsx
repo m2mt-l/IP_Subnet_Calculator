@@ -6,6 +6,8 @@ import MenuTabs from "./MenuTabs";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 
+import IPv4ResultTable from "./IPv4ResultTable";
+
 const MainPage: FC = () => {
     return (
         <Grid container spacing={2} direction="column" justifyContent="center" alignItems="center">
@@ -15,7 +17,6 @@ const MainPage: FC = () => {
             <Grid item>
                 <MenuTabs />
             </Grid>
-            <Divider flexItem />
             <Grid item></Grid>
         </Grid>
     );
