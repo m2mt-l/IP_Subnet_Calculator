@@ -9,8 +9,9 @@ export function ipv4Calculator(type: string, ipv4Address: string, subnet: string
         [ipv4TypeKey.availableHosts]: getAvailableHosts(subnet),
         [ipv4TypeKey.broadcastAddress]: getBroadcastAddress(ipv4Address, subnet),
         [ipv4TypeKey.subnetMask]: getSubnetMask(subnet),
-        [ipv4TypeKey.ipv4Mapped]: "",
-        [ipv4TypeKey.sixToFour]: "",
+        [ipv4TypeKey.networkClass]: getNetworkClass(ipv4Address),
+        [ipv4TypeKey.ipv4Mapped]: getIpv4MappedAddress(ipv4Address),
+        [ipv4TypeKey.sixToFour]: getSixToFourAddress(ipv4Address),
     };
     return ipv4CalculatorHashmap[type];
 }
@@ -23,10 +24,11 @@ Calculator functions
  -getAvailableHosts
  -getBroadcastAddress
  -getSubnetMask
+ -getNetworkClass
  -getIpv4MappedAddress
  -getSixToFourAddress
-These function should be used in ipv4CalculatorHashmap.
-The arguments are only ipv4Address: string or subnet: string.
+These functions should be used in ipv4CalculatorHashmap.
+The arguments are only ipv4Address(string) or subnet(string).
 */
 
 // Show IP address and CIDR
@@ -96,6 +98,29 @@ function getSubnetMask(subnet: string): string {
     return ipv4SubnetHashMap[subnet];
 }
 
+function getIpv4MappedAddress(ipv4Address: string): string {
+    const firstIpv4MappedAddress = "::ffff:";
+    return firstIpv4MappedAddress + getHexAddressFromIPv4Address(ipv4Address);
+}
+
+function getSixToFourAddress(ipv4Address: string): string {
+    const firstSixToFourAddress = "2002:";
+    const lastSixToFourAddress = "::/48";
+    return firstSixToFourAddress + getHexAddressFromIPv4Address(ipv4Address) + lastSixToFourAddress;
+}
+
+function getNetworkClass(ipv4Address: string): string {
+    const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
+    const firstOctet: number = ipv4AddressArray[0];
+
+    if (firstOctet >= 0 && firstOctet <= 127) return "A";
+    else if (firstOctet >= 128 && firstOctet <= 191) return "B";
+    else if (firstOctet >= 192 && firstOctet <= 223) return "C";
+    else if (firstOctet >= 224 && firstOctet <= 239) return "D(Multicast)";
+    // firstOctet >= 240 && firstOctet <= 255
+    else return "E";
+}
+
 /*
 Operation functions
 These functions are used in Calculator functions.
@@ -131,4 +156,29 @@ function getWildcardMaskArray(subnetArray: number[]): number[] {
 function countBits(subnet: number): number {
     const bitArray: string[] | null = subnet.toString(2).match(/1/g);
     return bitArray !== null ? bitArray.length : 0;
+}
+
+function getHexFromDecimal(decimal: number): string {
+    return decimal < 16 ? "0" + decimal.toString(16) : decimal.toString(16);
+}
+
+function getHexAddressFromIPv4Address(ipv4Address: string): string {
+    // [192,168,0,1]
+    const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
+    const firstIndex = 0;
+    const middleIndex = ipv4AddressArray.length / 2;
+    const lastIndex = ipv4AddressArray.length;
+
+    // first half [C0,A8]
+    const firstHalfHex: string[] = ipv4AddressArray
+        .slice(firstIndex, middleIndex)
+        .map((decimal: number) => getHexFromDecimal(decimal));
+
+    // later half [00, 01]
+    const laterHalfHex: string[] = ipv4AddressArray
+        .slice(middleIndex, lastIndex)
+        .map((decimal: number) => getHexFromDecimal(decimal));
+
+    // C0A8.0001
+    return firstHalfHex.join("") + "." + laterHalfHex.join("");
 }

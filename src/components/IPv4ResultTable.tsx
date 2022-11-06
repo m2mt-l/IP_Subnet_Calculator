@@ -15,7 +15,7 @@ import IconButton from "@mui/material/IconButton";
 import CopyToClipBoard from "react-copy-to-clipboard";
 
 import { ipv4ResultTable } from "../data/ipv4ResultTable";
-import { ipv4Calculator } from "../model/IPv4ResultValue";
+import { ipv4Calculator } from "../util/ipv4Calculator";
 
 const IPv4ResultTable: FC<{ ipv4Address: string; subnet: string }> = ({ ipv4Address, subnet }) => {
     return (

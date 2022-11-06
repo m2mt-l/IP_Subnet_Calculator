@@ -5,7 +5,8 @@ export const ipv4TypeKey: { [key: string]: string } = {
     availableHosts: "Number of available hosts",
     broadcastAddress: "Broadcast Address",
     subnetMask: "Subnet Mask",
-    ipv4Mapped: "IPv4 Mapped",
+    networkClass: "Network Class",
+    ipv4Mapped: "IPv4 Mapped Address",
     sixToFour: "6to4 Prefix",
 };
 
@@ -16,6 +17,7 @@ export const ipv4ResultTable: string[] = [
     ipv4TypeKey.availableHosts,
     ipv4TypeKey.broadcastAddress,
     ipv4TypeKey.subnetMask,
+    ipv4TypeKey.networkClass,
     ipv4TypeKey.ipv4Mapped,
     ipv4TypeKey.sixToFour,
 ];
