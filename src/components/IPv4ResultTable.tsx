@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,8 +15,13 @@ import IconButton from "@mui/material/IconButton";
 import CopyToClipBoard from "react-copy-to-clipboard";
 
 import { ipv4ResultTable } from "../data/ipv4ResultTable";
+import { IPv4ResultValue, ipv4ResultValueHashmap } from "../model/IPv4ResultValue";
 
 const IPv4ResultTable: FC = () => {
+    const [ipv4ResultValue, setIpv4ResultValue] = useState<IPv4ResultValue>(
+        ipv4ResultValueHashmap(),
+    );
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 300 }} aria-label="simple table">
@@ -24,7 +29,7 @@ const IPv4ResultTable: FC = () => {
                     {ipv4ResultTable.map((type, index) => (
                         <TableRow key={index}>
                             <TableCell>{type}</TableCell>
-                            <TableCell align="right">x.x.x.x</TableCell>
+                            <TableCell align="right">{ipv4ResultValue[type]}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
