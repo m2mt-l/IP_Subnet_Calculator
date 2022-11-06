@@ -44,7 +44,7 @@ export function ipv4Calculator(
     return ipv4CalculatorHashmap;
 }
 
-//Show IP address and CIDR
+// Show IP address and CIDR
 function displayIPAddress(ipv4Address: string, subnet: string): string {
     return ipv4Address + "/" + subnet;
 }
@@ -62,6 +62,7 @@ function getNetworkAddress(ipv4Address: string, subnet: string): string {
 
     networkAddress.map((octet, index) => {
         octet = operateAND(splitIPv4Address[index], splitSubnetMask[index]);
+        return octet;
     });
 
     return networkAddress.join(".");
