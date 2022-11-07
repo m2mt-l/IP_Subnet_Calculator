@@ -14,8 +14,12 @@ import { generateIpv4Slash } from "../data/ipv4Subnet";
 import { isValidIpv4Address } from "../util/ipv4AddressValidation";
 import IPv4ResultTable from "./IPv4ResultTable";
 import { DefaultIPv4 } from "../data/ipv4InputDefaultValue";
+import { IPv4Address } from "../model/IPv4Address";
 
 const IPv4Input: FC = () => {
+    /*
+    State
+    */
     // Input IPv4 address state
     const [ipv4Address, setIpv4Address] = useState<string>("");
 
@@ -28,6 +32,15 @@ const IPv4Input: FC = () => {
     // If IP address is calculated or not
     const [isCalculated, setIsCalculated] = useState<boolean>(false);
 
+    // Deep copied state for IPv4ResultTable
+    const [addressAndSubnet, setAddressAndSubnet] = useState<IPv4Address>({
+        ipAddress: "",
+        subnet: "",
+    });
+
+    /*
+    Handle method for state
+    */
     const handleIpv4AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { value } = event.target;
         setIpv4Address(value);
@@ -49,7 +62,15 @@ const IPv4Input: FC = () => {
         handleIsValidIpv4Address(isValidIpv4Address(ipv4Address));
         if (!isValidIpv4AddressState || isValidIpv4Address(ipv4Address)) setIsCalculated(true);
         else setIsCalculated(false);
+        handleAddressAndSubnet();
         // console.log(isValidIpv4AddressState);
+    };
+
+    const handleAddressAndSubnet = (): void => {
+        setAddressAndSubnet({
+            ipAddress: ipv4Address,
+            subnet: ipv4Subnet,
+        });
     };
 
     const subnetString = generateIpv4Slash();
@@ -94,7 +115,12 @@ const IPv4Input: FC = () => {
                 </Typography>
             )}
             <Divider flexItem />
-            {isCalculated && <IPv4ResultTable ipv4Address={ipv4Address} subnet={ipv4Subnet} />}
+            {isCalculated && (
+                <IPv4ResultTable
+                    ipv4Address={addressAndSubnet.ipAddress}
+                    subnet={addressAndSubnet.subnet}
+                />
+            )}
         </Stack>
     );
 };
