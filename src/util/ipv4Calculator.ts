@@ -9,6 +9,7 @@ export function ipv4Calculator(type: string, ipv4Address: string, subnet: string
         [ipv4TypeKey.numberOfHosts]: getNumberOfHosts(subnet),
         [ipv4TypeKey.broadcastAddress]: getBroadcastAddress(ipv4Address, subnet),
         [ipv4TypeKey.subnetMask]: getSubnetMask(subnet),
+        [ipv4TypeKey.ipType]: getIPType(ipv4Address),
         [ipv4TypeKey.networkClass]: getNetworkClass(ipv4Address),
         [ipv4TypeKey.ipv4Mapped]: getIpv4MappedAddress(ipv4Address),
         [ipv4TypeKey.sixToFour]: getSixToFourAddress(ipv4Address),
@@ -24,6 +25,7 @@ Calculator functions
  -getNumberOfHosts
  -getBroadcastAddress
  -getSubnetMask
+ -getIPType
  -getNetworkClass
  -getIpv4MappedAddress
  -getSixToFourAddress
@@ -50,6 +52,9 @@ function getNetworkAddress(ipv4Address: string, subnet: string): string {
 }
 
 function getHostAddressRange(ipv4Address: string, subnet: string): string {
+    // /31 or /32
+    if (parseInt(subnet, 10) >= 31) return "N/A";
+
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
     const subnetArray: number[] = splitSubnetMask(subnet);
     const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
@@ -77,7 +82,8 @@ function getNumberOfHosts(subnet: string): string {
     const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
     const bitCountArray: number[] = wildcardArray.map((octet: number) => countBits(octet));
     const totalBits: number = bitCountArray.reduce((total: number, bit: number) => total + bit);
-    const numberOfHosts: number = Math.pow(2, totalBits);
+    // /32 or /31 (totalBits == 1) is 0
+    const numberOfHosts: number = totalBits <= 1 ? 0 : Math.pow(2, totalBits) - 2;
     return numberOfHosts.toLocaleString();
 }
 
@@ -96,6 +102,24 @@ function getBroadcastAddress(ipv4Address: string, subnet: string): string {
 
 function getSubnetMask(subnet: string): string {
     return ipv4SubnetHashMap[subnet];
+}
+
+function getIPType(ipv4Address: string): string {
+    const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
+    const firstOctet: number = ipv4AddressArray[0];
+    const SecondOctet: number = ipv4AddressArray[1];
+    let isPrivate = false;
+
+    // Private Class A
+    if (firstOctet === 10) isPrivate = true;
+    // Private Class B
+    else if (firstOctet === 172 && SecondOctet >= 16 && SecondOctet <= 31) isPrivate = true;
+    // Private Class C
+    else if (firstOctet === 192 && SecondOctet === 168) isPrivate = true;
+    // Global
+    else isPrivate = false;
+
+    return isPrivate ? "Private" : "Global";
 }
 
 function getIpv4MappedAddress(ipv4Address: string): string {
