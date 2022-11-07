@@ -50,6 +50,9 @@ function getNetworkAddress(ipv4Address: string, subnet: string): string {
 }
 
 function getHostAddressRange(ipv4Address: string, subnet: string): string {
+    // /31 or /32
+    if (parseInt(subnet, 10) >= 31) return "N/A";
+
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
     const subnetArray: number[] = splitSubnetMask(subnet);
     const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
@@ -77,7 +80,8 @@ function getNumberOfHosts(subnet: string): string {
     const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
     const bitCountArray: number[] = wildcardArray.map((octet: number) => countBits(octet));
     const totalBits: number = bitCountArray.reduce((total: number, bit: number) => total + bit);
-    const numberOfHosts: number = Math.pow(2, totalBits);
+    // /32 or /31 (totalBits == 1) is 0
+    const numberOfHosts: number = totalBits <= 1 ? 0 : Math.pow(2, totalBits) - 2;
     return numberOfHosts.toLocaleString();
 }
 
