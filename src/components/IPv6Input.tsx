@@ -11,13 +11,15 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
-// import { generateIpv4Slash } from "../data/ipv4Subnet";
+import { generateIpv6Slash } from "../data/ipv6Subnet";
 // import { isValidIpv4Address } from "../util/ipv4AddressValidation";
 // import IPv4ResultTable from "./IPv4ResultTable";
 import { DefaultIPv6 } from "../data/ipv6InputDefaultValue";
 // import { IPv4Address } from "../model/IPv4Address";
 
 const IPv6Input: FC = () => {
+    const subnetString = generateIpv6Slash();
+
     return (
         <Stack spacing={2}>
             <TextField
@@ -33,8 +35,19 @@ const IPv6Input: FC = () => {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     label="Subnet"
-                    defaultValue="64"
-                ></Select>
+                    defaultValue={DefaultIPv6.subnet}
+                >
+                    {subnetString.map((subnetString, index) => {
+                        return (
+                            <MenuItem
+                                key={index}
+                                value={128 - index} // refactor
+                            >
+                                {subnetString}
+                            </MenuItem>
+                        );
+                    })}
+                </Select>
             </FormControl>
             <Button variant="contained">Calculate</Button>
             <Divider flexItem />
