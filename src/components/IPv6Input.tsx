@@ -11,6 +11,12 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
+// import { generateIpv4Slash } from "../data/ipv4Subnet";
+// import { isValidIpv4Address } from "../util/ipv4AddressValidation";
+// import IPv4ResultTable from "./IPv4ResultTable";
+import { DefaultIPv6 } from "../data/ipv6InputDefaultValue";
+// import { IPv4Address } from "../model/IPv4Address";
+
 const IPv6Input: FC = () => {
     return (
         <Stack spacing={2}>
@@ -19,7 +25,7 @@ const IPv6Input: FC = () => {
                 label="IPv6 address"
                 variant="filled"
                 sx={{ minWidth: 370 }}
-                placeholder="test"
+                placeholder={DefaultIPv6.placeholder}
             />
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Subnet</InputLabel>
