@@ -60,7 +60,7 @@ const IPv4Input: FC = () => {
     const handleCalculateClick = (): void => {
         // console.log(isValidIpv4Address(ipv4Address));
         handleIsValidIpv4Address(isValidIpv4Address(ipv4Address));
-        if (!isValidIpv4AddressState && isValidIpv4Address(ipv4Address)) setIsCalculated(true);
+        if (isValidIpv4Address(ipv4Address)) setIsCalculated(true);
         else setIsCalculated(false);
         handleAddressAndSubnet();
         // console.log(isValidIpv4AddressState);
