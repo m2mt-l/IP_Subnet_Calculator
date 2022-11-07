@@ -4,7 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-
+import { BrowserRouter, Route, Routes, Link, matchPath, useLocation } from "react-router-dom";
 import IPv4Input from "./IPv4Input";
 import IPv6Input from "./IPv6Input";
 
@@ -40,8 +40,8 @@ const MenuTabs: FC = () => {
         <Box sx={{ minWidth: "370" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <Tabs value={value} onChange={handleChange} aria-label="menu tabs" centered>
-                    <Tab label="IPv4" />
-                    <Tab label="IPv6" />
+                    <Tab label="IPv4" to="/ipv4address" component={Link} />
+                    <Tab label="IPv6" to="/ipv6address" component={Link} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
