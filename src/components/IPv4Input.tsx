@@ -81,7 +81,7 @@ const IPv4Input: FC = () => {
                 id="filled-basic"
                 label="IPv4 address"
                 variant="filled"
-                sx={{ width: 300 }}
+                sx={{ minWidth: 370 }}
                 placeholder={DefaultIPv4.placeholder}
                 onChange={handleIpv4AddressChange}
             />
