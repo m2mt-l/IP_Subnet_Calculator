@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState, ChangeEvent } from "react";
 
 // Material UI
 import TextField from "@mui/material/TextField";
@@ -18,6 +18,30 @@ import { DefaultIPv6 } from "../data/ipv6InputDefaultValue";
 // import { IPv4Address } from "../model/IPv4Address";
 
 const IPv6Input: FC = () => {
+    /*
+    State
+    */
+    // Input IPv6 address state
+    const [ipv6Address, setIpv6Address] = useState<string>("");
+
+    // Select subnet state
+    const [ipv6Subnet, setIpv6Subnet] = useState<string>(DefaultIPv6.subnet); // default value
+
+    /*
+    Handle method for state
+    */
+    const handleIpv6AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
+        const { value } = event.target;
+        setIpv6Address(value);
+        // console.log(ipv6Address);
+    };
+
+    const handleIpv6SubnetChange = (event: SelectChangeEvent): void => {
+        const { value } = event.target;
+        setIpv6Subnet(value);
+        // console.log(value);
+    };
+
     const subnetString = generateIpv6Slash();
 
     return (
@@ -28,6 +52,7 @@ const IPv6Input: FC = () => {
                 variant="filled"
                 sx={{ minWidth: 370 }}
                 placeholder={DefaultIPv6.placeholder}
+                onChange={handleIpv6AddressChange}
             />
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Subnet</InputLabel>
@@ -36,6 +61,7 @@ const IPv6Input: FC = () => {
                     id="demo-simple-select"
                     label="Subnet"
                     defaultValue={DefaultIPv6.subnet}
+                    onChange={handleIpv6SubnetChange}
                 >
                     {subnetString.map((subnetString, index) => {
                         return (
