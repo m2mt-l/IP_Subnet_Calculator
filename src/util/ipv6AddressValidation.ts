@@ -16,8 +16,12 @@ export function isValidIpv6Address(ipv6Address: string): boolean {
     // Check correct bit(128 bit)
     if (splitIpv6AddressLength > 8) return false;
 
-    // If "" is over 2(:: includes over 2)
+    // If over 16 bit or :: includes over 2
     for (let i = 0; i < splitIpv6AddressLength; i++) {
+        // over 16 bit
+        if (splitIpv6Address[i].length > 4) return false;
+
+        // :: includes over 2
         let zeroBitCount = 0;
         if (splitIpv6Address[i] === "") zeroBitCount++;
         if (zeroBitCount >= 2) return false;
