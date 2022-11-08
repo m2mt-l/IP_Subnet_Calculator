@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 import { ipv6ResultTable } from "../data/ipv6ResultTable";
+import { ipv6Calculator } from "../util/ipv6Calculator";
 
 const IPv6ResultTable: FC<{ ipv6Address: string; subnet: string }> = ({ ipv6Address, subnet }) => {
     return (
@@ -18,7 +19,9 @@ const IPv6ResultTable: FC<{ ipv6Address: string; subnet: string }> = ({ ipv6Addr
                     {ipv6ResultTable.map((type, index) => (
                         <TableRow key={index}>
                             <TableCell>{type}</TableCell>
-                            <TableCell align="right">xxx</TableCell>
+                            <TableCell align="right">
+                                {ipv6Calculator(type, ipv6Address, subnet)}
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
