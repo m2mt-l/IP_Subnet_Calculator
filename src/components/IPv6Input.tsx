@@ -13,9 +13,9 @@ import Divider from "@mui/material/Divider";
 
 import { generateIpv6Slash } from "../data/ipv6Subnet";
 import { isValidIpv6Address } from "../util/ipv6AddressValidation";
-// import IPv4ResultTable from "./IPv4ResultTable";
+import IPv6ResultTable from "./IPv6ResultTable";
 import { DefaultIPv6 } from "../data/ipv6InputDefaultValue";
-// import { IPv4Address } from "../model/IPv4Address";
+import { IPv6Address } from "../model/IPv6Address";
 
 const IPv6Input: FC = () => {
     /*
@@ -32,6 +32,12 @@ const IPv6Input: FC = () => {
 
     // If IP address is calculated or not
     const [isCalculated, setIsCalculated] = useState<boolean>(false);
+
+    // Deep copied state for IPv4ResultTable
+    const [addressAndSubnet, setAddressAndSubnet] = useState<IPv6Address>({
+        ipAddress: "",
+        subnet: "",
+    });
 
     /*
     Handle method for state
@@ -58,6 +64,13 @@ const IPv6Input: FC = () => {
         if (isValidIpv6Address(ipv6Address)) setIsCalculated(true);
         else setIsCalculated(false);
         // handleAddressAndSubnet();
+    };
+
+    const handleAddressAndSubnet = (): void => {
+        setAddressAndSubnet({
+            ipAddress: ipv6Address,
+            subnet: ipv6Subnet,
+        });
     };
 
     const subnetString = generateIpv6Slash();
@@ -102,6 +115,12 @@ const IPv6Input: FC = () => {
                 </Typography>
             )}
             <Divider flexItem />
+            {isCalculated && (
+                <IPv6ResultTable
+                    ipv6Address={addressAndSubnet.ipAddress}
+                    subnet={addressAndSubnet.subnet}
+                />
+            )}
         </Stack>
     );
 };
