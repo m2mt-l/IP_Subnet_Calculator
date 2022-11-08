@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
 import { generateIpv6Slash } from "../data/ipv6Subnet";
-// import { isValidIpv4Address } from "../util/ipv4AddressValidation";
+import { isValidIpv6Address } from "../util/ipv6AddressValidation";
 // import IPv4ResultTable from "./IPv4ResultTable";
 import { DefaultIPv6 } from "../data/ipv6InputDefaultValue";
 // import { IPv4Address } from "../model/IPv4Address";
@@ -27,6 +27,12 @@ const IPv6Input: FC = () => {
     // Select subnet state
     const [ipv6Subnet, setIpv6Subnet] = useState<string>(DefaultIPv6.subnet); // default value
 
+    // If IP address is input or not
+    const [isValidIpv6AddressState, setIsValidIpv6AddressState] = useState<boolean>(true);
+
+    // If IP address is calculated or not
+    const [isCalculated, setIsCalculated] = useState<boolean>(false);
+
     /*
     Handle method for state
     */
@@ -40,6 +46,18 @@ const IPv6Input: FC = () => {
         const { value } = event.target;
         setIpv6Subnet(value);
         // console.log(value);
+    };
+
+    const handleIsValidIpv6Address = (isValidIpv6Address: boolean): void => {
+        setIsValidIpv6AddressState(isValidIpv6Address);
+    };
+
+    const handleCalculateClick = (): void => {
+        // console.log(isValidIpv4Address(ipv4Address));
+        handleIsValidIpv6Address(isValidIpv6Address(ipv6Address));
+        if (isValidIpv6Address(ipv6Address)) setIsCalculated(true);
+        else setIsCalculated(false);
+        // handleAddressAndSubnet();
     };
 
     const subnetString = generateIpv6Slash();
@@ -75,7 +93,14 @@ const IPv6Input: FC = () => {
                     })}
                 </Select>
             </FormControl>
-            <Button variant="contained">Calculate</Button>
+            <Button variant="contained" onClick={handleCalculateClick}>
+                Calculate
+            </Button>
+            {!isValidIpv6AddressState && (
+                <Typography align="center" sx={{ color: "error.main" }}>
+                    Invalid IP address
+                </Typography>
+            )}
             <Divider flexItem />
         </Stack>
     );
