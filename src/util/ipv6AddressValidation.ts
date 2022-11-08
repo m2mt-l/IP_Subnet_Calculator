@@ -1,4 +1,7 @@
 export function isValidIpv6Address(ipv6Address: string): boolean {
+    // If colons do not include
+    if (!ipv6Address.includes(":")) return false;
+
     // 2001:db8::
 
     // 2001db8
@@ -15,7 +18,7 @@ export function isValidIpv6Address(ipv6Address: string): boolean {
 
     // If "" is over 2(:: includes over 2)
     for (let i = 0; i < splitIpv6AddressLength; i++) {
-        let zeroBitCount: number = 0;
+        let zeroBitCount = 0;
         if (splitIpv6Address[i] === "") zeroBitCount++;
         if (zeroBitCount >= 2) return false;
     }
@@ -26,7 +29,7 @@ export function isValidIpv6Address(ipv6Address: string): boolean {
 function isOnlyHex(ipv6Address: string): boolean {
     const hex = "0123456789abcdef";
     for (let i = 0; i < ipv6Address.length; i++) {
-        if (hex.indexOf(ipv6Address[i]) === -1) return false;
+        if (!hex.includes(ipv6Address[i])) return false;
     }
     return true;
 }
