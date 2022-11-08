@@ -13,7 +13,7 @@ import Divider from "@mui/material/Divider";
 
 import { generateIpv6Slash } from "../data/ipv6Subnet";
 import { isValidIpv6Address } from "../util/ipv6AddressValidation";
-// import IPv4ResultTable from "./IPv4ResultTable";
+import IPv6ResultTable from "./IPv6ResultTable";
 import { DefaultIPv6 } from "../data/ipv6InputDefaultValue";
 // import { IPv4Address } from "../model/IPv4Address";
 
@@ -102,6 +102,7 @@ const IPv6Input: FC = () => {
                 </Typography>
             )}
             <Divider flexItem />
+            {isCalculated && <IPv6ResultTable />}
         </Stack>
     );
 };
