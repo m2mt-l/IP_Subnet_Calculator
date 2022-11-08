@@ -2,7 +2,7 @@ export function isValidIpv4Address(ipv4Address: string): boolean {
     const splitIpv4Address: string[] = ipv4Address.split(".");
     const splitIpv4AddressLength: number = splitIpv4Address.length;
 
-    // Check proper dot number(==4)
+    // Check proper dot number(== 4(32 bit))
     if (splitIpv4AddressLength !== 4) return false;
 
     // Check the octet value is correct
