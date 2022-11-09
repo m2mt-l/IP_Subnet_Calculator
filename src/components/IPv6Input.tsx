@@ -63,7 +63,7 @@ const IPv6Input: FC = () => {
         handleIsValidIpv6Address(isValidIpv6Address(ipv6Address));
         if (isValidIpv6Address(ipv6Address)) setIsCalculated(true);
         else setIsCalculated(false);
-        // handleAddressAndSubnet();
+        handleAddressAndSubnet();
     };
 
     const handleAddressAndSubnet = (): void => {
