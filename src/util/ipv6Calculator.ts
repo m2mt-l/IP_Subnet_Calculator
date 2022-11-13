@@ -3,7 +3,7 @@ import { ipv6TypeKey } from "../data/ipv6ResultTable";
 export function ipv6Calculator(type: string, ipv6Address: string, subnet: string): string {
     const ipv6CalculatorHashmap: { [key: string]: string } = {
         [ipv6TypeKey.ipAddress]: displayIPAddress(ipv6Address, subnet),
-        [ipv6TypeKey.network]: "network",
+        [ipv6TypeKey.networkType]: getNetworkType(getFullIPv6Address(ipv6Address)),
         [ipv6TypeKey.ipAddressRange]: "ip address range",
         [ipv6TypeKey.numberOfHosts]: "number of hosts",
     };
@@ -12,6 +12,8 @@ export function ipv6Calculator(type: string, ipv6Address: string, subnet: string
 
 /*
 Calculator functions
+ -displayIPAddress
+ -getNetworkType
 
 These functions should be used in ipv6CalculatorHashmap.
 The arguments are only ipv6Address(string) or subnet(string).
@@ -39,6 +41,18 @@ function displayIPAddress(ipv6Address: string, subnet: string): string {
     const fullIPv6Address: string[] = getFullIPv6Address(ipv6Address);
 
     return getShortenIPv6Address(fullIPv6Address).join(":") + " /" + subnet;
+}
+
+// RFC 4291 Section 2.4
+function getNetworkType(fullIPv6Address: string[]): string {
+    const headOctet: string = fullIPv6Address[0];
+    const tailOctetIndex: number = fullIPv6Address.length - 1;
+    if (headOctet === "ff00") return "Multicast";
+    if (headOctet === "fe80") return "Link-Local Unicast";
+    for (let i = 0; i < tailOctetIndex; i++) {
+        if (fullIPv6Address[i] !== "0000") return "Global Unicast";
+    }
+    return fullIPv6Address[tailOctetIndex] === "0000" ? "Unspecified" : "Loopback";
 }
 
 /*
