@@ -45,35 +45,71 @@ These functions are used in Calculator functions.
 
 function getFullIPv6Address(ipv6Address: string): string[] {
     // ["2001", "db8", "", ""]
+    // ["2001", "db8", "", "1"]
     const splitIPv6address: string[] = ipv6Address.split(":");
+    const fullIPv6AddressLength = 8;
+    // 6
+    // 5
+    const numberOfZeroOctet: number =
+        fullIPv6AddressLength -
+        splitIPv6address.filter((octet: string) => {
+            return octet !== "";
+        }).length;
     const tailOctetIndex: number = splitIPv6address.length - 1;
+    const zeroIndex: number = splitIPv6address.indexOf("");
+    const paddingZero = "0000";
+
     const fullIPv6Address: string[] = [];
-    // If tailOctet is ""(0), chase from head
-    if (splitIPv6address[tailOctetIndex] === "") {
+
+    // no zero bit
+    if (zeroIndex === -1) {
         for (let i = 0; i <= tailOctetIndex; i++) {
-            const octet = splitIPv6address[i];
-            // If octet length is less than 4, padding zero bits
-            if (octet.length < 4) {
-                fullIPv6Address.push(paddingZero(octet));
-            } else fullIPv6Address.push(octet);
+            paddingAddress(fullIPv6Address, splitIPv6address[i]);
         }
+        return fullIPv6Address;
     }
-    // If tailOctet is not ""(0), chase from tail
-    else {
-        for (let i = tailOctetIndex; i >= 0; i--) {
-            const octet = splitIPv6address[i];
-            if (octet.length < 4) {
-                fullIPv6Address.unshift(paddingZero(octet));
-            } else fullIPv6Address.unshift(octet);
+
+    // push before zero bit
+    // ["2001", "0db8"]
+    for (let i = 0; i < zeroIndex; i++) {
+        paddingAddress(fullIPv6Address, splitIPv6address[i]);
+    }
+
+    // padding zero bit
+    // ["2001", "0db8", "0000", "0000", "0000", "0000", "0000"]
+    for (let i = zeroIndex; i < zeroIndex + numberOfZeroOctet; i++) {
+        paddingAddress(fullIPv6Address, paddingZero);
+    }
+
+    // padding after zero bit
+    if (splitIPv6address[tailOctetIndex] !== "") {
+        for (let i = zeroIndex + 1; i <= tailOctetIndex; i++) {
+            paddingAddress(fullIPv6Address, splitIPv6address[i]);
         }
     }
 
     return fullIPv6Address;
 }
 
-function paddingZero(octet: string): string {
+function paddingZeroFrontOctet(octet: string): string {
     const paddingLength: number = 4 - octet.length;
     const padding = "0";
     if (paddingLength === 0) return "The argument is not allowed.";
     else return padding.repeat(paddingLength) + octet;
+}
+
+function paddingAddress(ipv6Address: string[], octet: string): string[] {
+    if (octet.length < 4) {
+        ipv6Address.push(paddingZeroFrontOctet(octet));
+    } else ipv6Address.push(octet);
+    return ipv6Address;
+}
+
+function getShortenIPv6Address(fullIPv6address: string[]): string[] {
+    // ["2001", "0db8", "0000", "0000", "0000", "0000", "0000" "1"] => 2001:db8::1
+    const isContinuousZero = false;
+    const tailOctetIndex: number = fullIPv6address.length - 1;
+    const shortenIPv6Address: string[] = [];
+
+    return [];
 }
