@@ -1,10 +1,11 @@
 import { ipv6TypeKey } from "../data/ipv6ResultTable";
+import { ipv6SubnetHash } from "../data/ipv6Subnet";
 
 export function ipv6Calculator(type: string, ipv6Address: string, subnet: string): string {
     const ipv6CalculatorHashmap: { [key: string]: string } = {
         [ipv6TypeKey.ipAddress]: displayIPAddress(ipv6Address, subnet),
         [ipv6TypeKey.networkType]: getNetworkType(getFullIPv6Address(ipv6Address)),
-        [ipv6TypeKey.ipAddressRange]: "ip address range",
+        [ipv6TypeKey.ipAddressRange]: getIPAddressRange(ipv6Address, subnet),
         [ipv6TypeKey.numberOfHosts]: getNumberOfHosts(subnet),
     };
     return ipv6CalculatorHashmap[type];
@@ -14,7 +15,7 @@ export function ipv6Calculator(type: string, ipv6Address: string, subnet: string
 Calculator functions
  -displayIPAddress
  -getNetworkType
-
+ -getIPAddressRange
  -getNumberOfHosts
 
 These functions should be used in ipv6CalculatorHashmap.
@@ -25,6 +26,7 @@ The arguments are only ipv6Address(string) or subnet(string).
 // 16bit * 8
 // hex ["0000", "0000", "0000", "0000", "0000", "0000", "0000", "0000"]
 // binary ["0000000000000000",....]
+// 100000
 // Math.ceil(subnet / 16) == Index
 // subnet % 16 == bit
 // 0 - 16 : 0
@@ -55,6 +57,12 @@ function getNetworkType(fullIPv6Address: string[]): string {
         if (fullIPv6Address[i] !== "0000") return "Global Unicast";
     }
     return fullIPv6Address[tailOctetIndex] === "0000" ? "Unspecified" : "Loopback";
+}
+
+function getIPAddressRange(ipv6Address: string, subnet: string): string {
+    const fullIPv6Address: string[] = getFullIPv6Address(ipv6Address);
+    const startIPv6Address: string[] = getStartIPv6Address(fullIPv6Address, subnet);
+    return startIPv6Address.join(":") + " - " + "\ntest";
 }
 
 function getNumberOfHosts(subnet: string): string {
@@ -179,3 +187,38 @@ function omitFrontZero(octet: string): string {
     if (octet[0] !== "0") return octet;
     else return octet.slice(1);
 }
+
+function getStartIPv6Address(ipv6Address: string[], subnet: string): string[] {
+    const targetOctetIndex: number = Math.ceil(parseInt(subnet, 10) / 16);
+    const repeatFCount: number = Math.ceil((parseInt(subnet, 10) % 16) / 4);
+    const repeatZeroCount: number = 4 - repeatFCount;
+    const bitIndex: number = (parseInt(subnet, 10) % 16) % 4;
+    // 128 bit
+    if (targetOctetIndex === 8) return ipv6Address;
+
+    const startIPv6Address: string[] = [];
+    let targetOctet = "";
+    for (let i = 0; i < ipv6Address.length; i++) {
+        if (i < targetOctetIndex) startIPv6Address.push(ipv6Address[i]);
+        else if (i === targetOctetIndex) {
+            targetOctet += "f".repeat(repeatFCount);
+            targetOctet += ipv6SubnetHash[bitIndex];
+            targetOctet += "0".repeat(repeatZeroCount);
+            startIPv6Address.push(targetOctet);
+        }
+        // padding zero
+        else startIPv6Address.push("0000");
+    }
+    return startIPv6Address;
+}
+
+// Math.ceil(subnet / 16) == Index
+// subnet % 16 == bit
+// 0 - 16 : 0
+// 17 - 32 : 1
+// 33 - 48 : 2
+// 49 - 64 : 3
+// 65 - 80 : 4
+// 81 - 96 : 5
+// 97 - 112 : 6
+// 113 - 127 : 7
