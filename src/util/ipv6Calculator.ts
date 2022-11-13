@@ -5,7 +5,7 @@ export function ipv6Calculator(type: string, ipv6Address: string, subnet: string
         [ipv6TypeKey.ipAddress]: displayIPAddress(ipv6Address, subnet),
         [ipv6TypeKey.networkType]: getNetworkType(getFullIPv6Address(ipv6Address)),
         [ipv6TypeKey.ipAddressRange]: "ip address range",
-        [ipv6TypeKey.numberOfHosts]: "number of hosts",
+        [ipv6TypeKey.numberOfHosts]: getNumberOfHosts(subnet),
     };
     return ipv6CalculatorHashmap[type];
 }
@@ -14,6 +14,8 @@ export function ipv6Calculator(type: string, ipv6Address: string, subnet: string
 Calculator functions
  -displayIPAddress
  -getNetworkType
+
+ -getNumberOfHosts
 
 These functions should be used in ipv6CalculatorHashmap.
 The arguments are only ipv6Address(string) or subnet(string).
@@ -53,6 +55,12 @@ function getNetworkType(fullIPv6Address: string[]): string {
         if (fullIPv6Address[i] !== "0000") return "Global Unicast";
     }
     return fullIPv6Address[tailOctetIndex] === "0000" ? "Unspecified" : "Loopback";
+}
+
+function getNumberOfHosts(subnet: string): string {
+    const totalBits: number = 128 - parseInt(subnet, 10);
+    const numberOfHosts: bigint = totalBits < 1 ? BigInt(1) : BigInt(Math.pow(2, totalBits));
+    return numberOfHosts.toLocaleString();
 }
 
 /*
