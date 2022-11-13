@@ -34,8 +34,11 @@ The arguments are only ipv6Address(string) or subnet(string).
 
 function displayIPAddress(ipv6Address: string, subnet: string): string {
     const splitIPv6address: string[] = ipv6Address.split(":");
-    if (splitIPv6address.length === 8) return ipv6Address + " /" + subnet;
-    else return getFullIPv6Address(ipv6Address).join(":") + " /" + subnet;
+    if (splitIPv6address.length === 8)
+        return getShortenIPv6Address(splitIPv6address).join(":") + " /" + subnet;
+    const fullIPv6Address: string[] = getFullIPv6Address(ipv6Address);
+
+    return getShortenIPv6Address(fullIPv6Address).join(":") + " /" + subnet;
 }
 
 /*
@@ -105,11 +108,52 @@ function paddingAddress(ipv6Address: string[], octet: string): string[] {
     return ipv6Address;
 }
 
+// If the ipv6Address does not have zero bits, this should not be used.
 function getShortenIPv6Address(fullIPv6address: string[]): string[] {
-    // ["2001", "0db8", "0000", "0000", "0000", "0000", "0000" "1"] => 2001:db8::1
-    const isContinuousZero = false;
+    // ["2001", "0db8", "0000", "0000", "0000", "0000", "0000" "0001"] => ["2001", "db8" "", "", "1"]
     const tailOctetIndex: number = fullIPv6address.length - 1;
     const shortenIPv6Address: string[] = [];
+    const zeroBitCount: number = fullIPv6address.reduce(
+        (count, octet) => (octet === "0000" ? count + 1 : count),
+        0,
+    );
+    const zeroIndex: number = fullIPv6address.indexOf("0000");
 
-    return [];
+    if (zeroBitCount === 0) {
+        for (let i = 0; i <= tailOctetIndex; i++) {
+            let octet = fullIPv6address[i];
+            while (octet[0] === "0") {
+                octet = omitFrontZero(octet);
+            }
+            shortenIPv6Address.push(octet);
+        }
+    } else if (zeroBitCount === 1) {
+        for (let i = 0; i <= tailOctetIndex; i++) {
+            let octet = fullIPv6address[i];
+            if (octet === "0000") shortenIPv6Address.push("0");
+            else {
+                while (octet[0] === "0") {
+                    octet = omitFrontZero(octet);
+                }
+                shortenIPv6Address.push(octet);
+            }
+        }
+    } else {
+        const tempIPv6Address = fullIPv6address.filter((octet) => octet !== "0000");
+        for (let i = 0; i < tempIPv6Address.length; i++) {
+            let octet = tempIPv6Address[i];
+            while (octet[0] === "0") {
+                octet = omitFrontZero(octet);
+            }
+            shortenIPv6Address.push(octet);
+        }
+        shortenIPv6Address.splice(zeroIndex, 0, "");
+        if (fullIPv6address[tailOctetIndex] === "0000") shortenIPv6Address.push("");
+    }
+    return shortenIPv6Address;
+}
+
+function omitFrontZero(octet: string): string {
+    if (octet[0] !== "0") return octet;
+    else return octet.slice(1);
 }
