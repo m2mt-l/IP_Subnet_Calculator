@@ -61,8 +61,8 @@ function getNetworkType(fullIPv6Address: string[]): string {
 
 function getIPAddressRange(ipv6Address: string, subnet: string): string {
     const fullIPv6Address: string[] = getFullIPv6Address(ipv6Address);
-    const startIPv6Address: string[] = getStartIPv6Address(fullIPv6Address, subnet);
-    return startIPv6Address.join(":") + " - " + "\ntest";
+    const { startIPv6Address, endIPv6Address } = getStartAndEndIPv6Address(fullIPv6Address, subnet);
+    return startIPv6Address.join(":") + " - " + endIPv6Address.join(":");
 }
 
 function getNumberOfHosts(subnet: string): string {
@@ -188,28 +188,76 @@ function omitFrontZero(octet: string): string {
     else return octet.slice(1);
 }
 
-function getStartIPv6Address(ipv6Address: string[], subnet: string): string[] {
-    const targetOctetIndex: number = Math.ceil(parseInt(subnet, 10) / 16);
-    const repeatFCount: number = Math.ceil((parseInt(subnet, 10) % 16) / 4);
-    const repeatZeroCount: number = 4 - repeatFCount;
-    const bitIndex: number = (parseInt(subnet, 10) % 16) % 4;
-    // 128 bit
-    if (targetOctetIndex === 8) return ipv6Address;
+function getStartAndEndIPv6Address(
+    ipv6Address: string[],
+    subnet: string,
+): { [key: string]: string[] } {
+    const ipAddressRange: { [key: string]: string[] } = {
+        startIPv6Address: [],
+        endIPv6Address: [],
+    };
 
-    const startIPv6Address: string[] = [];
-    let targetOctet = "";
-    for (let i = 0; i < ipv6Address.length; i++) {
-        if (i < targetOctetIndex) startIPv6Address.push(ipv6Address[i]);
-        else if (i === targetOctetIndex) {
-            targetOctet += "f".repeat(repeatFCount);
-            targetOctet += ipv6SubnetHash[bitIndex];
-            targetOctet += "0".repeat(repeatZeroCount);
-            startIPv6Address.push(targetOctet);
-        }
-        // padding zero
-        else startIPv6Address.push("0000");
+    /* ex: subnet 67
+           2001:0db8:beef:0123:3212:0000:0000:0001
+    */
+    // 4 -> "3212"
+    const targetOctetIndex: number = Math.floor(parseInt(subnet, 10) / 16);
+    // 0 -> "3212" -> "3"
+    const hexIndexInOctet: number = Math.floor((parseInt(subnet, 10) % 16) / 4);
+    // /67 -> ffff:ffff:ffff:ffff:e000:0000:0000:0000
+    // 3 -> refer to ipv6SubnetHash 3: "e"
+    const bitIndexInHexIndex: number = parseInt(subnet, 10) % 4;
+
+    let { startIPv6Address, endIPv6Address } = ipAddressRange;
+
+    // 128 bit
+    if (targetOctetIndex === 8) {
+        startIPv6Address = ipv6Address;
+        endIPv6Address = ipv6Address;
+        return ipAddressRange;
     }
-    return startIPv6Address;
+
+    let targetOctetForStart = "0000";
+    let targetOctetForEnd = "ffff";
+    for (let i = 0; i < ipv6Address.length; i++) {
+        if (i < targetOctetIndex) {
+            startIPv6Address.push(ipv6Address[i]);
+            endIPv6Address.push(ipv6Address[i]);
+        }
+        // bitwise AND or OR
+        else if (i === targetOctetIndex) {
+            // 3 -> "3212"
+            const ipv6TargeDecimal: number = parseInt(ipv6Address[i][hexIndexInOctet], 16);
+            // 14 -> 3: "e"
+            const subnetDecimalForStart: number = parseInt(ipv6SubnetHash[bitIndexInHexIndex], 16);
+            // 1
+            const subnetDecimalForEnd: number =
+                15 - parseInt(ipv6SubnetHash[bitIndexInHexIndex], 16);
+            // bitwise AND for start
+            const targetBitHexForStart: string = (
+                ipv6TargeDecimal & subnetDecimalForStart
+            ).toString(16);
+            // bitwise OR for end
+            const targetBitHexForEnd: string = (ipv6TargeDecimal | subnetDecimalForEnd).toString(
+                16,
+            );
+            // frontOctet with unchanged bits
+            const frontOctet: string = ipv6Address[i].slice(0, hexIndexInOctet);
+            targetOctetForStart =
+                frontOctet + targetBitHexForStart + targetOctetForStart.slice(hexIndexInOctet + 1);
+            targetOctetForEnd =
+                frontOctet + targetBitHexForEnd + targetOctetForEnd.slice(hexIndexInOctet + 1);
+            startIPv6Address.push(targetOctetForStart);
+            endIPv6Address.push(targetOctetForEnd);
+        }
+        // padding 0 or 1
+        else {
+            startIPv6Address.push("0000");
+            endIPv6Address.push("ffff");
+        }
+    }
+
+    return ipAddressRange;
 }
 
 // Math.ceil(subnet / 16) == Index
