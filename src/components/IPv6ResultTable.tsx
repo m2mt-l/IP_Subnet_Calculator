@@ -14,7 +14,7 @@ import { ipv6Calculator } from "../util/ipv6Calculator";
 const IPv6ResultTable: FC<{ ipv6Address: string; subnet: string }> = ({ ipv6Address, subnet }) => {
     return (
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 370 }} aria-label="simple table">
+            <Table sx={{ maxWidth: 370 }} aria-label="simple table">
                 <TableBody>
                     {ipv6ResultTable.map((type, index) => (
                         <TableRow key={index}>
