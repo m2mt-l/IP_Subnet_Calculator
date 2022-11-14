@@ -1,4 +1,4 @@
-import { ipv6TypeKey } from "../data/ipv6ResultTable";
+import { ipv6TypeKey, defaultStringValue, defaultNumberValue } from "../data/ipv6ResultTable";
 import { ipv6SubnetHash } from "../data/ipv6Subnet";
 
 export function ipv6Calculator(type: string, ipv6Address: string, subnet: string): string {
@@ -39,34 +39,42 @@ The arguments are only ipv6Address(string) or subnet(string).
 // 113 - 128 : 7
 
 function displayIPAddress(ipv6Address: string, subnet: string): string {
-    const splitIPv6address: string[] = ipv6Address.split(":");
-    if (splitIPv6address.length === 8)
-        return getShortenIPv6Address(splitIPv6address).join(":") + " /" + subnet;
+    const splitIPv6address: string[] = ipv6Address.split(defaultStringValue.colon);
+    if (splitIPv6address.length === defaultNumberValue.maxNumberOfIPv6Array)
+        return (
+            getShortenIPv6Address(splitIPv6address).join(defaultStringValue.colon) + " /" + subnet
+        );
     const fullIPv6Address: string[] = getFullIPv6Address(ipv6Address);
 
-    return getShortenIPv6Address(fullIPv6Address).join(":") + " /" + subnet;
+    return getShortenIPv6Address(fullIPv6Address).join(defaultStringValue.colon) + " /" + subnet;
 }
 
 // RFC 4291 Section 2.4
 function getNetworkType(fullIPv6Address: string[]): string {
     const headOctet: string = fullIPv6Address[0];
     const tailOctetIndex: number = fullIPv6Address.length - 1;
-    if (headOctet === "ff00") return "Multicast";
-    if (headOctet === "fe80") return "Link-Local Unicast";
+    if (headOctet === defaultStringValue.multicast) return "Multicast";
+    if (headOctet === defaultStringValue.linkLocal) return "Link-Local Unicast";
     for (let i = 0; i < tailOctetIndex; i++) {
-        if (fullIPv6Address[i] !== "0000") return "Global Unicast";
+        if (fullIPv6Address[i] !== defaultStringValue.allZeroBitOctet) return "Global Unicast";
     }
-    return fullIPv6Address[tailOctetIndex] === "0000" ? "Unspecified" : "Loopback";
+    return fullIPv6Address[tailOctetIndex] === defaultStringValue.allZeroBitOctet
+        ? "Unspecified"
+        : "Loopback";
 }
 
 function getIPAddressRange(ipv6Address: string, subnet: string): string {
     const fullIPv6Address: string[] = getFullIPv6Address(ipv6Address);
     const { startIPv6Address, endIPv6Address } = getStartAndEndIPv6Address(fullIPv6Address, subnet);
-    return startIPv6Address.join(":") + " - " + endIPv6Address.join(":");
+    return (
+        startIPv6Address.join(defaultStringValue.colon) +
+        " - " +
+        endIPv6Address.join(defaultStringValue.colon)
+    );
 }
 
 function getNumberOfHosts(subnet: string): string {
-    const totalBits: number = 128 - parseInt(subnet, 10);
+    const totalBits: number = defaultNumberValue.maxNumberOfBits - parseInt(subnet, 10);
     const numberOfHosts: bigint = totalBits < 1 ? BigInt(1) : BigInt(Math.pow(2, totalBits));
     return numberOfHosts.toLocaleString();
 }
@@ -79,8 +87,8 @@ These functions are used in Calculator functions.
 function getFullIPv6Address(ipv6Address: string): string[] {
     // ["2001", "db8", "", ""]
     // ["2001", "db8", "", "1"]
-    const splitIPv6address: string[] = ipv6Address.split(":");
-    const fullIPv6AddressLength = 8;
+    const splitIPv6address: string[] = ipv6Address.split(defaultStringValue.colon);
+    const fullIPv6AddressLength: number = defaultNumberValue.maxNumberOfIPv6Array;
     // 6
     // 5
     const numberOfZeroOctet: number =
@@ -90,7 +98,7 @@ function getFullIPv6Address(ipv6Address: string): string[] {
         }).length;
     const tailOctetIndex: number = splitIPv6address.length - 1;
     const zeroIndex: number = splitIPv6address.indexOf("");
-    const paddingZero = "0000";
+    const paddingZero = defaultStringValue.allZeroBitOctet;
 
     const fullIPv6Address: string[] = [];
 
@@ -125,14 +133,14 @@ function getFullIPv6Address(ipv6Address: string): string[] {
 }
 
 function paddingZeroFrontOctet(octet: string): string {
-    const paddingLength: number = 4 - octet.length;
+    const paddingLength: number = defaultNumberValue.octetLength - octet.length;
     const padding = "0";
     if (paddingLength === 0) return "The argument is not allowed.";
     else return padding.repeat(paddingLength) + octet;
 }
 
 function paddingAddress(ipv6Address: string[], octet: string): string[] {
-    if (octet.length < 4) {
+    if (octet.length < defaultNumberValue.octetLength) {
         ipv6Address.push(paddingZeroFrontOctet(octet));
     } else ipv6Address.push(octet);
     return ipv6Address;
@@ -144,10 +152,10 @@ function getShortenIPv6Address(fullIPv6address: string[]): string[] {
     const tailOctetIndex: number = fullIPv6address.length - 1;
     const shortenIPv6Address: string[] = [];
     const zeroBitCount: number = fullIPv6address.reduce(
-        (count, octet) => (octet === "0000" ? count + 1 : count),
+        (count, octet) => (octet === defaultStringValue.allZeroBitOctet ? count + 1 : count),
         0,
     );
-    const zeroIndex: number = fullIPv6address.indexOf("0000");
+    const zeroIndex: number = fullIPv6address.indexOf(defaultStringValue.allZeroBitOctet);
 
     if (zeroBitCount === 0) {
         for (let i = 0; i <= tailOctetIndex; i++) {
@@ -160,7 +168,7 @@ function getShortenIPv6Address(fullIPv6address: string[]): string[] {
     } else if (zeroBitCount === 1) {
         for (let i = 0; i <= tailOctetIndex; i++) {
             let octet = fullIPv6address[i];
-            if (octet === "0000") shortenIPv6Address.push("0");
+            if (octet === defaultStringValue.allZeroBitOctet) shortenIPv6Address.push("0");
             else {
                 while (octet[0] === "0") {
                     octet = omitFrontZero(octet);
@@ -169,7 +177,9 @@ function getShortenIPv6Address(fullIPv6address: string[]): string[] {
             }
         }
     } else {
-        const tempIPv6Address = fullIPv6address.filter((octet) => octet !== "0000");
+        const tempIPv6Address = fullIPv6address.filter(
+            (octet) => octet !== defaultStringValue.allZeroBitOctet,
+        );
         for (let i = 0; i < tempIPv6Address.length; i++) {
             let octet = tempIPv6Address[i];
             while (octet[0] === "0") {
@@ -178,7 +188,8 @@ function getShortenIPv6Address(fullIPv6address: string[]): string[] {
             shortenIPv6Address.push(octet);
         }
         shortenIPv6Address.splice(zeroIndex, 0, "");
-        if (fullIPv6address[tailOctetIndex] === "0000") shortenIPv6Address.push("");
+        if (fullIPv6address[tailOctetIndex] === defaultStringValue.allZeroBitOctet)
+            shortenIPv6Address.push("");
     }
     return shortenIPv6Address;
 }
@@ -203,22 +214,24 @@ function getStartAndEndIPv6Address(
     // 4 -> "3212"
     const targetOctetIndex: number = Math.floor(parseInt(subnet, 10) / 16);
     // 0 -> "3212" -> "3"
-    const hexIndexInOctet: number = Math.floor((parseInt(subnet, 10) % 16) / 4);
+    const hexIndexInOctet: number = Math.floor(
+        (parseInt(subnet, 10) % 16) / defaultNumberValue.octetLength,
+    );
     // /67 -> ffff:ffff:ffff:ffff:e000:0000:0000:0000
     // 3 -> refer to ipv6SubnetHash 3: "e"
-    const bitIndexInHexIndex: number = parseInt(subnet, 10) % 4;
+    const bitIndexInHexIndex: number = parseInt(subnet, 10) % defaultNumberValue.octetLength;
 
     let { startIPv6Address, endIPv6Address } = ipAddressRange;
 
     // 128 bit
-    if (targetOctetIndex === 8) {
+    if (targetOctetIndex === defaultNumberValue.maxNumberOfIPv6Array) {
         startIPv6Address = ipv6Address;
         endIPv6Address = ipv6Address;
         return ipAddressRange;
     }
 
-    let targetOctetForStart = "0000";
-    let targetOctetForEnd = "ffff";
+    let targetOctetForStart = defaultStringValue.allZeroBitOctet;
+    let targetOctetForEnd = defaultStringValue.allOneBitOctet;
     for (let i = 0; i < ipv6Address.length; i++) {
         if (i < targetOctetIndex) {
             startIPv6Address.push(ipv6Address[i]);
@@ -252,8 +265,8 @@ function getStartAndEndIPv6Address(
         }
         // padding 0 or 1
         else {
-            startIPv6Address.push("0000");
-            endIPv6Address.push("ffff");
+            startIPv6Address.push(defaultStringValue.allZeroBitOctet);
+            endIPv6Address.push(defaultStringValue.allOneBitOctet);
         }
     }
 
