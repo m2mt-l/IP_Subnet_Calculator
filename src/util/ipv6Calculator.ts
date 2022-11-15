@@ -3,12 +3,11 @@ import { ipv6SubnetHash } from "../data/ipv6Subnet";
 import { IPv6Address } from "../model/IPv6Address";
 
 export function ipv6Calculator(type: string, ipv6Address: IPv6Address): string {
-    const { ipAddress, subnet, isShort } = ipv6Address;
     const ipv6CalculatorHashmap: { [key: string]: string } = {
-        [ipv6TypeKey.ipAddress]: displayIPAddress(ipAddress, subnet),
-        [ipv6TypeKey.networkType]: getNetworkType(ipAddress),
-        [ipv6TypeKey.ipAddressRange]: getIPAddressRange(ipAddress, subnet),
-        [ipv6TypeKey.numberOfHosts]: getNumberOfHosts(subnet),
+        [ipv6TypeKey.ipAddress]: displayIPAddress(ipv6Address),
+        [ipv6TypeKey.networkType]: getNetworkType(ipv6Address),
+        [ipv6TypeKey.ipAddressRange]: getIPAddressRange(ipv6Address),
+        [ipv6TypeKey.numberOfHosts]: getNumberOfHosts(ipv6Address),
     };
     return ipv6CalculatorHashmap[type];
 }
@@ -24,20 +23,22 @@ These functions should be used in ipv6CalculatorHashmap.
 The arguments are only ipv6Address(string) or subnet(string).
 */
 
-function displayIPAddress(ipv6Address: string, subnet: string): string {
-    const splitIPv6address: string[] = ipv6Address.split(defaultStringValue.colon);
+function displayIPAddress(ipv6Address: IPv6Address): string {
+    const { ipAddress, subnet, isShort } = ipv6Address;
+    const splitIPv6address: string[] = ipAddress.split(defaultStringValue.colon);
     if (splitIPv6address.length === defaultNumberValue.maxNumberOfIPv6Array)
         return (
             getShortenIPv6Address(splitIPv6address).join(defaultStringValue.colon) + " /" + subnet
         );
-    const fullIPv6Address: string[] = getFullIPv6Address(ipv6Address);
+    const fullIPv6Address: string[] = getFullIPv6Address(ipAddress);
 
     return getShortenIPv6Address(fullIPv6Address).join(defaultStringValue.colon) + " /" + subnet;
 }
 
 // RFC 4291 Section 2.4
-function getNetworkType(ipv6Address: string): string {
-    const fullIPv6Address: string[] = getFullIPv6Address(ipv6Address);
+function getNetworkType(ipv6Address: IPv6Address): string {
+    const { ipAddress, isShort } = ipv6Address;
+    const fullIPv6Address: string[] = getFullIPv6Address(ipAddress);
     const headOctet: string = fullIPv6Address[0];
     const tailOctetIndex: number = fullIPv6Address.length - 1;
     // ff00
@@ -55,8 +56,9 @@ function getNetworkType(ipv6Address: string): string {
         : "Loopback";
 }
 
-function getIPAddressRange(ipv6Address: string, subnet: string): string {
-    const fullIPv6Address: string[] = getFullIPv6Address(ipv6Address);
+function getIPAddressRange(ipv6Address: IPv6Address): string {
+    const { ipAddress, subnet, isShort } = ipv6Address;
+    const fullIPv6Address: string[] = getFullIPv6Address(ipAddress);
     const { startIPv6Address, endIPv6Address } = getStartAndEndIPv6Address(fullIPv6Address, subnet);
     return (
         startIPv6Address.join(defaultStringValue.colon) +
@@ -65,7 +67,8 @@ function getIPAddressRange(ipv6Address: string, subnet: string): string {
     );
 }
 
-function getNumberOfHosts(subnet: string): string {
+function getNumberOfHosts(ipv6Address: IPv6Address): string {
+    const { subnet } = ipv6Address;
     const totalBits: number = defaultNumberValue.maxNumberOfBits - parseInt(subnet, 10);
     const numberOfHosts: bigint = totalBits < 1 ? BigInt(1) : BigInt(Math.pow(2, totalBits));
     return numberOfHosts.toLocaleString();
