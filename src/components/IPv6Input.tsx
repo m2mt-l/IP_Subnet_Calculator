@@ -33,11 +33,15 @@ const IPv6Input: FC = () => {
     // If IP address is calculated or not
     const [isCalculated, setIsCalculated] = useState<boolean>(false);
 
-    // Deep copied state for IPv4ResultTable
+    // Deep copied state for IPv6ResultTable
     const [addressAndSubnet, setAddressAndSubnet] = useState<IPv6Address>({
         ipAddress: "",
         subnet: "",
+        isShort: true,
     });
+
+    // Text Representation is short or not
+    const [isShort, setIsShort] = useState<boolean>(true);
 
     /*
     Handle method for state
@@ -58,6 +62,13 @@ const IPv6Input: FC = () => {
         setIsValidIpv6AddressState(isValidIpv6Address);
     };
 
+    const handleIsShort = (event: SelectChangeEvent): void => {
+        const { value } = event.target;
+        // console.log(value);
+        if (value === "short") setIsShort(true);
+        else setIsShort(false);
+    };
+
     const handleCalculateClick = (): void => {
         // console.log(isValidIpv4Address(ipv4Address));
         handleIsValidIpv6Address(isValidIpv6Address(ipv6Address));
@@ -70,6 +81,7 @@ const IPv6Input: FC = () => {
         setAddressAndSubnet({
             ipAddress: ipv6Address,
             subnet: ipv6Subnet,
+            isShort: isShort,
         });
     };
 
@@ -113,6 +125,7 @@ const IPv6Input: FC = () => {
                     id="demo-simple-select"
                     label="Representation"
                     defaultValue={DefaultIPv6.representation}
+                    onChange={handleIsShort}
                 >
                     {shortOrLong.map((shortOrLong, index) => {
                         return (
@@ -132,12 +145,7 @@ const IPv6Input: FC = () => {
                 </Typography>
             )}
             <Divider flexItem />
-            {isCalculated && (
-                <IPv6ResultTable
-                    ipv6Address={addressAndSubnet.ipAddress}
-                    subnet={addressAndSubnet.subnet}
-                />
-            )}
+            {isCalculated && <IPv6ResultTable {...addressAndSubnet} />}
         </Stack>
     );
 };
