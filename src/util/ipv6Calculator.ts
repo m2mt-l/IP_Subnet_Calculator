@@ -1,11 +1,13 @@
 import { ipv6TypeKey, defaultStringValue, defaultNumberValue } from "../data/ipv6ResultTable";
 import { ipv6SubnetHash } from "../data/ipv6Subnet";
+import { IPv6Address } from "../model/IPv6Address";
 
-export function ipv6Calculator(type: string, ipv6Address: string, subnet: string): string {
+export function ipv6Calculator(type: string, ipv6Address: IPv6Address): string {
+    const { ipAddress, subnet, isShort } = ipv6Address;
     const ipv6CalculatorHashmap: { [key: string]: string } = {
-        [ipv6TypeKey.ipAddress]: displayIPAddress(ipv6Address, subnet),
-        [ipv6TypeKey.networkType]: getNetworkType(ipv6Address),
-        [ipv6TypeKey.ipAddressRange]: getIPAddressRange(ipv6Address, subnet),
+        [ipv6TypeKey.ipAddress]: displayIPAddress(ipAddress, subnet),
+        [ipv6TypeKey.networkType]: getNetworkType(ipAddress),
+        [ipv6TypeKey.ipAddressRange]: getIPAddressRange(ipAddress, subnet),
         [ipv6TypeKey.numberOfHosts]: getNumberOfHosts(subnet),
     };
     return ipv6CalculatorHashmap[type];

@@ -10,8 +10,9 @@ import Paper from "@mui/material/Paper";
 
 import { ipv6ResultTable } from "../data/ipv6ResultTable";
 import { ipv6Calculator } from "../util/ipv6Calculator";
+import { IPv6Address } from "../model/IPv6Address";
 
-const IPv6ResultTable: FC<{ ipv6Address: string; subnet: string }> = ({ ipv6Address, subnet }) => {
+const IPv6ResultTable: FC<IPv6Address> = (props) => {
     return (
         <TableContainer component={Paper}>
             <Table sx={{ maxWidth: 370 }} aria-label="simple table">
@@ -19,9 +20,7 @@ const IPv6ResultTable: FC<{ ipv6Address: string; subnet: string }> = ({ ipv6Addr
                     {ipv6ResultTable.map((type, index) => (
                         <TableRow key={index}>
                             <TableCell>{type}</TableCell>
-                            <TableCell align="right">
-                                {ipv6Calculator(type, ipv6Address, subnet)}
-                            </TableCell>
+                            <TableCell align="right">{ipv6Calculator(type, props)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
