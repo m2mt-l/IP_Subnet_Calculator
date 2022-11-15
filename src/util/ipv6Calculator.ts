@@ -25,14 +25,10 @@ The arguments are only ipv6Address(string) or subnet(string).
 
 function displayIPAddress(ipv6Address: IPv6Address): string {
     const { ipAddress, subnet, isShort } = ipv6Address;
-    const splitIPv6address: string[] = ipAddress.split(defaultStringValue.colon);
-    if (splitIPv6address.length === defaultNumberValue.maxNumberOfIPv6Array)
-        return (
-            getShortenIPv6Address(splitIPv6address).join(defaultStringValue.colon) + " /" + subnet
-        );
     const fullIPv6Address: string[] = getFullIPv6Address(ipAddress);
-
-    return getShortenIPv6Address(fullIPv6Address).join(defaultStringValue.colon) + " /" + subnet;
+    if (isShort === true) {
+        return getShortenIPv6Address(fullIPv6Address).join(defaultStringValue.colon) + "/" + subnet;
+    } else return fullIPv6Address.join(defaultStringValue.colon) + "/" + subnet;
 }
 
 // RFC 4291 Section 2.4
@@ -141,9 +137,10 @@ function paddingAddress(ipv6Address: string[], octet: string): string[] {
     return ipv6Address;
 }
 
-// If the ipv6Address does not have zero bits, this should not be used.
+// get shorten IPv6 address from full IPv6 address
 function getShortenIPv6Address(fullIPv6address: string[]): string[] {
     // ["2001", "0db8", "0000", "0000", "0000", "0000", "0000" "0001"] => ["2001", "db8" "", "", "1"]
+    // "::" -> ["","",""]
     const tailOctetIndex: number = fullIPv6address.length - 1;
     const shortenIPv6Address: string[] = [];
     const zeroBitCount: number = fullIPv6address.reduce(
@@ -171,6 +168,9 @@ function getShortenIPv6Address(fullIPv6address: string[]): string[] {
                 shortenIPv6Address.push(octet);
             }
         }
+    } else if (zeroBitCount === 8) {
+        // for unspecified
+        return ["", "", ""];
     } else {
         const tempIPv6Address = fullIPv6address.filter(
             (octet) => octet !== defaultStringValue.allZeroBitOctet,
