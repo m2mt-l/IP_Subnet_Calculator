@@ -13,13 +13,5 @@ export const ipv6SubnetHash: { [key: number]: string } = {
     2: "c",
     3: "e",
 };
-// Math.ceil(subnet / 16) == Index
-// subnet % 16 == bit
-// 0 - 16 : 0
-// 17 - 32 : 1
-// 33 - 48 : 2
-// 49 - 64 : 3
-// 65 - 80 : 4
-// 81 - 96 : 5
-// 97 - 112 : 6
-// 113 - 128 : 7
+
+export const shortOrLong: string[] = ["short", "long"];

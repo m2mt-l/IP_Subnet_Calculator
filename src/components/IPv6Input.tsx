@@ -11,7 +11,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
-import { generateIpv6Slash } from "../data/ipv6Subnet";
+import { generateIpv6Slash, shortOrLong } from "../data/ipv6Subnet";
 import { isValidIpv6Address } from "../util/ipv6AddressValidation";
 import IPv6ResultTable from "./IPv6ResultTable";
 import { DefaultIPv6 } from "../data/ipv6InputDefaultValue";
@@ -101,6 +101,23 @@ const IPv6Input: FC = () => {
                                 value={128 - index} // refactor
                             >
                                 {subnetString}
+                            </MenuItem>
+                        );
+                    })}
+                </Select>
+            </FormControl>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Representation</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Representation"
+                    defaultValue={DefaultIPv6.representation}
+                >
+                    {shortOrLong.map((shortOrLong, index) => {
+                        return (
+                            <MenuItem key={index} value={shortOrLong}>
+                                {shortOrLong}
                             </MenuItem>
                         );
                     })}
