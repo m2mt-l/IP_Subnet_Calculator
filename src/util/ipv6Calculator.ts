@@ -33,7 +33,7 @@ function displayIPAddress(ipv6Address: IPv6Address): string {
 
 // RFC 4291 Section 2.4
 function getNetworkType(ipv6Address: IPv6Address): string {
-    const { ipAddress, isShort } = ipv6Address;
+    const { ipAddress } = ipv6Address;
     const fullIPv6Address: string[] = getFullIPv6Address(ipAddress);
     const headOctet: string = fullIPv6Address[0];
     const tailOctetIndex: number = fullIPv6Address.length - 1;
@@ -56,11 +56,20 @@ function getIPAddressRange(ipv6Address: IPv6Address): string {
     const { ipAddress, subnet, isShort } = ipv6Address;
     const fullIPv6Address: string[] = getFullIPv6Address(ipAddress);
     const { startIPv6Address, endIPv6Address } = getStartAndEndIPv6Address(fullIPv6Address, subnet);
-    return (
-        startIPv6Address.join(defaultStringValue.colon) +
-        " - " +
-        endIPv6Address.join(defaultStringValue.colon)
-    );
+
+    if (isShort === true) {
+        return (
+            getShortenIPv6Address(startIPv6Address).join(defaultStringValue.colon) +
+            " - " +
+            getShortenIPv6Address(endIPv6Address).join(defaultStringValue.colon)
+        );
+    } else {
+        return (
+            startIPv6Address.join(defaultStringValue.colon) +
+            " - " +
+            endIPv6Address.join(defaultStringValue.colon)
+        );
+    }
 }
 
 function getNumberOfHosts(ipv6Address: IPv6Address): string {
