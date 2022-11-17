@@ -6,7 +6,7 @@ export function ipv4Calculator(type: string, ipv4Address: string, subnet: string
         [ipv4TypeKey.ipAddress]: displayIPv4Address(ipv4Address, subnet),
         [ipv4TypeKey.networkAddress]: getIPv4NetworkAddress(ipv4Address, subnet),
         [ipv4TypeKey.hostAddressRange]: getIPv4HostAddressRange(ipv4Address, subnet),
-        [ipv4TypeKey.numberOfHosts]: getNumberOfHosts(subnet),
+        [ipv4TypeKey.numberOfHosts]: getIPv4NumberOfHosts(subnet),
         [ipv4TypeKey.broadcastAddress]: getBroadcastAddress(ipv4Address, subnet),
         [ipv4TypeKey.subnetMask]: getSubnetMask(subnet),
         [ipv4TypeKey.ipType]: getIPType(ipv4Address),
@@ -76,7 +76,7 @@ function getIPv4HostAddressRange(ipv4Address: string, subnet: string): string {
     return firstHostAddressArray.join(".") + " - " + lastHostAddressArray.join(".");
 }
 
-function getNumberOfHosts(subnet: string): string {
+function getIPv4NumberOfHosts(subnet: string): string {
     const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
     const bitCountArray: number[] = wildcardArray.map((octet: number) => countBits(octet));
     const totalBits: number = bitCountArray.reduce((total: number, bit: number) => total + bit);
