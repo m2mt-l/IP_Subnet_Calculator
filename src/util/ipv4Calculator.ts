@@ -3,10 +3,10 @@ import { ipv4TypeKey } from "../data/ipv4ResultTable";
 
 export function ipv4Calculator(type: string, ipv4Address: string, subnet: string): string {
     const ipv4CalculatorHashmap: { [key: string]: string } = {
-        [ipv4TypeKey.ipAddress]: displayIPAddress(ipv4Address, subnet),
-        [ipv4TypeKey.networkAddress]: getNetworkAddress(ipv4Address, subnet),
-        [ipv4TypeKey.hostAddressRange]: getHostAddressRange(ipv4Address, subnet),
-        [ipv4TypeKey.numberOfHosts]: getNumberOfHosts(subnet),
+        [ipv4TypeKey.ipAddress]: displayIPv4Address(ipv4Address, subnet),
+        [ipv4TypeKey.networkAddress]: getIPv4NetworkAddress(ipv4Address, subnet),
+        [ipv4TypeKey.hostAddressRange]: getIPv4HostAddressRange(ipv4Address, subnet),
+        [ipv4TypeKey.numberOfHosts]: getIPv4NumberOfHosts(subnet),
         [ipv4TypeKey.broadcastAddress]: getBroadcastAddress(ipv4Address, subnet),
         [ipv4TypeKey.subnetMask]: getSubnetMask(subnet),
         [ipv4TypeKey.ipType]: getIPType(ipv4Address),
@@ -34,24 +34,22 @@ The arguments are only ipv4Address(string) or subnet(string).
 */
 
 // Show IP address and CIDR
-function displayIPAddress(ipv4Address: string, subnet: string): string {
+function displayIPv4Address(ipv4Address: string, subnet: string): string {
     return ipv4Address + "/" + subnet;
 }
 
-function getNetworkAddress(ipv4Address: string, subnet: string): string {
-    let networkAddress: number[] = [0, 0, 0, 0];
-
+function getIPv4NetworkAddress(ipv4Address: string, subnet: string): string {
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
     const subnetArray: number[] = splitSubnetMask(subnet);
 
-    networkAddress = networkAddress.map((octet, index) =>
+    const networkAddress = [0, 0, 0, 0].map((octet, index) =>
         operateAND(ipv4AddressArray[index], subnetArray[index]),
     );
 
     return networkAddress.join(".");
 }
 
-function getHostAddressRange(ipv4Address: string, subnet: string): string {
+function getIPv4HostAddressRange(ipv4Address: string, subnet: string): string {
     // /31 or /32
     if (parseInt(subnet, 10) >= 31) return "N/A";
 
@@ -78,7 +76,7 @@ function getHostAddressRange(ipv4Address: string, subnet: string): string {
     return firstHostAddressArray.join(".") + " - " + lastHostAddressArray.join(".");
 }
 
-function getNumberOfHosts(subnet: string): string {
+function getIPv4NumberOfHosts(subnet: string): string {
     const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
     const bitCountArray: number[] = wildcardArray.map((octet: number) => countBits(octet));
     const totalBits: number = bitCountArray.reduce((total: number, bit: number) => total + bit);
