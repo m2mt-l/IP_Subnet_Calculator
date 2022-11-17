@@ -5,7 +5,7 @@ export function ipv4Calculator(type: string, ipv4Address: string, subnet: string
     const ipv4CalculatorHashmap: { [key: string]: string } = {
         [ipv4TypeKey.ipAddress]: displayIPv4Address(ipv4Address, subnet),
         [ipv4TypeKey.networkAddress]: getIPv4NetworkAddress(ipv4Address, subnet),
-        [ipv4TypeKey.hostAddressRange]: getHostAddressRange(ipv4Address, subnet),
+        [ipv4TypeKey.hostAddressRange]: getIPv4HostAddressRange(ipv4Address, subnet),
         [ipv4TypeKey.numberOfHosts]: getNumberOfHosts(subnet),
         [ipv4TypeKey.broadcastAddress]: getBroadcastAddress(ipv4Address, subnet),
         [ipv4TypeKey.subnetMask]: getSubnetMask(subnet),
@@ -49,7 +49,7 @@ function getIPv4NetworkAddress(ipv4Address: string, subnet: string): string {
     return networkAddress.join(".");
 }
 
-function getHostAddressRange(ipv4Address: string, subnet: string): string {
+function getIPv4HostAddressRange(ipv4Address: string, subnet: string): string {
     // /31 or /32
     if (parseInt(subnet, 10) >= 31) return "N/A";
 
