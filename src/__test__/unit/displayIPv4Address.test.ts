@@ -1,5 +1,5 @@
-import { ipv4TypeKey } from "../data/ipv4ResultTable";
-import { ipv4Calculator } from "../util/ipv4Calculator";
+import { ipv4TypeKey } from "../../data/ipv4ResultTable";
+import { ipv4Calculator } from "../../util/ipv4Calculator";
 
 describe("displayIPAddress test", () => {
     test("ipv4 address", () => {
