@@ -1,6 +1,6 @@
-import { ipv6TypeKey } from "../data/ipv6ResultTable";
-import { ipv6Calculator } from "../util/ipv6Calculator";
-import { IPv6Address } from "../model/IPv6Address";
+import { ipv6TypeKey } from "../../data/ipv6ResultTable";
+import { ipv6Calculator } from "../../util/ipv6Calculator";
+import { IPv6Address } from "../../model/IPv6Address";
 
 describe("displayIPAddress test", () => {
     const unspecifiedData: IPv6Address = {

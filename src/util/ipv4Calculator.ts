@@ -7,7 +7,7 @@ export function ipv4Calculator(type: string, ipv4Address: string, subnet: string
         [ipv4TypeKey.networkAddress]: getIPv4NetworkAddress(ipv4Address, subnet),
         [ipv4TypeKey.hostAddressRange]: getIPv4HostAddressRange(ipv4Address, subnet),
         [ipv4TypeKey.numberOfHosts]: getIPv4NumberOfHosts(subnet),
-        [ipv4TypeKey.broadcastAddress]: getBroadcastAddress(ipv4Address, subnet),
+        [ipv4TypeKey.broadcastAddress]: getIPv4BroadcastAddress(ipv4Address, subnet),
         [ipv4TypeKey.subnetMask]: getSubnetMask(subnet),
         [ipv4TypeKey.ipType]: getIPType(ipv4Address),
         [ipv4TypeKey.networkClass]: getNetworkClass(ipv4Address),
@@ -85,13 +85,11 @@ function getIPv4NumberOfHosts(subnet: string): string {
     return numberOfHosts.toLocaleString();
 }
 
-function getBroadcastAddress(ipv4Address: string, subnet: string): string {
-    let broadcastAddress: number[] = [0, 0, 0, 0];
-
+function getIPv4BroadcastAddress(ipv4Address: string, subnet: string): string {
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
     const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
 
-    broadcastAddress = broadcastAddress.map((octet, index) =>
+    const broadcastAddress = [0, 0, 0, 0].map((octet, index) =>
         operateOR(ipv4AddressArray[index], wildcardArray[index]),
     );
 
