@@ -1,7 +1,7 @@
 import { ipv4TypeKey } from "../../data/ipv4ResultTable";
 import { ipv4Calculator } from "../../util/ipv4Calculator";
 
-describe("getSubnetMask test", () => {
+describe("getIPv4SubnetMask test", () => {
     test("ipv4 /0 subnet mask", () => {
         expect(ipv4Calculator(ipv4TypeKey.subnetMask, "192.168.0.1", "0")).toBe("0.0.0.0");
     });
