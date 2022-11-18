@@ -10,7 +10,7 @@ export function ipv4Calculator(type: string, ipv4Address: string, subnet: string
         [ipv4TypeKey.broadcastAddress]: getIPv4BroadcastAddress(ipv4Address, subnet),
         [ipv4TypeKey.subnetMask]: getIPv4SubnetMask(subnet),
         [ipv4TypeKey.ipType]: getIPv4Type(ipv4Address),
-        [ipv4TypeKey.networkClass]: getNetworkClass(ipv4Address),
+        [ipv4TypeKey.networkClass]: getIPv4NetworkClass(ipv4Address),
         [ipv4TypeKey.ipv4Mapped]: getIpv4MappedAddress(ipv4Address),
         [ipv4TypeKey.sixToFour]: getSixToFourAddress(ipv4Address),
     };
@@ -118,18 +118,7 @@ function getIPv4Type(ipv4Address: string): string {
     return isPrivate(firstOctet, secondOctet) ? "Private" : "Global";
 }
 
-function getIpv4MappedAddress(ipv4Address: string): string {
-    const firstIpv4MappedAddress = "::ffff:";
-    return firstIpv4MappedAddress + getHexAddressFromIPv4Address(ipv4Address);
-}
-
-function getSixToFourAddress(ipv4Address: string): string {
-    const firstSixToFourAddress = "2002:";
-    const lastSixToFourAddress = "::/48";
-    return firstSixToFourAddress + getHexAddressFromIPv4Address(ipv4Address) + lastSixToFourAddress;
-}
-
-function getNetworkClass(ipv4Address: string): string {
+function getIPv4NetworkClass(ipv4Address: string): string {
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
     const firstOctet: number = ipv4AddressArray[0];
 
@@ -139,6 +128,17 @@ function getNetworkClass(ipv4Address: string): string {
     else if (firstOctet >= 224 && firstOctet <= 239) return "D(Multicast)";
     // firstOctet >= 240 && firstOctet <= 255
     else return "E";
+}
+
+function getIpv4MappedAddress(ipv4Address: string): string {
+    const firstIpv4MappedAddress = "::ffff:";
+    return firstIpv4MappedAddress + getHexAddressFromIPv4Address(ipv4Address);
+}
+
+function getSixToFourAddress(ipv4Address: string): string {
+    const firstSixToFourAddress = "2002:";
+    const lastSixToFourAddress = "::/48";
+    return firstSixToFourAddress + getHexAddressFromIPv4Address(ipv4Address) + lastSixToFourAddress;
 }
 
 /*
