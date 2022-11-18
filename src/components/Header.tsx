@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 const Header: FC = () => {
     return (
         <Typography variant="h3" my={3} component="div">
-            IP Address Calculator
+            IP Subnet Calculator
         </Typography>
     );
 };
