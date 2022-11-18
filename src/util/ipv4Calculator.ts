@@ -11,7 +11,7 @@ export function ipv4Calculator(type: string, ipv4Address: string, subnet: string
         [ipv4TypeKey.subnetMask]: getIPv4SubnetMask(subnet),
         [ipv4TypeKey.ipType]: getIPv4Type(ipv4Address),
         [ipv4TypeKey.networkClass]: getIPv4NetworkClass(ipv4Address),
-        [ipv4TypeKey.ipv4Mapped]: getIpv4MappedAddress(ipv4Address),
+        [ipv4TypeKey.ipv4Mapped]: getIPv4MappedAddress(ipv4Address),
         [ipv4TypeKey.sixToFour]: getSixToFourAddress(ipv4Address),
     };
     return ipv4CalculatorHashmap[type];
@@ -130,7 +130,7 @@ function getIPv4NetworkClass(ipv4Address: string): string {
     else return "E";
 }
 
-function getIpv4MappedAddress(ipv4Address: string): string {
+function getIPv4MappedAddress(ipv4Address: string): string {
     const firstIpv4MappedAddress = "::ffff:";
     return firstIpv4MappedAddress + getHexAddressFromIPv4Address(ipv4Address);
 }
