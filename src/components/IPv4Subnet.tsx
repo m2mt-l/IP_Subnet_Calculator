@@ -16,6 +16,7 @@ import { isValidIpv4Address } from "../util/ipv4AddressValidation";
 import IPv4ResultTable from "./IPv4ResultTable";
 import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
+import { getIPv4SubnetValue } from "../util/ipv4Subnet";
 
 const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
     /*
@@ -98,10 +99,7 @@ const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
                 >
                     {subnetString.map((subnetString, index) => {
                         return (
-                            <MenuItem
-                                key={index}
-                                value={32 - index} // refactor
-                            >
+                            <MenuItem key={index} value={getIPv4SubnetValue(index)}>
                                 {subnetString}
                             </MenuItem>
                         );

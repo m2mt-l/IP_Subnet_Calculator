@@ -3,6 +3,4 @@ export const DefaultIPv4: { [key: string]: string } = {
     subnet: "24",
     calculate: "Calculate",
     validationError: "Invalid IPv4 address",
-    // Refactor: use Generic
-    // maxSubnet: "32",
 };

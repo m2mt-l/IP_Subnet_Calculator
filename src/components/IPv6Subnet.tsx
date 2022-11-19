@@ -16,6 +16,7 @@ import { isValidIpv6Address } from "../util/ipv6AddressValidation";
 import IPv6ResultTable from "./IPv6ResultTable";
 import { DefaultIPv6 } from "../data/ipv6SubnetDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
+import { getIPv6SubnetValue } from "../util/ipv6Subnet";
 
 const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
     /*
@@ -108,10 +109,7 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
                 >
                     {subnetString.map((subnetString, index) => {
                         return (
-                            <MenuItem
-                                key={index}
-                                value={128 - index} // refactor
-                            >
+                            <MenuItem key={index} value={getIPv6SubnetValue(index)}>
                                 {subnetString}
                             </MenuItem>
                         );

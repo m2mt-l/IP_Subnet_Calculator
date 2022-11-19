@@ -4,7 +4,4 @@ export const DefaultIPv6: { [key: string]: string } = {
     representation: "short",
     calculate: "Calculate",
     validationError: "Invalid IPv6 address",
-
-    // Refactor: use Generic
-    // maxSubnet: "128",
 };
