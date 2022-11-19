@@ -5,8 +5,10 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { BrowserRouter, Route, Routes, Link, matchPath, useLocation } from "react-router-dom";
+
 import IPv4Subnet from "./IPv4Subnet";
 import IPv6Subnet from "./IPv6Subnet";
+import IPv4Summary from "./IPv4Summary";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -59,6 +61,9 @@ const MenuTabs: FC = () => {
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <IPv6Subnet />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <IPv4Summary />
             </TabPanel>
         </Box>
     );
