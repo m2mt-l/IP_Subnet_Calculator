@@ -14,7 +14,7 @@ import Divider from "@mui/material/Divider";
 import { generateIPv4Slash } from "../data/ipv4Subnet";
 import { isValidIpv4Address } from "../util/ipv4AddressValidation";
 import IPv4ResultTable from "./IPv4ResultTable";
-import { DefaultIPv4 } from "../data/ipv4InputDefaultValue";
+import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
 
 const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
@@ -109,11 +109,11 @@ const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
                 </Select>
             </FormControl>
             <Button variant="contained" onClick={handleCalculateClick}>
-                Calculate
+                {DefaultIPv4.calculate}
             </Button>
             {!isValidIPv4AddressState && (
                 <Typography align="center" sx={{ color: "error.main" }}>
-                    Invalid IP address
+                    {DefaultIPv4.validationError}
                 </Typography>
             )}
             <Divider flexItem />

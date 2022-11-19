@@ -14,7 +14,7 @@ import Divider from "@mui/material/Divider";
 import { generateIpv6Slash, shortOrLong } from "../data/ipv6Subnet";
 import { isValidIpv6Address } from "../util/ipv6AddressValidation";
 import IPv6ResultTable from "./IPv6ResultTable";
-import { DefaultIPv6 } from "../data/ipv6InputDefaultValue";
+import { DefaultIPv6 } from "../data/ipv6SubnetDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
 
 const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
@@ -137,11 +137,11 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
                 </Select>
             </FormControl>
             <Button variant="contained" onClick={handleCalculateClick}>
-                Calculate
+                {DefaultIPv6.calculate}
             </Button>
             {!isValidIpv6AddressState && (
                 <Typography align="center" sx={{ color: "error.main" }}>
-                    Invalid IP address
+                    {DefaultIPv6.validationError}
                 </Typography>
             )}
             <Divider flexItem />
