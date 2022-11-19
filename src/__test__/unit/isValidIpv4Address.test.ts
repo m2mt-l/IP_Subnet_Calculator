@@ -17,10 +17,6 @@ describe("ipv4 address validation test", () => {
         expect(isValidIpv4Address("192.168.1.f")).toBeFalsy;
     });
 
-    test("include hex address", () => {
-        expect(isValidIpv4Address("192.168.1.f")).toBeFalsy;
-    });
-
     test("include negative number address", () => {
         expect(isValidIpv4Address("192.168.1.-1")).toBeFalsy;
     });
