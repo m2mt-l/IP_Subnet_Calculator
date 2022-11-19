@@ -36,7 +36,7 @@ export const ipv4SubnetHashMap: { [key: string]: string } = {
 };
 
 // ["/32 255.255.255.255", "/31 255.255.255.254".... "/0 0.0.0.0"]
-export function generateIpv4Slash(): string[] {
+export function generateIPv4Slash(): string[] {
     const output = [];
     for (let i = 32; i >= 0; i--) {
         const slash = i.toString();

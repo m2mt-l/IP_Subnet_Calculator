@@ -5,8 +5,8 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { BrowserRouter, Route, Routes, Link, matchPath, useLocation } from "react-router-dom";
-import IPv4Input from "./IPv4Input";
-import IPv6Input from "./IPv6Input";
+import IPv4Subnet from "./IPv4Subnet";
+import IPv6Subnet from "./IPv6Subnet";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -39,16 +39,26 @@ const MenuTabs: FC = () => {
     return (
         <Box sx={{ minWidth: "370" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <Tabs value={value} onChange={handleChange} aria-label="menu tabs" centered>
-                    <Tab label="IPv4" to="/ipv4address" component={Link} />
-                    <Tab label="IPv6" to="/ipv6address" component={Link} />
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="menu tabs"
+                    centered
+                    variant="scrollable"
+                    scrollButtons
+                    allowScrollButtonsMobile
+                >
+                    <Tab label="IPv4 subnet" to="/ipv4address" component={Link} wrapped />
+                    <Tab label="IPv6 subnet" to="/ipv6address" component={Link} wrapped />
+                    <Tab label="IPv4 summary" to="/ipv4summary" component={Link} wrapped />
+                    <Tab label="IPv6 summary" to="/ipv6summary" component={Link} wrapped />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <IPv4Input />
+                <IPv4Subnet />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <IPv6Input />
+                <IPv6Subnet />
             </TabPanel>
         </Box>
     );

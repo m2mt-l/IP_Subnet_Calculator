@@ -17,7 +17,7 @@ import IPv6ResultTable from "./IPv6ResultTable";
 import { DefaultIPv6 } from "../data/ipv6InputDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
 
-const IPv6Input: FC = () => {
+const IPv6Subnet: FC = () => {
     /*
     State
     */
@@ -150,4 +150,4 @@ const IPv6Input: FC = () => {
     );
 };
 
-export default IPv6Input;
+export default IPv6Subnet;
