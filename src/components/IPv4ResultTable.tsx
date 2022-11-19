@@ -17,8 +17,9 @@ import CopyToClipBoard from "react-copy-to-clipboard";
 
 import { ipv4ResultTable } from "../data/ipv4ResultTable";
 import { ipv4Calculator } from "../util/ipv4Calculator";
+import { IPv4Address } from "../model/IPv4Address";
 
-const IPv4ResultTable: FC<{ ipv4Address: string; subnet: string }> = ({ ipv4Address, subnet }) => {
+const IPv4ResultTable: FC<IPv4Address> = (props) => {
     console.log("check render IPv4ResultTable");
     return (
         <TableContainer component={Paper}>
@@ -27,9 +28,7 @@ const IPv4ResultTable: FC<{ ipv4Address: string; subnet: string }> = ({ ipv4Addr
                     {ipv4ResultTable.map((type, index) => (
                         <TableRow key={index}>
                             <TableCell>{type}</TableCell>
-                            <TableCell align="right">
-                                {ipv4Calculator(type, ipv4Address, subnet)}
-                            </TableCell>
+                            <TableCell align="right">{ipv4Calculator(type, props)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

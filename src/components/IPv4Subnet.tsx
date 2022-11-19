@@ -117,12 +117,7 @@ const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
                 </Typography>
             )}
             <Divider flexItem />
-            {isCalculated && (
-                <IPv4ResultTable
-                    ipv4Address={addressAndSubnet.ipAddress}
-                    subnet={addressAndSubnet.subnet}
-                />
-            )}
+            {isCalculated && <IPv4ResultTable {...addressAndSubnet} />}
         </Stack>
     );
 });
