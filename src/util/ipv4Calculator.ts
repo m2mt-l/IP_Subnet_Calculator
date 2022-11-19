@@ -130,11 +130,13 @@ function getIPv4NetworkClass(ipv4Address: string): string {
     else return "E";
 }
 
+// RFC4291 section 2.5.5.2, for the usage refer to RFC4038
 function getIPv4MappedAddress(ipv4Address: string): string {
     const firstIpv4MappedAddress = "::ffff:";
     return firstIpv4MappedAddress + getHexAddressFromIPv4Address(ipv4Address);
 }
 
+// RFC3056
 function getSixToFourAddress(ipv4Address: string): string {
     const firstSixToFourAddress = "2002:";
     const lastSixToFourAddress = "::/48";

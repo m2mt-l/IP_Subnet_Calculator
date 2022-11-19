@@ -11,7 +11,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
-import { generateIpv4Slash } from "../data/ipv4Subnet";
+import { generateIPv4Slash } from "../data/ipv4Subnet";
 import { isValidIpv4Address } from "../util/ipv4AddressValidation";
 import IPv4ResultTable from "./IPv4ResultTable";
 import { DefaultIPv4 } from "../data/ipv4InputDefaultValue";
@@ -22,13 +22,13 @@ const IPv4Input: FC = () => {
     State
     */
     // Input IPv4 address state
-    const [ipv4Address, setIpv4Address] = useState<string>("");
+    const [ipv4Address, setIPv4Address] = useState<string>("");
 
     // Select subnet state
-    const [ipv4Subnet, setIpv4Subnet] = useState<string>(DefaultIPv4.subnet); // default value
+    const [ipv4Subnet, setIPv4Subnet] = useState<string>(DefaultIPv4.subnet); // default value
 
     // If IP address is input or not
-    const [isValidIpv4AddressState, setIsValidIpv4AddressState] = useState<boolean>(true);
+    const [isValidIPv4AddressState, setIsValidIPv4AddressState] = useState<boolean>(true);
 
     // If IP address is calculated or not
     const [isCalculated, setIsCalculated] = useState<boolean>(false);
@@ -42,25 +42,25 @@ const IPv4Input: FC = () => {
     /*
     Handle method for state
     */
-    const handleIpv4AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const handleIPv4AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { value } = event.target;
-        setIpv4Address(value);
+        setIPv4Address(value);
         // console.log(ipv4Address);
     };
 
-    const handleIpv4SubnetChange = (event: SelectChangeEvent): void => {
+    const handleIPv4SubnetChange = (event: SelectChangeEvent): void => {
         const { value } = event.target;
-        setIpv4Subnet(value);
+        setIPv4Subnet(value);
         // console.log(value);
     };
 
-    const handleIsValidIpv4Address = (isValidIpv4Address: boolean): void => {
-        setIsValidIpv4AddressState(isValidIpv4Address);
+    const handleIsValidIPv4Address = (isValidIpv4Address: boolean): void => {
+        setIsValidIPv4AddressState(isValidIpv4Address);
     };
 
     const handleCalculateClick = (): void => {
         // console.log(isValidIpv4Address(ipv4Address));
-        handleIsValidIpv4Address(isValidIpv4Address(ipv4Address));
+        handleIsValidIPv4Address(isValidIpv4Address(ipv4Address));
         if (isValidIpv4Address(ipv4Address)) setIsCalculated(true);
         else setIsCalculated(false);
         handleAddressAndSubnet();
@@ -74,7 +74,7 @@ const IPv4Input: FC = () => {
         });
     };
 
-    const subnetString = generateIpv4Slash();
+    const subnetString = generateIPv4Slash();
 
     return (
         <Stack spacing={2}>
@@ -84,16 +84,17 @@ const IPv4Input: FC = () => {
                 variant="filled"
                 sx={{ minWidth: 370 }}
                 placeholder={DefaultIPv4.placeholder}
-                onChange={handleIpv4AddressChange}
+                onChange={handleIPv4AddressChange}
             />
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Subnet</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    id="select-subnet"
+                    data-testid="subnet"
                     label="Subnet"
                     defaultValue={DefaultIPv4.subnet}
-                    onChange={handleIpv4SubnetChange}
+                    onChange={handleIPv4SubnetChange}
                 >
                     {subnetString.map((subnetString, index) => {
                         return (
@@ -110,7 +111,7 @@ const IPv4Input: FC = () => {
             <Button variant="contained" onClick={handleCalculateClick}>
                 Calculate
             </Button>
-            {!isValidIpv4AddressState && (
+            {!isValidIPv4AddressState && (
                 <Typography align="center" sx={{ color: "error.main" }}>
                     Invalid IP address
                 </Typography>
