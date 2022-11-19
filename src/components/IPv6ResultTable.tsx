@@ -15,7 +15,7 @@ import { IPv6Address } from "../model/IPv6Address";
 const IPv6ResultTable: FC<IPv6Address> = (props) => {
     return (
         <TableContainer component={Paper}>
-            <Table sx={{ maxWidth: 370 }} aria-label="simple table">
+            <Table sx={{ minWidth: 370, maxWidth: 500 }} aria-label="simple table">
                 <TableBody>
                     {ipv6ResultTable.map((type, index) => (
                         <TableRow key={index}>
