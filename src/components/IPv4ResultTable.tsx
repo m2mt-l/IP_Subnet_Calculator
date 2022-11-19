@@ -19,6 +19,7 @@ import { ipv4ResultTable } from "../data/ipv4ResultTable";
 import { ipv4Calculator } from "../util/ipv4Calculator";
 
 const IPv4ResultTable: FC<{ ipv4Address: string; subnet: string }> = ({ ipv4Address, subnet }) => {
+    console.log("check render IPv4ResultTable");
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 370, maxWidth: 500 }} aria-label="simple table">

@@ -1,4 +1,4 @@
-import React, { FC, useState, ChangeEvent } from "react";
+import React, { FC, useState, ChangeEvent, memo } from "react";
 
 // Material UI
 import TextField from "@mui/material/TextField";
@@ -17,7 +17,7 @@ import IPv6ResultTable from "./IPv6ResultTable";
 import { DefaultIPv6 } from "../data/ipv6InputDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
 
-const IPv6Subnet: FC = () => {
+const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
     /*
     State
     */
@@ -148,6 +148,6 @@ const IPv6Subnet: FC = () => {
             {isCalculated && <IPv6ResultTable {...addressAndSubnet} />}
         </Stack>
     );
-};
+});
 
 export default IPv6Subnet;

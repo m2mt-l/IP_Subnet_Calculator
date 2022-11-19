@@ -1,4 +1,4 @@
-import React, { FC, useState, ChangeEvent } from "react";
+import React, { FC, useState, ChangeEvent, memo } from "react";
 
 // Material UI
 import TextField from "@mui/material/TextField";
@@ -17,7 +17,7 @@ import IPv4ResultTable from "./IPv4ResultTable";
 import { DefaultIPv4 } from "../data/ipv4InputDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
 
-const IPv4Subnet: FC = () => {
+const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
     /*
     State
     */
@@ -125,6 +125,6 @@ const IPv4Subnet: FC = () => {
             )}
         </Stack>
     );
-};
+});
 
 export default IPv4Subnet;
