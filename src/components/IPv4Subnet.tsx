@@ -17,7 +17,7 @@ import IPv4ResultTable from "./IPv4ResultTable";
 import { DefaultIPv4 } from "../data/ipv4InputDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
 
-const IPv4Input: FC = () => {
+const IPv4Subnet: FC = () => {
     /*
     State
     */
@@ -127,4 +127,4 @@ const IPv4Input: FC = () => {
     );
 };
 
-export default IPv4Input;
+export default IPv4Subnet;
