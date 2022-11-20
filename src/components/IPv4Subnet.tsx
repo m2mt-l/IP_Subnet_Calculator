@@ -106,7 +106,7 @@ const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
                     })}
                 </Select>
             </FormControl>
-            <Button variant="contained" onClick={handleCalculateClick}>
+            <Button variant="contained" onClick={handleCalculateClick} data-testid="calculate">
                 {DefaultIPv4.calculate}
             </Button>
             {!isValidIPv4AddressState && (
