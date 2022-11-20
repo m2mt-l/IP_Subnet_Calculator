@@ -12,11 +12,13 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import IconButton from "@mui/material/IconButton";
 
 import { generateIPv4Slash } from "../data/ipv4Subnet";
 import { isValidIpv4Address } from "../util/ipv4AddressValidation";
 import IPv4ResultTable from "./IPv4ResultTable";
-import { DefaultIPv4 } from "../data/ipv4InputDefaultValue";
+import InputIPv4AddressForSummary from "./uiParts/InputIPv4AddressForSummary";
+import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
 
 const IPv4Summary: FC = () => {
@@ -36,13 +38,7 @@ const IPv4Summary: FC = () => {
                 justifyContent="center"
                 alignItems="center"
             >
-                <TextField
-                    id="filled-basic"
-                    label="IPv4 address"
-                    variant="filled"
-                    sx={{ minWidth: 200 }}
-                    placeholder={DefaultIPv4.placeholder}
-                />
+                <InputIPv4AddressForSummary />
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Subnet</InputLabel>
                     <Select
@@ -64,8 +60,14 @@ const IPv4Summary: FC = () => {
                         })}
                     </Select>
                 </FormControl>
-                <RemoveIcon />
-                <AddIcon />
+            </Stack>
+            <Stack direction={"row"} spacing={5} justifyContent="center" alignItems="center">
+                <IconButton>
+                    <RemoveIcon />
+                </IconButton>
+                <IconButton>
+                    <AddIcon />
+                </IconButton>
             </Stack>
             <Button variant="contained">Calculate</Button>
             <Divider flexItem />
