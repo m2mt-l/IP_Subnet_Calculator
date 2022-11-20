@@ -16,11 +16,11 @@ import IconButton from "@mui/material/IconButton";
 
 import { generateIPv4Slash } from "../data/ipv4Subnet";
 import { isValidIpv4Address } from "../util/ipv4AddressValidation";
-import IPv4ResultTable from "./IPv4ResultTable";
-import InputIPv4AddressForSummary from "./uiParts/InputIPv4AddressForSummary";
-import SelectIPv4Subnet from "./uiParts/SelectIPv4Subnet";
 import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
+import InputIPv4AddressForSummary from "./uiParts/InputIPv4AddressForSummary";
+import SelectIPv4Subnet from "./uiParts/SelectIPv4Subnet";
+import CalculateButton from "./uiParts/CalculateButton";
 
 const IPv4Summary: FC = () => {
     const subnetString = generateIPv4Slash();
@@ -50,7 +50,7 @@ const IPv4Summary: FC = () => {
                     <AddIcon />
                 </IconButton>
             </Stack>
-            <Button variant="contained">Calculate</Button>
+            <CalculateButton />
             <Divider flexItem />
         </Stack>
     );
