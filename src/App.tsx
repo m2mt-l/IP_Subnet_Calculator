@@ -7,6 +7,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
+import { AppContextProvider } from "./contexts/AppContext";
+
 const App: React.FunctionComponent = () => {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
     const theme = React.useMemo(
@@ -22,7 +24,9 @@ const App: React.FunctionComponent = () => {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <MainPage />
+            <AppContextProvider>
+                <MainPage />
+            </AppContextProvider>
         </ThemeProvider>
     );
 };

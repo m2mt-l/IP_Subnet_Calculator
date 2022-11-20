@@ -1,4 +1,4 @@
-import React, { FC, useState, ChangeEvent } from "react";
+import React, { FC, useState, ChangeEvent, useContext } from "react";
 
 // Material UI
 import TextField from "@mui/material/TextField";
@@ -25,8 +25,6 @@ import AddAddressAndSubnetIcon from "./uiParts/AddAddressAndSubnetIcon";
 import RemoveAddressAndSubnetIcon from "./uiParts/RemoveAddressAndSubnetIcon";
 
 const IPv4Summary: FC = () => {
-    const subnetString = generateIPv4Slash();
-
     return (
         <Stack spacing={2}>
             <Stack
