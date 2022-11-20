@@ -21,6 +21,8 @@ import { IPv4Address } from "../model/IPv4Address";
 import InputIPv4AddressForSummary from "./uiParts/InputIPv4AddressForSummary";
 import SelectIPv4Subnet from "./uiParts/SelectIPv4Subnet";
 import CalculateButton from "./uiParts/CalculateButton";
+import AddAddressAndSubnetIcon from "./uiParts/AddAddressAndSubnetIcon";
+import RemoveAddressAndSubnetIcon from "./uiParts/RemoveAddressAndSubnetIcon";
 
 const IPv4Summary: FC = () => {
     const subnetString = generateIPv4Slash();
@@ -43,12 +45,8 @@ const IPv4Summary: FC = () => {
                 <SelectIPv4Subnet />
             </Stack>
             <Stack direction={"row"} spacing={5} justifyContent="center" alignItems="center">
-                <IconButton>
-                    <RemoveIcon />
-                </IconButton>
-                <IconButton>
-                    <AddIcon />
-                </IconButton>
+                <RemoveAddressAndSubnetIcon />
+                <AddAddressAndSubnetIcon />
             </Stack>
             <CalculateButton />
             <Divider flexItem />
