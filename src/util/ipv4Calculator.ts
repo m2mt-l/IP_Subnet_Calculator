@@ -1,18 +1,20 @@
 import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
 import { ipv4TypeKey } from "../data/ipv4ResultTable";
+import { IPv4Address } from "../model/IPv4Address";
 
-export function ipv4Calculator(type: string, ipv4Address: string, subnet: string): string {
+export function ipv4Calculator(type: string, ipv4Address: IPv4Address): string {
+    const { ipAddress, subnet } = ipv4Address;
     const ipv4CalculatorHashmap: { [key: string]: string } = {
-        [ipv4TypeKey.ipAddress]: displayIPv4Address(ipv4Address, subnet),
-        [ipv4TypeKey.networkAddress]: getIPv4NetworkAddress(ipv4Address, subnet),
-        [ipv4TypeKey.hostAddressRange]: getIPv4HostAddressRange(ipv4Address, subnet),
+        [ipv4TypeKey.ipAddress]: displayIPv4Address(ipAddress, subnet),
+        [ipv4TypeKey.networkAddress]: getIPv4NetworkAddress(ipAddress, subnet),
+        [ipv4TypeKey.hostAddressRange]: getIPv4HostAddressRange(ipAddress, subnet),
         [ipv4TypeKey.numberOfHosts]: getIPv4NumberOfHosts(subnet),
-        [ipv4TypeKey.broadcastAddress]: getIPv4BroadcastAddress(ipv4Address, subnet),
+        [ipv4TypeKey.broadcastAddress]: getIPv4BroadcastAddress(ipAddress, subnet),
         [ipv4TypeKey.subnetMask]: getIPv4SubnetMask(subnet),
-        [ipv4TypeKey.ipType]: getIPv4Type(ipv4Address),
-        [ipv4TypeKey.networkClass]: getIPv4NetworkClass(ipv4Address),
-        [ipv4TypeKey.ipv4Mapped]: getIPv4MappedAddress(ipv4Address),
-        [ipv4TypeKey.sixToFour]: getSixToFourAddress(ipv4Address),
+        [ipv4TypeKey.ipType]: getIPv4Type(ipAddress),
+        [ipv4TypeKey.networkClass]: getIPv4NetworkClass(ipAddress),
+        [ipv4TypeKey.ipv4Mapped]: getIPv4MappedAddress(ipAddress),
+        [ipv4TypeKey.sixToFour]: getSixToFourAddress(ipAddress),
     };
     return ipv4CalculatorHashmap[type];
 }

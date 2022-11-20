@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,7 +12,8 @@ import { ipv6ResultTable } from "../data/ipv6ResultTable";
 import { ipv6Calculator } from "../util/ipv6Calculator";
 import { IPv6Address } from "../model/IPv6Address";
 
-const IPv6ResultTable: FC<IPv6Address> = (props) => {
+const IPv6ResultTable: FC<IPv6Address> = memo(function IPv6ResultTableComponent(props) {
+    // console.log("check render IPv6ResultTable");
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 370, maxWidth: 500 }} aria-label="simple table">
@@ -27,6 +28,6 @@ const IPv6ResultTable: FC<IPv6Address> = (props) => {
             </Table>
         </TableContainer>
     );
-};
+});
 
 export default IPv6ResultTable;

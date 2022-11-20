@@ -26,7 +26,7 @@ The arguments are only ipv6Address(string) or subnet(string).
 function displayIPAddress(ipv6Address: IPv6Address): string {
     const { ipAddress, subnet, isShort } = ipv6Address;
     const fullIPv6Address: string[] = getFullIPv6Address(ipAddress);
-    if (isShort === true) {
+    if (isShort) {
         return getShortenIPv6Address(fullIPv6Address).join(defaultStringValue.colon) + "/" + subnet;
     } else return fullIPv6Address.join(defaultStringValue.colon) + "/" + subnet;
 }
@@ -57,7 +57,7 @@ function getIPAddressRange(ipv6Address: IPv6Address): string {
     const fullIPv6Address: string[] = getFullIPv6Address(ipAddress);
     const { startIPv6Address, endIPv6Address } = getStartAndEndIPv6Address(fullIPv6Address, subnet);
 
-    if (isShort === true) {
+    if (isShort) {
         return (
             getShortenIPv6Address(startIPv6Address).join(defaultStringValue.colon) +
             " - " +
@@ -160,20 +160,15 @@ function getShortenIPv6Address(fullIPv6address: string[]): string[] {
 
     if (zeroBitCount === 0) {
         for (let i = 0; i <= tailOctetIndex; i++) {
-            let octet = fullIPv6address[i];
-            while (octet[0] === "0") {
-                octet = omitFrontZero(octet);
-            }
+            const octet: string = omitFrontZeroFromOctet(fullIPv6address[i]);
             shortenIPv6Address.push(octet);
         }
     } else if (zeroBitCount === 1) {
         for (let i = 0; i <= tailOctetIndex; i++) {
-            let octet = fullIPv6address[i];
-            if (octet === defaultStringValue.allZeroBitOctet) shortenIPv6Address.push("0");
+            if (fullIPv6address[i] === defaultStringValue.allZeroBitOctet)
+                shortenIPv6Address.push("0");
             else {
-                while (octet[0] === "0") {
-                    octet = omitFrontZero(octet);
-                }
+                const octet: string = omitFrontZeroFromOctet(fullIPv6address[i]);
                 shortenIPv6Address.push(octet);
             }
         }
@@ -185,10 +180,7 @@ function getShortenIPv6Address(fullIPv6address: string[]): string[] {
             (octet) => octet !== defaultStringValue.allZeroBitOctet,
         );
         for (let i = 0; i < tempIPv6Address.length; i++) {
-            let octet = tempIPv6Address[i];
-            while (octet[0] === "0") {
-                octet = omitFrontZero(octet);
-            }
+            const octet = omitFrontZeroFromOctet(tempIPv6Address[i]);
             shortenIPv6Address.push(octet);
         }
         shortenIPv6Address.splice(zeroIndex, 0, "");
@@ -198,9 +190,11 @@ function getShortenIPv6Address(fullIPv6address: string[]): string[] {
     return shortenIPv6Address;
 }
 
-function omitFrontZero(octet: string): string {
-    if (octet[0] !== "0") return octet;
-    else return octet.slice(1);
+function omitFrontZeroFromOctet(octet: string): string {
+    while (octet[0] === "0") {
+        octet = octet.slice(1);
+    }
+    return octet;
 }
 
 function getStartAndEndIPv6Address(
@@ -236,9 +230,6 @@ function getStartAndEndIPv6Address(
         return ipAddressRange;
     }
 
-    let targetOctetForStart = defaultStringValue.allZeroBitOctet;
-    let targetOctetForEnd = defaultStringValue.allOneBitOctet;
-
     for (let i = 0; i < ipv6Address.length; i++) {
         if (i < targetOctetIndex) {
             startIPv6Address.push(ipv6Address[i]);
@@ -265,11 +256,15 @@ function getStartAndEndIPv6Address(
             // /67 -> frontOctet = ""
             const frontOctet: string = ipv6Address[i].slice(0, hexIndexInOctet);
             // "" + "2" + "000" = "2000"
-            targetOctetForStart =
-                frontOctet + targetBitHexForStart + targetOctetForStart.slice(hexIndexInOctet + 1);
+            const targetOctetForStart =
+                frontOctet +
+                targetBitHexForStart +
+                defaultStringValue.allZeroBitOctet.slice(hexIndexInOctet + 1);
             // "" + "3" + "fff" = "3fff"
-            targetOctetForEnd =
-                frontOctet + targetBitHexForEnd + targetOctetForEnd.slice(hexIndexInOctet + 1);
+            const targetOctetForEnd =
+                frontOctet +
+                targetBitHexForEnd +
+                defaultStringValue.allOneBitOctet.slice(hexIndexInOctet + 1);
             startIPv6Address.push(targetOctetForStart);
             endIPv6Address.push(targetOctetForEnd);
         }

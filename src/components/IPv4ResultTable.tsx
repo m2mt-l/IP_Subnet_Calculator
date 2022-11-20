@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, memo } from "react";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -17,8 +17,10 @@ import CopyToClipBoard from "react-copy-to-clipboard";
 
 import { ipv4ResultTable } from "../data/ipv4ResultTable";
 import { ipv4Calculator } from "../util/ipv4Calculator";
+import { IPv4Address } from "../model/IPv4Address";
 
-const IPv4ResultTable: FC<{ ipv4Address: string; subnet: string }> = ({ ipv4Address, subnet }) => {
+const IPv4ResultTable: FC<IPv4Address> = memo(function IPv4ResultTable(props) {
+    // console.log("check render IPv4ResultTable");
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 370, maxWidth: 500 }} aria-label="simple table">
@@ -26,15 +28,13 @@ const IPv4ResultTable: FC<{ ipv4Address: string; subnet: string }> = ({ ipv4Addr
                     {ipv4ResultTable.map((type, index) => (
                         <TableRow key={index}>
                             <TableCell>{type}</TableCell>
-                            <TableCell align="right">
-                                {ipv4Calculator(type, ipv4Address, subnet)}
-                            </TableCell>
+                            <TableCell align="right">{ipv4Calculator(type, props)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
         </TableContainer>
     );
-};
+});
 
 export default IPv4ResultTable;

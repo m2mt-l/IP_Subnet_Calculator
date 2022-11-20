@@ -1,4 +1,4 @@
-import React, { FC, useState, ChangeEvent } from "react";
+import React, { FC, useState, ChangeEvent, memo } from "react";
 
 // Material UI
 import TextField from "@mui/material/TextField";
@@ -14,10 +14,11 @@ import Divider from "@mui/material/Divider";
 import { generateIPv4Slash } from "../data/ipv4Subnet";
 import { isValidIpv4Address } from "../util/ipv4AddressValidation";
 import IPv4ResultTable from "./IPv4ResultTable";
-import { DefaultIPv4 } from "../data/ipv4InputDefaultValue";
+import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
+import { getIPv4SubnetValue } from "../util/ipv4Subnet";
 
-const IPv4Subnet: FC = () => {
+const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
     /*
     State
     */
@@ -98,33 +99,25 @@ const IPv4Subnet: FC = () => {
                 >
                     {subnetString.map((subnetString, index) => {
                         return (
-                            <MenuItem
-                                key={index}
-                                value={32 - index} // refactor
-                            >
+                            <MenuItem key={index} value={getIPv4SubnetValue(index)}>
                                 {subnetString}
                             </MenuItem>
                         );
                     })}
                 </Select>
             </FormControl>
-            <Button variant="contained" onClick={handleCalculateClick}>
-                Calculate
+            <Button variant="contained" onClick={handleCalculateClick} data-testid="calculate">
+                {DefaultIPv4.calculate}
             </Button>
             {!isValidIPv4AddressState && (
                 <Typography align="center" sx={{ color: "error.main" }}>
-                    Invalid IP address
+                    {DefaultIPv4.validationError}
                 </Typography>
             )}
             <Divider flexItem />
-            {isCalculated && (
-                <IPv4ResultTable
-                    ipv4Address={addressAndSubnet.ipAddress}
-                    subnet={addressAndSubnet.subnet}
-                />
-            )}
+            {isCalculated && <IPv4ResultTable {...addressAndSubnet} />}
         </Stack>
     );
-};
+});
 
 export default IPv4Subnet;
