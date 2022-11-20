@@ -18,6 +18,7 @@ import { generateIPv4Slash } from "../data/ipv4Subnet";
 import { isValidIpv4Address } from "../util/ipv4AddressValidation";
 import IPv4ResultTable from "./IPv4ResultTable";
 import InputIPv4AddressForSummary from "./uiParts/InputIPv4AddressForSummary";
+import SelectIPv4Subnet from "./uiParts/SelectIPv4Subnet";
 import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
 
@@ -39,27 +40,7 @@ const IPv4Summary: FC = () => {
                 alignItems="center"
             >
                 <InputIPv4AddressForSummary />
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Subnet</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="select-subnet"
-                        data-testid="subnet"
-                        label="Subnet"
-                        defaultValue={DefaultIPv4.subnet}
-                    >
-                        {subnetString.map((subnetString, index) => {
-                            return (
-                                <MenuItem
-                                    key={index}
-                                    value={32 - index} // refactor
-                                >
-                                    {subnetString}
-                                </MenuItem>
-                            );
-                        })}
-                    </Select>
-                </FormControl>
+                <SelectIPv4Subnet />
             </Stack>
             <Stack direction={"row"} spacing={5} justifyContent="center" alignItems="center">
                 <IconButton>
