@@ -36,7 +36,7 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
             component="form"
             spacing={2}
             sx={{
-                "& .MuiTextField-root": { m: 3, width: "25ch" },
+                "& .MuiTextField-root": { m: 1, width: "25ch" },
                 maxWidth: 500,
             }}
             autoComplete="off"
