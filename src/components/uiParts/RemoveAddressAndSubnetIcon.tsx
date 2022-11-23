@@ -24,8 +24,8 @@ const RemoveAddressAndSubnetIcon: FC = memo(function removeAddressAndSubnet() {
                     <RemoveIcon />
                 </IconButton>
             ) : (
-                <IconButton>
-                    <RemoveIcon onClick={removeAddressAndSubnet} />
+                <IconButton onClick={removeAddressAndSubnet}>
+                    <RemoveIcon />
                 </IconButton>
             )}
         </div>

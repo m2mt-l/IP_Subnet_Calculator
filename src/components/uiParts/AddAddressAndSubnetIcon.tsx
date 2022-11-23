@@ -22,8 +22,8 @@ const AddAddressAndSubnetIcon: FC = memo(function addAddressAndSubnet() {
                     <AddIcon />
                 </IconButton>
             ) : (
-                <IconButton>
-                    <AddIcon onClick={addAddressAndSubnet} />
+                <IconButton onClick={addAddressAndSubnet}>
+                    <AddIcon />
                 </IconButton>
             )}
         </div>

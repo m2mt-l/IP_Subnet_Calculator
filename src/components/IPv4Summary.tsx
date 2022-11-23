@@ -27,7 +27,7 @@ import { useAppContext } from "../contexts/AppContext";
 
 const IPv4Summary: FC = memo(function ipv4Summary() {
     const { ipv4SummaryArray } = useAppContext();
-    console.log(ipv4SummaryArray);
+    // console.log(ipv4SummaryArray);
 
     const renderAddressAndSubnet = ipv4SummaryArray.map((ipv4: IPv4Address, index: number) => (
         <Stack
