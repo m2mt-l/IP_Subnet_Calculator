@@ -1,6 +1,6 @@
 import { ipv4TypeKey } from "../../data/ipv4ResultTable";
-import { ipv4Calculator } from "../../util/ipv4Calculator";
 import { IPv4Address } from "../../model/IPv4Address";
+import { ipv4Calculator } from "../../util/ipv4Calculator";
 
 describe("displayIPAddress test", () => {
     const displayClassCData: IPv4Address = {

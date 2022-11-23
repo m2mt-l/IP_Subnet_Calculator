@@ -1,14 +1,12 @@
-import React, { FC, useState, SyntheticEvent, ReactNode, ReactElement } from "react";
-
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { BrowserRouter, Route, Routes, Link, matchPath, useLocation } from "react-router-dom";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import React, { FC, useState, SyntheticEvent, ReactElement } from "react";
+import { Link } from "react-router-dom";
 
 import IPv4Subnet from "./IPv4Subnet";
-import IPv6Subnet from "./IPv6Subnet";
 import IPv4Summary from "./IPv4Summary";
+import IPv6Subnet from "./IPv6Subnet";
 
 interface TabPanelProps {
     children?: React.ReactNode;

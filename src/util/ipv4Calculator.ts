@@ -1,5 +1,5 @@
-import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
 import { ipv4TypeKey } from "../data/ipv4ResultTable";
+import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
 import { IPv4Address } from "../model/IPv4Address";
 
 export function ipv4Calculator(type: string, ipv4Address: IPv4Address): string {

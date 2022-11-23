@@ -1,6 +1,6 @@
-import React, { FC, memo, useEffect } from "react";
-
 import Button from "@mui/material/Button";
+import React, { FC, memo } from "react";
+
 
 import { useAppContext } from "../../contexts/AppContext";
 

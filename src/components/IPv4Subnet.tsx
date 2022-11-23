@@ -1,22 +1,22 @@
-import React, { FC, useState, ChangeEvent, memo } from "react";
 
 // Material UI
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
+import React, { FC, useState, ChangeEvent, memo } from "react";
 
 import { generateIPv4Slash } from "../data/ipv4Subnet";
-import { isValidIpv4Address } from "../util/ipv4AddressValidation";
-import IPv4ResultTable from "./IPv4ResultTable";
 import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
+import { isValidIpv4Address } from "../util/ipv4AddressValidation";
 import { getIPv4SubnetValue } from "../util/ipv4Subnet";
+import IPv4ResultTable from "./IPv4ResultTable";
 
 const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
     /*

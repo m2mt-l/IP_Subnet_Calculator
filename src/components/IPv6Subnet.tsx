@@ -1,22 +1,22 @@
-import React, { FC, useState, ChangeEvent, memo } from "react";
 
 // Material UI
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
+import React, { FC, useState, ChangeEvent, memo } from "react";
 
 import { generateIpv6Slash, shortOrLong } from "../data/ipv6Subnet";
-import { isValidIpv6Address } from "../util/ipv6AddressValidation";
-import IPv6ResultTable from "./IPv6ResultTable";
 import { DefaultIPv6 } from "../data/ipv6SubnetDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
+import { isValidIpv6Address } from "../util/ipv6AddressValidation";
 import { getIPv6SubnetValue } from "../util/ipv6Subnet";
+import IPv6ResultTable from "./IPv6ResultTable";
 
 const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
     /*
@@ -82,7 +82,7 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
         setAddressAndSubnet({
             ipAddress: ipv6Address,
             subnet: ipv6Subnet,
-            isShort: isShort,
+            isShort,
         });
     };
 

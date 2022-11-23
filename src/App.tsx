@@ -1,12 +1,10 @@
+import CssBaseline from "@mui/material/CssBaseline";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import React from "react";
-import logo from "./logo.svg";
+
 import "./App.css";
 import MainPage from "./components/MainPage";
-
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-
 import { AppContextProvider } from "./contexts/AppContext";
 
 const App: React.FunctionComponent = () => {

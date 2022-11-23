@@ -1,6 +1,6 @@
-import React, { FC, memo } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import IconButton from "@mui/material/IconButton";
+import React, { FC, memo } from "react";
 
 import { useAppContext } from "../../contexts/AppContext";
 
