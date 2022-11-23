@@ -11,10 +11,22 @@ const AddAddressAndSubnetIcon: FC = memo(function addAddressAndSubnet() {
         setIPv4SummaryArray([...ipv4SummaryArray, { ipAddress: "", subnet: "24" }]);
     };
 
+    const isMaximumIPv4SummaryArray = (): boolean => {
+        return ipv4SummaryArray.length >= 10;
+    };
+
     return (
-        <IconButton>
-            <AddIcon onClick={addAddressAndSubnet} />
-        </IconButton>
+        <div>
+            {isMaximumIPv4SummaryArray() ? (
+                <IconButton disabled>
+                    <AddIcon />
+                </IconButton>
+            ) : (
+                <IconButton>
+                    <AddIcon onClick={addAddressAndSubnet} />
+                </IconButton>
+            )}
+        </div>
     );
 });
 
