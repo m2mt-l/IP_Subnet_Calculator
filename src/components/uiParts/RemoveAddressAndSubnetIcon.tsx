@@ -13,10 +13,22 @@ const RemoveAddressAndSubnetIcon: FC = memo(function removeAddressAndSubnet() {
         );
     };
 
+    const isMinimumIPv4SummaryArray = (): boolean => {
+        return ipv4SummaryArray.length <= 2;
+    };
+
     return (
-        <IconButton>
-            <RemoveIcon onClick={removeAddressAndSubnet} />
-        </IconButton>
+        <div>
+            {isMinimumIPv4SummaryArray() ? (
+                <IconButton disabled>
+                    <RemoveIcon />
+                </IconButton>
+            ) : (
+                <IconButton>
+                    <RemoveIcon onClick={removeAddressAndSubnet} />
+                </IconButton>
+            )}
+        </div>
     );
 });
 
