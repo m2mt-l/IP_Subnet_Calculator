@@ -5,8 +5,6 @@ import { IPv4Address } from "../model/IPv4Address";
 interface AppContextValue {
     ipv4SummaryArray: IPv4Address[];
     setIPv4SummaryArray: (ipv4array: IPv4Address[]) => void;
-    addressAndSubnetForSummary: IPv4Address;
-    setAddressAndSubnetForSummary: (addressAndSubnet: IPv4Address) => void;
 }
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
@@ -25,16 +23,9 @@ export const AppContextProvider = ({ children }: { children: ReactNode }): React
         { ipAddress: "", subnet: "24" },
     ]);
 
-    const [addressAndSubnetForSummary, setAddressAndSubnetForSummary] = useState({
-        ipAddress: "",
-        subnet: "24",
-    });
-
     const value = {
         ipv4SummaryArray,
         setIPv4SummaryArray,
-        addressAndSubnetForSummary,
-        setAddressAndSubnetForSummary,
     };
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

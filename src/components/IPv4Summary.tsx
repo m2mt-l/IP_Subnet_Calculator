@@ -20,28 +20,28 @@ import RemoveAddressAndSubnetIcon from "./uiParts/RemoveAddressAndSubnetIcon";
 
 const IPv4Summary: FC = memo(function ipv4Summary() {
     const subnetString = generateIPv4Slash();
-    const { addressAndSubnetForSummary, setAddressAndSubnetForSummary } = useAppContext();
     const { ipv4SummaryArray, setIPv4SummaryArray } = useAppContext();
 
     const handleIPv4AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { value, id } = event.target;
-        setAddressAndSubnetForSummary({ ...addressAndSubnetForSummary, ipAddress: value });
         setIPv4SummaryArray(
-            ipv4SummaryArray.map((value, index) =>
-                index === parseInt(id, 10) ? addressAndSubnetForSummary : value,
+            ipv4SummaryArray.map((ipv4Address, index) =>
+                index === parseInt(id, 10)
+                    ? { ...ipv4SummaryArray[index], ipAddress: value }
+                    : ipv4Address,
             ),
         );
-        // console.log(ipv4SummaryArray);
     };
 
     const handleSubnetChange = (event: SelectChangeEvent, selectedIndex: number): void => {
         const { value } = event.target;
         // console.log(selectedIndex);
         // console.log(value);
-        setAddressAndSubnetForSummary({ ...addressAndSubnetForSummary, subnet: value });
         setIPv4SummaryArray(
-            ipv4SummaryArray.map((value, index) =>
-                index === selectedIndex ? addressAndSubnetForSummary : value,
+            ipv4SummaryArray.map((ipv4Address, index) =>
+                index === selectedIndex
+                    ? { ...ipv4SummaryArray[index], subnet: value }
+                    : ipv4Address,
             ),
         );
     };
