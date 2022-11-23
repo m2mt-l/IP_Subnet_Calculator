@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import React, { FC, ChangeEvent, memo } from "react";
 
 // Material UI
@@ -21,6 +22,7 @@ import RemoveAddressAndSubnetIcon from "./uiParts/RemoveAddressAndSubnetIcon";
 const IPv4Summary: FC = memo(function ipv4Summary() {
     const subnetString = generateIPv4Slash();
     const { ipv4SummaryArray, setIPv4SummaryArray } = useAppContext();
+    const { allValidIPv4AddressesExist, setAllValidIPv4AddressesExist } = useAppContext();
 
     const handleIPv4AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { value, id } = event.target;
@@ -100,6 +102,11 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
                 <AddAddressAndSubnetIcon />
             </Stack>
             <CalculateButton />
+            {!allValidIPv4AddressesExist && (
+                <Typography align="center" sx={{ color: "error.main" }}>
+                    {DefaultIPv4.validationError}
+                </Typography>
+            )}
             <Divider flexItem />
         </Stack>
     );

@@ -5,6 +5,8 @@ import { IPv4Address } from "../model/IPv4Address";
 interface AppContextValue {
     ipv4SummaryArray: IPv4Address[];
     setIPv4SummaryArray: (ipv4array: IPv4Address[]) => void;
+    allValidIPv4AddressesExist: boolean;
+    setAllValidIPv4AddressesExist: (switchValidIPv4: boolean) => void;
 }
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
@@ -23,9 +25,13 @@ export const AppContextProvider = ({ children }: { children: ReactNode }): React
         { ipAddress: "", subnet: "24" },
     ]);
 
+    const [allValidIPv4AddressesExist, setAllValidIPv4AddressesExist] = useState(true);
+
     const value = {
         ipv4SummaryArray,
         setIPv4SummaryArray,
+        allValidIPv4AddressesExist,
+        setAllValidIPv4AddressesExist,
     };
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
