@@ -16,8 +16,41 @@ module.exports = {
         sourceType: "module",
         project: "./tsconfig.json",
     },
-    plugins: ["react", "@typescript-eslint", "jest", "prettier"],
+    plugins: ["react", "@typescript-eslint", "jest", "prettier", "import", "unused-imports"],
     rules: {
+        "import/order": [
+            "error",
+            {
+                groups: [
+                    "builtin",
+                    "external",
+                    "internal",
+                    ["parent", "sibling"],
+                    "object",
+                    "type",
+                    "index",
+                ],
+                "newlines-between": "always",
+                pathGroupsExcludedImportTypes: ["builtin"],
+                alphabetize: {
+                    order: "asc",
+                    caseInsensitive: true,
+                },
+                pathGroups: [
+                    {
+                        pattern: "@/components/common",
+                        group: "internal",
+                        position: "before",
+                    },
+                    {
+                        pattern: "@/components/hooks",
+                        group: "internal",
+                        position: "before",
+                    },
+                ],
+            },
+        ],
+        "unused-imports/no-unused-imports": "error",
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": "off",
         "import/prefer-default-export": "off",
