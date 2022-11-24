@@ -1,6 +1,6 @@
 import { ipv4TypeKey } from "../../data/ipv4ResultTable";
 import { IPv4Address } from "../../model/IPv4Address";
-import { ipv4Calculator } from "../../util/ipv4SubnetCalculator";
+import { ipv4SubnetCalculator } from "../../util/ipv4SubnetCalculator";
 
 describe("getIPv4Type test", () => {
     const classAPrivateData: IPv4Address = {
@@ -49,26 +49,26 @@ describe("getIPv4Type test", () => {
     };
 
     test("Class A private", () => {
-        expect(ipv4Calculator(ipv4TypeKey.ipType, classAPrivateData)).toBe("Private");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.ipType, classAPrivateData)).toBe("Private");
     });
 
     test("Class A global", () => {
-        expect(ipv4Calculator(ipv4TypeKey.ipType, classAGlobalData)).toBe("Global");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.ipType, classAGlobalData)).toBe("Global");
     });
 
     test("Class B private", () => {
-        expect(ipv4Calculator(ipv4TypeKey.ipType, classBPrivateData)).toBe("Private");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.ipType, classBPrivateData)).toBe("Private");
     });
 
     test("Class B global", () => {
-        expect(ipv4Calculator(ipv4TypeKey.ipType, classBGlobalData)).toBe("Global");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.ipType, classBGlobalData)).toBe("Global");
     });
 
     test("Class C private", () => {
-        expect(ipv4Calculator(ipv4TypeKey.ipType, classCPrivateData)).toBe("Private");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.ipType, classCPrivateData)).toBe("Private");
     });
 
     test("Class C global", () => {
-        expect(ipv4Calculator(ipv4TypeKey.ipType, classCGlobalData)).toBe("Global");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.ipType, classCGlobalData)).toBe("Global");
     });
 });

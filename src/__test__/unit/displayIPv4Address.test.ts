@@ -1,6 +1,6 @@
 import { ipv4TypeKey } from "../../data/ipv4ResultTable";
 import { IPv4Address } from "../../model/IPv4Address";
-import { ipv4Calculator } from "../../util/ipv4SubnetCalculator";
+import { ipv4SubnetCalculator } from "../../util/ipv4SubnetCalculator";
 
 describe("displayIPAddress test", () => {
     const displayClassCData: IPv4Address = {
@@ -9,6 +9,8 @@ describe("displayIPAddress test", () => {
     };
 
     test("ipv4 address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.ipAddress, displayClassCData)).toBe("192.168.0.1/24");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.ipAddress, displayClassCData)).toBe(
+            "192.168.0.1/24",
+        );
     });
 });

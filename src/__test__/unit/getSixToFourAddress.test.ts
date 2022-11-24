@@ -1,6 +1,6 @@
 import { ipv4TypeKey } from "../../data/ipv4ResultTable";
 import { IPv4Address } from "../../model/IPv4Address";
-import { ipv4Calculator } from "../../util/ipv4SubnetCalculator";
+import { ipv4SubnetCalculator } from "../../util/ipv4SubnetCalculator";
 
 describe("getSixToFourAddress test", () => {
     const classAData: IPv4Address = {
@@ -19,14 +19,14 @@ describe("getSixToFourAddress test", () => {
     };
 
     test("Class A", () => {
-        expect(ipv4Calculator(ipv4TypeKey.sixToFour, classAData)).toBe("2002:0a05.0207::/48");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.sixToFour, classAData)).toBe("2002:0a05.0207::/48");
     });
 
     test("Class B", () => {
-        expect(ipv4Calculator(ipv4TypeKey.sixToFour, classBData)).toBe("2002:ac10.0343::/48");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.sixToFour, classBData)).toBe("2002:ac10.0343::/48");
     });
 
     test("Class C", () => {
-        expect(ipv4Calculator(ipv4TypeKey.sixToFour, classCData)).toBe("2002:c0a8.0001::/48");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.sixToFour, classCData)).toBe("2002:c0a8.0001::/48");
     });
 });

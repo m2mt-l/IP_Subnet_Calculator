@@ -8,7 +8,7 @@ import React, { FC, memo } from "react";
 
 import { ipv4ResultTable } from "../data/ipv4ResultTable";
 import { IPv4Address } from "../model/IPv4Address";
-import { ipv4Calculator } from "../util/ipv4SubnetCalculator";
+import { ipv4SubnetCalculator } from "../util/ipv4SubnetCalculator";
 
 const IPv4ResultTable: FC<IPv4Address> = memo(function IPv4ResultTable(props) {
     // console.log("check render IPv4ResultTable");
@@ -19,7 +19,7 @@ const IPv4ResultTable: FC<IPv4Address> = memo(function IPv4ResultTable(props) {
                     {ipv4ResultTable.map((type, index) => (
                         <TableRow key={index}>
                             <TableCell>{type}</TableCell>
-                            <TableCell align="right">{ipv4Calculator(type, props)}</TableCell>
+                            <TableCell align="right">{ipv4SubnetCalculator(type, props)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

@@ -1,6 +1,6 @@
 import { ipv4TypeKey } from "../../data/ipv4ResultTable";
 import { IPv4Address } from "../../model/IPv4Address";
-import { ipv4Calculator } from "../../util/ipv4SubnetCalculator";
+import { ipv4SubnetCalculator } from "../../util/ipv4SubnetCalculator";
 
 describe("getIPv4MappedAddress test", () => {
     const classAData: IPv4Address = {
@@ -19,14 +19,14 @@ describe("getIPv4MappedAddress test", () => {
     };
 
     test("Class A", () => {
-        expect(ipv4Calculator(ipv4TypeKey.ipv4Mapped, classAData)).toBe("::ffff:0a05.0207");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.ipv4Mapped, classAData)).toBe("::ffff:0a05.0207");
     });
 
     test("Class B", () => {
-        expect(ipv4Calculator(ipv4TypeKey.ipv4Mapped, classBData)).toBe("::ffff:ac10.0343");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.ipv4Mapped, classBData)).toBe("::ffff:ac10.0343");
     });
 
     test("Class C", () => {
-        expect(ipv4Calculator(ipv4TypeKey.ipv4Mapped, classCData)).toBe("::ffff:c0a8.0001");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.ipv4Mapped, classCData)).toBe("::ffff:c0a8.0001");
     });
 });

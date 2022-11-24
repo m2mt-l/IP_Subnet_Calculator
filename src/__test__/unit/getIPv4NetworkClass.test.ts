@@ -1,6 +1,6 @@
 import { ipv4TypeKey } from "../../data/ipv4ResultTable";
 import { IPv4Address } from "../../model/IPv4Address";
-import { ipv4Calculator } from "../../util/ipv4SubnetCalculator";
+import { ipv4SubnetCalculator } from "../../util/ipv4SubnetCalculator";
 
 describe("getIPv4NetworkClass test", () => {
     const classAStartData: IPv4Address = {
@@ -49,38 +49,40 @@ describe("getIPv4NetworkClass test", () => {
     };
 
     test("Class A start", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkClass, classAStartData)).toBe("A");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkClass, classAStartData)).toBe("A");
     });
 
     test("Class A end", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkClass, classAEndData)).toBe("A");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkClass, classAEndData)).toBe("A");
     });
 
     test("Class B start", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkClass, classBStartData)).toBe("B");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkClass, classBStartData)).toBe("B");
     });
 
     test("Class B end", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkClass, classBEndData)).toBe("B");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkClass, classBEndData)).toBe("B");
     });
 
     test("Class C start", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkClass, classCStartData)).toBe("C");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkClass, classCStartData)).toBe("C");
     });
 
     test("Class C end", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkClass, classCEndData)).toBe("C");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkClass, classCEndData)).toBe("C");
     });
 
     test("Class D start", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkClass, classDStartData)).toBe("D(Multicast)");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkClass, classDStartData)).toBe(
+            "D(Multicast)",
+        );
     });
 
     test("Class D end", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkClass, classDEndData)).toBe("D(Multicast)");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkClass, classDEndData)).toBe("D(Multicast)");
     });
 
     test("Class E", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkClass, classEData)).toBe("E");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkClass, classEData)).toBe("E");
     });
 });

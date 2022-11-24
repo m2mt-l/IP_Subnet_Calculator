@@ -1,6 +1,6 @@
 import { ipv4TypeKey } from "../../data/ipv4ResultTable";
 import { IPv4Address } from "../../model/IPv4Address";
-import { ipv4Calculator } from "../../util/ipv4SubnetCalculator";
+import { ipv4SubnetCalculator } from "../../util/ipv4SubnetCalculator";
 
 describe("getIPv4NumberOfHosts test", () => {
     const subnetZeroData: IPv4Address = {
@@ -39,30 +39,32 @@ describe("getIPv4NumberOfHosts test", () => {
     };
 
     test("ipv4 /0 number of hosts", () => {
-        expect(ipv4Calculator(ipv4TypeKey.numberOfHosts, subnetZeroData)).toBe("4,294,967,294");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.numberOfHosts, subnetZeroData)).toBe(
+            "4,294,967,294",
+        );
     });
 
     test("ipv4 /8 number of hosts", () => {
-        expect(ipv4Calculator(ipv4TypeKey.numberOfHosts, subnetEightData)).toBe("16,777,214");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.numberOfHosts, subnetEightData)).toBe("16,777,214");
     });
 
     test("ipv4 /16 number of hosts", () => {
-        expect(ipv4Calculator(ipv4TypeKey.numberOfHosts, subnetSixteenData)).toBe("65,534");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.numberOfHosts, subnetSixteenData)).toBe("65,534");
     });
 
     test("ipv4 /24 number of hosts", () => {
-        expect(ipv4Calculator(ipv4TypeKey.numberOfHosts, subnetTwentyFourData)).toBe("254");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.numberOfHosts, subnetTwentyFourData)).toBe("254");
     });
 
     test("ipv4 /30 number of hosts", () => {
-        expect(ipv4Calculator(ipv4TypeKey.numberOfHosts, subnetThirtyData)).toBe("2");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.numberOfHosts, subnetThirtyData)).toBe("2");
     });
 
     test("ipv4 /31 number of hosts", () => {
-        expect(ipv4Calculator(ipv4TypeKey.numberOfHosts, subnetThirtyOneData)).toBe("0");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.numberOfHosts, subnetThirtyOneData)).toBe("0");
     });
 
     test("ipv4 /32 number of hosts", () => {
-        expect(ipv4Calculator(ipv4TypeKey.numberOfHosts, subnetThirtyTwoData)).toBe("0");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.numberOfHosts, subnetThirtyTwoData)).toBe("0");
     });
 });

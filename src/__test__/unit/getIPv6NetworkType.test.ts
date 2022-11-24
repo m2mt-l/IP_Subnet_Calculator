@@ -1,6 +1,6 @@
 import { ipv6TypeKey } from "../../data/ipv6ResultTable";
 import { IPv6Address } from "../../model/IPv6Address";
-import { ipv6Calculator } from "../../util/ipv6SubnetCalculator";
+import { ipv6SubnetCalculator } from "../../util/ipv6SubnetCalculator";
 
 describe("getNetworkType test", () => {
     const multicastTestData: IPv6Address = {
@@ -34,20 +34,24 @@ describe("getNetworkType test", () => {
     };
 
     test("multicast", () => {
-        expect(ipv6Calculator(ipv6TypeKey.networkType, multicastTestData)).toBe("Multicast");
+        expect(ipv6SubnetCalculator(ipv6TypeKey.networkType, multicastTestData)).toBe("Multicast");
     });
     test("link-local", () => {
-        expect(ipv6Calculator(ipv6TypeKey.networkType, linkLocalTestData)).toBe(
+        expect(ipv6SubnetCalculator(ipv6TypeKey.networkType, linkLocalTestData)).toBe(
             "Link-Local Unicast",
         );
     });
     test("unspecified", () => {
-        expect(ipv6Calculator(ipv6TypeKey.networkType, unspecifiedTestData)).toBe("Unspecified");
+        expect(ipv6SubnetCalculator(ipv6TypeKey.networkType, unspecifiedTestData)).toBe(
+            "Unspecified",
+        );
     });
     test("loopback", () => {
-        expect(ipv6Calculator(ipv6TypeKey.networkType, loopbackTestData)).toBe("Loopback");
+        expect(ipv6SubnetCalculator(ipv6TypeKey.networkType, loopbackTestData)).toBe("Loopback");
     });
     test("global", () => {
-        expect(ipv6Calculator(ipv6TypeKey.networkType, globalTestData)).toBe("Global Unicast");
+        expect(ipv6SubnetCalculator(ipv6TypeKey.networkType, globalTestData)).toBe(
+            "Global Unicast",
+        );
     });
 });

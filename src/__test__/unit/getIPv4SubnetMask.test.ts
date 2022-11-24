@@ -1,6 +1,6 @@
 import { ipv4TypeKey } from "../../data/ipv4ResultTable";
 import { IPv4Address } from "../../model/IPv4Address";
-import { ipv4Calculator } from "../../util/ipv4SubnetCalculator";
+import { ipv4SubnetCalculator } from "../../util/ipv4SubnetCalculator";
 
 describe("getIPv4SubnetMask test", () => {
     const subnetZeroData: IPv4Address = {
@@ -39,30 +39,38 @@ describe("getIPv4SubnetMask test", () => {
     };
 
     test("ipv4 /0 subnet mask", () => {
-        expect(ipv4Calculator(ipv4TypeKey.subnetMask, subnetZeroData)).toBe("0.0.0.0");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.subnetMask, subnetZeroData)).toBe("0.0.0.0");
     });
 
     test("ipv4 /8 subnet mask", () => {
-        expect(ipv4Calculator(ipv4TypeKey.subnetMask, subnetEightData)).toBe("255.0.0.0");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.subnetMask, subnetEightData)).toBe("255.0.0.0");
     });
 
     test("ipv4 /16 subnet mask", () => {
-        expect(ipv4Calculator(ipv4TypeKey.subnetMask, subnetSixteenData)).toBe("255.255.0.0");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.subnetMask, subnetSixteenData)).toBe("255.255.0.0");
     });
 
     test("ipv4 /24 subnet mask", () => {
-        expect(ipv4Calculator(ipv4TypeKey.subnetMask, subnetTwentyFourData)).toBe("255.255.255.0");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.subnetMask, subnetTwentyFourData)).toBe(
+            "255.255.255.0",
+        );
     });
 
     test("ipv4 /30 subnet mask", () => {
-        expect(ipv4Calculator(ipv4TypeKey.subnetMask, subnetThirtyData)).toBe("255.255.255.252");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.subnetMask, subnetThirtyData)).toBe(
+            "255.255.255.252",
+        );
     });
 
     test("ipv4 /31 subnet mask", () => {
-        expect(ipv4Calculator(ipv4TypeKey.subnetMask, subnetThirtyOneData)).toBe("255.255.255.254");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.subnetMask, subnetThirtyOneData)).toBe(
+            "255.255.255.254",
+        );
     });
 
     test("ipv4 /32 subnet mask", () => {
-        expect(ipv4Calculator(ipv4TypeKey.subnetMask, subnetThirtyTwoData)).toBe("255.255.255.255");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.subnetMask, subnetThirtyTwoData)).toBe(
+            "255.255.255.255",
+        );
     });
 });

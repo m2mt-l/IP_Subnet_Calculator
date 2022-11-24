@@ -8,7 +8,7 @@ import React, { FC, memo } from "react";
 
 import { ipv6ResultTable } from "../data/ipv6ResultTable";
 import { IPv6Address } from "../model/IPv6Address";
-import { ipv6Calculator } from "../util/ipv6SubnetCalculator";
+import { ipv6SubnetCalculator } from "../util/ipv6SubnetCalculator";
 
 const IPv6ResultTable: FC<IPv6Address> = memo(function IPv6ResultTableComponent(props) {
     // console.log("check render IPv6ResultTable");
@@ -19,7 +19,7 @@ const IPv6ResultTable: FC<IPv6Address> = memo(function IPv6ResultTableComponent(
                     {ipv6ResultTable.map((type, index) => (
                         <TableRow key={index}>
                             <TableCell>{type}</TableCell>
-                            <TableCell align="right">{ipv6Calculator(type, props)}</TableCell>
+                            <TableCell align="right">{ipv6SubnetCalculator(type, props)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

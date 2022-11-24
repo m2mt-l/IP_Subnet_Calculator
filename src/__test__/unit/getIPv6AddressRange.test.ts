@@ -1,6 +1,6 @@
 import { ipv6TypeKey } from "../../data/ipv6ResultTable";
 import { IPv6Address } from "../../model/IPv6Address";
-import { ipv6Calculator } from "../../util/ipv6SubnetCalculator";
+import { ipv6SubnetCalculator } from "../../util/ipv6SubnetCalculator";
 
 describe("displayIPAddress test", () => {
     const longToShortAddressData: IPv6Address = {
@@ -22,13 +22,13 @@ describe("displayIPAddress test", () => {
     };
 
     test("long to short", () => {
-        expect(ipv6Calculator(ipv6TypeKey.ipAddressRange, longToShortAddressData)).toBe(
+        expect(ipv6SubnetCalculator(ipv6TypeKey.ipAddressRange, longToShortAddressData)).toBe(
             "2001:db8:beef:123:: - 2001:db8:beef:123:ffff:ffff:ffff:ffff",
         );
     });
 
     test("short to long", () => {
-        expect(ipv6Calculator(ipv6TypeKey.ipAddressRange, shortToLongAddressData)).toBe(
+        expect(ipv6SubnetCalculator(ipv6TypeKey.ipAddressRange, shortToLongAddressData)).toBe(
             "2001:0db8:beef:0123:0000:0000:0000:0000 - 2001:0db8:beef:0123:ffff:ffff:ffff:ffff",
         );
     });

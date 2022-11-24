@@ -2,7 +2,7 @@ import { ipv4TypeKey } from "../data/ipv4ResultTable";
 import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
 import { IPv4Address } from "../model/IPv4Address";
 
-export function ipv4Calculator(type: string, ipv4Address: IPv4Address): string {
+export function ipv4SubnetCalculator(type: string, ipv4Address: IPv4Address): string {
     const { ipAddress, subnet } = ipv4Address;
     const ipv4CalculatorHashmap: { [key: string]: string } = {
         [ipv4TypeKey.ipAddress]: displayIPv4Address(ipAddress, subnet),
