@@ -1,6 +1,6 @@
-import { ipv4TypeKey } from "../../data/ipv4ResultTable";
-import { IPv4Address } from "../../model/IPv4Address";
-import { ipv4SubnetCalculator } from "../../util/ipv4SubnetCalculator";
+import { ipv4TypeKey } from "../../../data/ipv4ResultTable";
+import { IPv4Address } from "../../../model/IPv4Address";
+import { ipv4SubnetCalculator } from "../../../util/ipv4SubnetCalculator";
 
 describe("getSixToFourAddress test", () => {
     const classAData: IPv4Address = {

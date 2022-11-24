@@ -1,6 +1,6 @@
-import { ipv4TypeKey } from "../../data/ipv4ResultTable";
-import { IPv4Address } from "../../model/IPv4Address";
-import { ipv4SubnetCalculator } from "../../util/ipv4SubnetCalculator";
+import { ipv4TypeKey } from "../../../data/ipv4ResultTable";
+import { IPv4Address } from "../../../model/IPv4Address";
+import { ipv4SubnetCalculator } from "../../../util/ipv4SubnetCalculator";
 
 describe("getIPv4NetworkClass test", () => {
     const classAStartData: IPv4Address = {

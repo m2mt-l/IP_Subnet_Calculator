@@ -1,5 +1,4 @@
 import { getCalculatedOctetIndex } from "../../util/ipv4SummaryCalculator";
-import { IPv4Address } from "../../model/IPv4Address";
 
 describe("getCalculatedOctetIndex", () => {
     test("get first octet", () => {

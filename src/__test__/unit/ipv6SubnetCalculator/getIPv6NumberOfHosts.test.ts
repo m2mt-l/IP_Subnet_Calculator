@@ -1,6 +1,6 @@
-import { ipv6TypeKey } from "../../data/ipv6ResultTable";
-import { IPv6Address } from "../../model/IPv6Address";
-import { ipv6SubnetCalculator } from "../../util/ipv6SubnetCalculator";
+import { ipv6TypeKey } from "../../../data/ipv6ResultTable";
+import { IPv6Address } from "../../../model/IPv6Address";
+import { ipv6SubnetCalculator } from "../../../util/ipv6SubnetCalculator";
 
 describe("getNumberOfHosts test", () => {
     const subnetZeroTestData: IPv6Address = {
