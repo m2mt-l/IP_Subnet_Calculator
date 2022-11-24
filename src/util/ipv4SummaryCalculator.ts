@@ -5,6 +5,8 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     const shortestSubnet: string = getShortestSubnet(ipv4SummaryArray);
     // subnet zero should be a default route
     if (shortestSubnet === "0") return "0.0.0.0/0";
+
+    const calculatedOctetIndex: number = getCalculatedOctetIndex(shortestSubnet);
     return "";
 }
 
@@ -13,6 +15,18 @@ export function getShortestSubnet(ipv4SummaryArray: IPv4Address[]): string {
     return subnetArray
         .reduce((prevValue, currentValue) => Math.min(prevValue, currentValue))
         .toString();
+}
+
+export function getCalculatedOctetIndex(subnet: string): number {
+    const subnetNumber: number = parseInt(subnet, 10);
+    // less than 8 bits should be a first octet
+    if (subnetNumber <= 8) return 0;
+    // less than 16 bits should be a second octet
+    else if (subnetNumber <= 16) return 1;
+    // less than 24 bits should be a third octet
+    else if (subnetNumber <= 24) return 2;
+    // more than 25 bits should be a fourth octet
+    else return 3;
 }
 
 // refactor: move common util
