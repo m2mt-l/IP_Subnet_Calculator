@@ -5,11 +5,13 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     const shortestSubnet: string = getShortestSubnet(ipv4SummaryArray);
     // subnet zero should be a default route
     if (shortestSubnet === "0") return "0.0.0.0/0";
+
     const ipv4NetworkAddressArray: number[][] = ipv4SummaryArray.map((ipv4) =>
         getIPv4NetworkAddress(ipv4),
     );
 
-    const calculatedOctetIndex: number = getCalculatedOctetIndex(shortestSubnet);
+    const calculatedOctetIndex: number = getCalculatedOctetIndex(ipv4NetworkAddressArray);
+
     return "";
 }
 
@@ -20,6 +22,7 @@ export function getShortestSubnet(ipv4SummaryArray: IPv4Address[]): string {
         .toString();
 }
 
+/*
 export function getCalculatedOctetIndex(subnet: string): number {
     const subnetNumber: number = parseInt(subnet, 10);
     // less than 8 bits should be a first octet
@@ -31,6 +34,7 @@ export function getCalculatedOctetIndex(subnet: string): number {
     // more than 25 bits should be a fourth octet
     else return 3;
 }
+*/
 
 export function getIPv4NetworkAddress(ipv4: IPv4Address): number[] {
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4.ipAddress);
@@ -40,6 +44,21 @@ export function getIPv4NetworkAddress(ipv4: IPv4Address): number[] {
         operateAND(ipv4AddressArray[index], subnetArray[index]),
     );
     return networkAddress;
+}
+
+/*
+    [10,2,0,0],[10,2,1,0],[10,2,2,0],[10,2,3,0]
+    [0][0] -> [1][0] -> [2][0] -> [3][0] -> [0][1] -> [1][1]...
+    */
+export function getCalculatedOctetIndex(ipv4NetworkAddressArray: number[][]): number {
+    const ipv4AddressOctetLength: number = 4;
+    for (let i = 0; i < ipv4AddressOctetLength; i++) {
+        for (let j = 1; j < ipv4NetworkAddressArray.length; j++) {
+            if (ipv4NetworkAddressArray[j - 1][i] !== ipv4NetworkAddressArray[j][i]) return i;
+        }
+    }
+    // all octets are the same
+    return -1;
 }
 
 // refactor: move common util
