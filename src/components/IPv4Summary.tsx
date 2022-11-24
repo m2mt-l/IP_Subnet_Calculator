@@ -15,10 +15,10 @@ import { generateIPv4Slash } from "../data/ipv4Subnet";
 import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
 import { getIPv4SubnetValue } from "../util/ipv4Subnet";
+import ResultIPv4Summary from "./ResultIPv4Summary";
 import AddAddressAndSubnetIcon from "./uiParts/AddAddressAndSubnetIcon";
 import CalculateButton from "./uiParts/CalculateButton";
 import RemoveAddressAndSubnetIcon from "./uiParts/RemoveAddressAndSubnetIcon";
-import ResultIPv4Summary from "./ResultIPv4Summary";
 
 const IPv4Summary: FC = memo(function ipv4Summary() {
     const subnetString = generateIPv4Slash();

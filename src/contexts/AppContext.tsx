@@ -29,7 +29,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }): React
 
     const [allValidIPv4AddressesExist, setAllValidIPv4AddressesExist] = useState(true);
 
-    const [canCalculateIPv4Summary, setCanCalculateIPv4Summary] = useState(true);
+    const [canCalculateIPv4Summary, setCanCalculateIPv4Summary] = useState(false);
 
     const value = {
         ipv4SummaryArray,
