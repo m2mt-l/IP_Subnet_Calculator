@@ -10,10 +10,13 @@ const CalculateButton: FC = memo(function calculateButton() {
         setIPv4SummaryArray,
         allValidIPv4AddressesExist,
         setAllValidIPv4AddressesExist,
+        canCalculateIPv4Summary,
+        setCanCalculateIPv4Summary,
     } = useAppContext();
 
     const handleCalculateClick = (): void => {
         setAllValidIPv4AddressesExist(checkAllValidIPv4AddressesExist(ipv4SummaryArray));
+        setCanCalculateIPv4Summary(checkAllValidIPv4AddressesExist(ipv4SummaryArray));
         console.log(ipv4SummaryArray);
     };
 

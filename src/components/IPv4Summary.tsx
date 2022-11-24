@@ -18,11 +18,18 @@ import { getIPv4SubnetValue } from "../util/ipv4Subnet";
 import AddAddressAndSubnetIcon from "./uiParts/AddAddressAndSubnetIcon";
 import CalculateButton from "./uiParts/CalculateButton";
 import RemoveAddressAndSubnetIcon from "./uiParts/RemoveAddressAndSubnetIcon";
+import ResultIPv4Summary from "./ResultIPv4Summary";
 
 const IPv4Summary: FC = memo(function ipv4Summary() {
     const subnetString = generateIPv4Slash();
-    const { ipv4SummaryArray, setIPv4SummaryArray } = useAppContext();
-    const { allValidIPv4AddressesExist, setAllValidIPv4AddressesExist } = useAppContext();
+    const {
+        ipv4SummaryArray,
+        setIPv4SummaryArray,
+        allValidIPv4AddressesExist,
+        setAllValidIPv4AddressesExist,
+        canCalculateIPv4Summary,
+        setCanCalculateIPv4Summary,
+    } = useAppContext();
 
     const handleIPv4AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { value, id } = event.target;
@@ -108,6 +115,7 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
                 </Typography>
             )}
             <Divider flexItem />
+            {canCalculateIPv4Summary && <ResultIPv4Summary />}
         </Stack>
     );
 });

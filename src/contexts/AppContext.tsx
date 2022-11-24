@@ -7,6 +7,8 @@ interface AppContextValue {
     setIPv4SummaryArray: (ipv4array: IPv4Address[]) => void;
     allValidIPv4AddressesExist: boolean;
     setAllValidIPv4AddressesExist: (switchValidIPv4: boolean) => void;
+    canCalculateIPv4Summary: boolean;
+    setCanCalculateIPv4Summary: (switchCanCalculate: boolean) => void;
 }
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
@@ -27,11 +29,15 @@ export const AppContextProvider = ({ children }: { children: ReactNode }): React
 
     const [allValidIPv4AddressesExist, setAllValidIPv4AddressesExist] = useState(true);
 
+    const [canCalculateIPv4Summary, setCanCalculateIPv4Summary] = useState(true);
+
     const value = {
         ipv4SummaryArray,
         setIPv4SummaryArray,
         allValidIPv4AddressesExist,
         setAllValidIPv4AddressesExist,
+        canCalculateIPv4Summary,
+        setCanCalculateIPv4Summary,
     };
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
