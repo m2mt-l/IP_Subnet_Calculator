@@ -5,6 +5,9 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     const shortestSubnet: string = getShortestSubnet(ipv4SummaryArray);
     // subnet zero should be a default route
     if (shortestSubnet === "0") return "0.0.0.0/0";
+    const ipv4NetworkAddressArray: number[][] = ipv4SummaryArray.map((ipv4) =>
+        getIPv4NetworkAddress(ipv4),
+    );
 
     const calculatedOctetIndex: number = getCalculatedOctetIndex(shortestSubnet);
     return "";
@@ -29,6 +32,16 @@ export function getCalculatedOctetIndex(subnet: string): number {
     else return 3;
 }
 
+export function getIPv4NetworkAddress(ipv4: IPv4Address): number[] {
+    const ipv4AddressArray: number[] = splitIPv4Address(ipv4.ipAddress);
+    const subnetArray: number[] = splitSubnetMask(ipv4.subnet);
+
+    const networkAddress = [0, 0, 0, 0].map((octet, index) =>
+        operateAND(ipv4AddressArray[index], subnetArray[index]),
+    );
+    return networkAddress;
+}
+
 // refactor: move common util
 function splitIPv4Address(ipv4Address: string): number[] {
     return ipv4Address.split(".").map((octet) => parseInt(octet, 10));
@@ -37,4 +50,14 @@ function splitIPv4Address(ipv4Address: string): number[] {
 // refactor: move common util
 function splitSubnetMask(subnet: string): number[] {
     return ipv4SubnetHashMap[subnet].split(".").map((octet) => parseInt(octet, 10));
+}
+
+// refactor: move common util
+function operateAND(n1: number, n2: number): number {
+    return (n1 &= n2);
+}
+
+// refactor: move common util
+function operateOR(n1: number, n2: number): number {
+    return (n1 |= n2);
 }
