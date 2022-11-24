@@ -1,6 +1,6 @@
 import { ipv4TypeKey } from "../../data/ipv4ResultTable";
 import { IPv4Address } from "../../model/IPv4Address";
-import { ipv4Calculator } from "../../util/ipv4Calculator";
+import { ipv4Calculator } from "../../util/ipv4SubnetCalculator";
 
 describe("getIPv4BroadcastAddress test", () => {
     const subnetZeroData: IPv4Address = {
