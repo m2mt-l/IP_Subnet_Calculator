@@ -1,4 +1,4 @@
-import { getCalculatedOctetIndex } from "../../util/ipv4SummaryCalculator";
+import { getCalculatedOctetIndex } from "../../../util/ipv4SummaryCalculator";
 
 describe("getCalculatedOctetIndex", () => {
     test("get first octet", () => {

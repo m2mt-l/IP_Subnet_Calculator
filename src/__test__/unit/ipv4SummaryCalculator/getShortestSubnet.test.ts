@@ -1,5 +1,5 @@
-import { getShortestSubnet } from "../../util/ipv4SummaryCalculator";
-import { IPv4Address } from "../../model/IPv4Address";
+import { getShortestSubnet } from "../../../util/ipv4SummaryCalculator";
+import { IPv4Address } from "../../../model/IPv4Address";
 
 describe("getShortestSubnet", () => {
     const threeSubnetsData: IPv4Address[] = [
@@ -15,10 +15,10 @@ describe("getShortestSubnet", () => {
     ];
 
     test("get shortest subnet from 3", () => {
-        expect(getShortestSubnet(threeSubnetsData)).toBe("22");
+        expect(getShortestSubnet(threeSubnetsData)).toBe(22);
     });
 
     test("get shortest subnet from zero subnets data", () => {
-        expect(getShortestSubnet(includeZeroSubnetsData)).toBe("0");
+        expect(getShortestSubnet(includeZeroSubnetsData)).toBe(0);
     });
 });

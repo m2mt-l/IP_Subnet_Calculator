@@ -2,9 +2,9 @@ import { IPv4Address } from "../model/IPv4Address";
 import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
 
 export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
-    const shortestSubnet: string = getShortestSubnet(ipv4SummaryArray);
+    const shortestSubnet: number = getShortestSubnet(ipv4SummaryArray);
     // subnet zero should be a default route
-    if (shortestSubnet === "0") return "0.0.0.0/0";
+    if (shortestSubnet === 0) return "0.0.0.0/0";
 
     const ipv4NetworkAddressArray: number[][] = ipv4SummaryArray.map((ipv4) =>
         getIPv4NetworkAddress(ipv4),
@@ -15,11 +15,9 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     return "";
 }
 
-export function getShortestSubnet(ipv4SummaryArray: IPv4Address[]): string {
+export function getShortestSubnet(ipv4SummaryArray: IPv4Address[]): number {
     const subnetArray: number[] = ipv4SummaryArray.map((ipv4) => parseInt(ipv4.subnet, 10));
-    return subnetArray
-        .reduce((prevValue, currentValue) => Math.min(prevValue, currentValue))
-        .toString();
+    return subnetArray.reduce((prevValue, currentValue) => Math.min(prevValue, currentValue));
 }
 
 /*
@@ -79,4 +77,24 @@ function operateAND(n1: number, n2: number): number {
 // refactor: move common util
 function operateOR(n1: number, n2: number): number {
     return (n1 |= n2);
+}
+
+// refactor: move common util
+export function getNumberOfPaddingZero(octet: number): number {
+    // 1 or 0
+    if (octet < 2) return 7;
+    // 3 -> 11
+    else if (octet < 4) return 6;
+    // 7 -> 111
+    else if (octet < 8) return 5;
+    // 15 -> 1111
+    else if (octet < 16) return 4;
+    // 31 -> 11111
+    else if (octet < 32) return 3;
+    // 63 -> 111111
+    else if (octet < 64) return 2;
+    // 127 -> 1111111
+    else if (octet < 128) return 1;
+    // 255 -> 11111111
+    else return 0;
 }
