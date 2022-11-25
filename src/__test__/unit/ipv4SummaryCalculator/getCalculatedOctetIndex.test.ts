@@ -3,16 +3,16 @@ import { getCalculatedOctetIndex } from "../../../util/ipv4SummaryCalculator";
 describe("getCalculatedOctetIndex", () => {
     const firstOctetData: number[][] = [
         [10, 2, 0, 0],
-        [11, 2, 1, 0],
-        [10, 3, 2, 0],
-        [10, 2, 3, 0],
+        [11, 2, 0, 0],
+        [10, 2, 0, 0],
+        [10, 2, 0, 0],
     ];
 
     const secondOctetData: number[][] = [
         [10, 2, 0, 0],
-        [10, 2, 1, 0],
-        [10, 3, 2, 0],
-        [10, 2, 3, 0],
+        [10, 2, 0, 0],
+        [10, 3, 0, 0],
+        [10, 2, 0, 0],
     ];
 
     const thirdOctetData: number[][] = [

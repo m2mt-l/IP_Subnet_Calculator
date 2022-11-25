@@ -11,6 +11,9 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     );
 
     const calculatedOctetIndex: number = getCalculatedOctetIndex(ipv4NetworkAddressArray);
+    // if(calculatedOctetIndex === -1) ...
+
+    // const calculatedOctetArray: number[] =
 
     return "";
 }
@@ -47,7 +50,7 @@ export function getIPv4NetworkAddress(ipv4: IPv4Address): number[] {
 /*
     [10,2,0,0],[10,2,1,0],[10,2,2,0],[10,2,3,0]
     [0][0] -> [1][0] -> [2][0] -> [3][0] -> [0][1] -> [1][1]...
-    */
+*/
 export function getCalculatedOctetIndex(ipv4NetworkAddressArray: number[][]): number {
     const ipv4AddressOctetLength: number = 4;
     for (let i = 0; i < ipv4AddressOctetLength; i++) {
@@ -58,6 +61,21 @@ export function getCalculatedOctetIndex(ipv4NetworkAddressArray: number[][]): nu
     // all octets are the same
     return -1;
 }
+
+/*
+    [[10,2,0,0],[10,2,1,0],[10,2,2,0],[10,2,3,0]] , 3
+    [0,1,2,3]
+*/
+export function getCalculatedOctetArray(
+    ipv4NetworkAddressArray: number[][],
+    index: number,
+): number[] {
+    let calculatedOctetArray: number[] = [];
+    ipv4NetworkAddressArray.forEach((octet) => calculatedOctetArray.push(octet[index]));
+    return calculatedOctetArray;
+}
+
+////////////////////////////
 
 // refactor: move common util
 function splitIPv4Address(ipv4Address: string): number[] {
