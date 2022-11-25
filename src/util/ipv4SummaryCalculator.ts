@@ -1,16 +1,18 @@
 import { IPv4Address } from "../model/IPv4Address";
 import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
+import { ShortestSubnetData } from "../model/ShortestSubnetData";
 
 export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
-    const shortestSubnet: number = getShortestSubnet(ipv4SummaryArray);
+    const shortestSubnet: ShortestSubnetData = getShortestSubnet(ipv4SummaryArray);
     // subnet zero should be a default route
-    if (shortestSubnet === 0) return "0.0.0.0/0";
+    if (shortestSubnet.subnet === 0) return "0.0.0.0/0";
 
     const ipv4NetworkAddressArray: number[][] = ipv4SummaryArray.map((ipv4) =>
         getIPv4NetworkAddress(ipv4),
     );
 
     const calculatedOctetIndex: number = getCalculatedOctetIndex(ipv4NetworkAddressArray);
+    // if all octets are the same, return shortest subnet
     // if(calculatedOctetIndex === -1) ...
 
     const calculatedOctetArray: number[] = getCalculatedOctetArray(
@@ -27,9 +29,10 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     return "";
 }
 
-export function getShortestSubnet(ipv4SummaryArray: IPv4Address[]): number {
+export function getShortestSubnet(ipv4SummaryArray: IPv4Address[]): ShortestSubnetData {
     const subnetArray: number[] = ipv4SummaryArray.map((ipv4) => parseInt(ipv4.subnet, 10));
-    return subnetArray.reduce((prevValue, currentValue) => Math.min(prevValue, currentValue));
+    const shortestSubnet: number = Math.min(...subnetArray);
+    return { subnet: shortestSubnet, index: subnetArray.indexOf(shortestSubnet) };
 }
 
 export function getIPv4NetworkAddress(ipv4: IPv4Address): number[] {
