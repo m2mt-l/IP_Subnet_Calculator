@@ -7,13 +7,20 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     // subnet zero should be a default route
     if (shortestSubnet.subnet === 0) return "0.0.0.0/0";
 
+    // [10,2,0,0],[10,2,1,0],[10,2,2,0],[10,2,3,0] /24
     const ipv4NetworkAddressArray: number[][] = ipv4SummaryArray.map((ipv4) =>
         getIPv4NetworkAddress(ipv4),
     );
 
+    // 2 -> [10,2,0,0],[10,2,1,0],[10,2,2,0],[10,2,3,0]
     const calculatedOctetIndex: number = getCalculatedOctetIndex(ipv4NetworkAddressArray);
+
+    // 24
+    const shortestSubnetNetworkAddress: number[] = ipv4NetworkAddressArray[shortestSubnet.index];
+
     // if all octets are the same, return shortest subnet
-    // if(calculatedOctetIndex === -1) ...
+    if (calculatedOctetIndex === -1)
+        return getCalculatedOutputString(shortestSubnetNetworkAddress, shortestSubnet.subnet);
 
     const calculatedOctetArray: number[] = getCalculatedOctetArray(
         ipv4NetworkAddressArray,
@@ -26,7 +33,11 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     const numberOfOneBit: number = getNumberOfOneBit(minOctet, maxOctet);
     const calculatedSubnet: number = getCalculatedSubnet(calculatedOctetIndex, numberOfOneBit);
 
-    return "";
+    const output: string =
+        calculatedSubnet > shortestSubnet.subnet
+            ? getCalculatedOutputString(shortestSubnetNetworkAddress, shortestSubnet.subnet)
+            : getCalculatedOutputString(shortestSubnetNetworkAddress, calculatedSubnet);
+    return output;
 }
 
 export function getShortestSubnet(ipv4SummaryArray: IPv4Address[]): ShortestSubnetData {
@@ -106,6 +117,11 @@ export function getCalculatedSubnet(octetIndex: number, numberOfOneBit: number):
 
     return octetSubnetHash[octetIndex] + numberOfOneBit;
 }
+
+export function getCalculatedOutputString(networkAddress: number[], subnet: number): string {
+    return networkAddress.join(".") + "/" + subnet.toString();
+}
+
 ////////////////////////////
 
 // refactor: move common util
