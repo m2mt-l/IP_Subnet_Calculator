@@ -21,13 +21,8 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     const minOctet: number = Math.min(...calculatedOctetArray);
     const maxOctet: number = Math.max(...calculatedOctetArray);
 
-    // key is an octet index, value is a subnet
-    const octetSubnetHash: { [key: number]: number } = {
-        0: 0,
-        1: 8,
-        2: 16,
-        3: 24,
-    };
+    const numberOfOneBit: number = getNumberOfOneBit(minOctet, maxOctet);
+    const calculatedSubnet: number = getCalculatedSubnet(calculatedOctetIndex, numberOfOneBit);
 
     return "";
 }
@@ -36,20 +31,6 @@ export function getShortestSubnet(ipv4SummaryArray: IPv4Address[]): number {
     const subnetArray: number[] = ipv4SummaryArray.map((ipv4) => parseInt(ipv4.subnet, 10));
     return subnetArray.reduce((prevValue, currentValue) => Math.min(prevValue, currentValue));
 }
-
-/*
-export function getCalculatedOctetIndex(subnet: string): number {
-    const subnetNumber: number = parseInt(subnet, 10);
-    // less than 8 bits should be a first octet
-    if (subnetNumber <= 8) return 0;
-    // less than 16 bits should be a second octet
-    else if (subnetNumber <= 16) return 1;
-    // less than 24 bits should be a third octet
-    else if (subnetNumber <= 24) return 2;
-    // more than 25 bits should be a fourth octet
-    else return 3;
-}
-*/
 
 export function getIPv4NetworkAddress(ipv4: IPv4Address): number[] {
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4.ipAddress);
@@ -106,9 +87,22 @@ export function getNumberOfOneBit(minN: number, maxN: number): number {
     // 11000000
     else if (difference < 64) return 2;
     // 10000000
-    else return 1;
+    else if (difference < 128) return 1;
+    // 00000000
+    else return 0;
 }
 
+export function getCalculatedSubnet(octetIndex: number, numberOfOneBit: number): number {
+    // key is an octet index, value is a subnet
+    const octetSubnetHash: { [key: number]: number } = {
+        0: 0,
+        1: 8,
+        2: 16,
+        3: 24,
+    };
+
+    return octetSubnetHash[octetIndex] + numberOfOneBit;
+}
 ////////////////////////////
 
 // refactor: move common util

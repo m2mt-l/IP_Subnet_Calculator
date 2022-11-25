@@ -24,4 +24,7 @@ describe("getNumberOfOneBit", () => {
     test("get 1 one bits", () => {
         expect(getNumberOfOneBit(0, 127)).toBe(1);
     });
+    test("get 0 one bits", () => {
+        expect(getNumberOfOneBit(0, 128)).toBe(0);
+    });
 });
