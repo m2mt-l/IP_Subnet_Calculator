@@ -13,7 +13,21 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     const calculatedOctetIndex: number = getCalculatedOctetIndex(ipv4NetworkAddressArray);
     // if(calculatedOctetIndex === -1) ...
 
-    // const calculatedOctetArray: number[] =
+    const calculatedOctetArray: number[] = getCalculatedOctetArray(
+        ipv4NetworkAddressArray,
+        calculatedOctetIndex,
+    );
+
+    const minOctet: number = Math.min(...calculatedOctetArray);
+    const maxOctet: number = Math.max(...calculatedOctetArray);
+
+    // key is an octet index, value is a subnet
+    const octetSubnetHash: { [key: number]: number } = {
+        0: 0,
+        1: 8,
+        2: 16,
+        3: 24,
+    };
 
     return "";
 }
@@ -73,6 +87,26 @@ export function getCalculatedOctetArray(
     let calculatedOctetArray: number[] = [];
     ipv4NetworkAddressArray.forEach((octet) => calculatedOctetArray.push(octet[index]));
     return calculatedOctetArray;
+}
+
+export function getNumberOfOneBit(minN: number, maxN: number): number {
+    const difference: number = maxN - minN;
+    if (difference === 0)
+        console.log("this should not happen because it is checked by getCalculatedOctetIndex");
+    // 11111110
+    if (difference < 2) return 7;
+    // 11111100
+    else if (difference < 4) return 6;
+    // 11111000
+    else if (difference < 8) return 5;
+    // 11110000
+    else if (difference < 16) return 4;
+    // 11100000
+    else if (difference < 32) return 3;
+    // 11000000
+    else if (difference < 64) return 2;
+    // 10000000
+    else return 1;
 }
 
 ////////////////////////////
