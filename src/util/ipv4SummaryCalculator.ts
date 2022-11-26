@@ -19,7 +19,7 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     // Change all ipv4 addresses to network addresses
     // [10,2,0,0],[10,2,1,0],[10,2,2,0],[10,2,3,0] -> /24
     const ipv4NetworkAddressArray: number[][] = ipv4SummaryArray.map((ipv4) =>
-        getIPv4NetworkAddress(ipv4),
+        getIPv4NetworkAddressForSummary(ipv4),
     );
 
     // 2. Get first octet that has a different octet value
@@ -71,7 +71,7 @@ export function getShortestSubnet(ipv4SummaryArray: IPv4Address[]): ShortestSubn
     return { subnet: shortestSubnet, index: subnetArray.indexOf(shortestSubnet) };
 }
 
-export function getIPv4NetworkAddress(ipv4: IPv4Address): number[] {
+export function getIPv4NetworkAddressForSummary(ipv4: IPv4Address): number[] {
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4.ipAddress);
     const subnetArray: number[] = splitSubnetMask(ipv4.subnet);
 

@@ -1,6 +1,15 @@
 import { ipv4TypeKey } from "../data/ipv4ResultTable";
 import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
 import { IPv4Address } from "../model/IPv4Address";
+import {
+    splitIPv4Address,
+    splitSubnetMask,
+    operateAND,
+    operateOR,
+    getWildcardMaskArray,
+    countBits,
+    getHexAddressFromIPv4Address,
+} from "./ipv4CalculatorUtil";
 
 export function ipv4SubnetCalculator(type: string, ipv4Address: IPv4Address): string {
     const { ipAddress, subnet } = ipv4Address;
@@ -143,66 +152,4 @@ function getSixToFourAddress(ipv4Address: string): string {
     const firstSixToFourAddress = "2002:";
     const lastSixToFourAddress = "::/48";
     return firstSixToFourAddress + getHexAddressFromIPv4Address(ipv4Address) + lastSixToFourAddress;
-}
-
-/*
-Operation functions
-These functions are used in Calculator functions.
-*/
-
-// [192, 168, 0, 1]
-function splitIPv4Address(ipv4Address: string): number[] {
-    return ipv4Address.split(".").map((octet) => parseInt(octet, 10));
-}
-
-// [255, 255, 255, 0]
-function splitSubnetMask(subnet: string): number[] {
-    return getIPv4SubnetMask(subnet)
-        .split(".")
-        .map((octet) => parseInt(octet, 10));
-}
-
-// bitwise AND operation
-function operateAND(n1: number, n2: number): number {
-    return (n1 &= n2);
-}
-
-// bitwise OR operation
-function operateOR(n1: number, n2: number): number {
-    return (n1 |= n2);
-}
-
-// ex: subnetArray = [255,255,255,0] return [0,0,0,255]
-function getWildcardMaskArray(subnetArray: number[]): number[] {
-    return subnetArray.map((subnet) => 255 - subnet);
-}
-
-function countBits(subnet: number): number {
-    const bitArray: string[] | null = subnet.toString(2).match(/1/g);
-    return bitArray !== null ? bitArray.length : 0;
-}
-
-function getHexFromDecimal(decimal: number): string {
-    return decimal < 16 ? "0" + decimal.toString(16) : decimal.toString(16);
-}
-
-function getHexAddressFromIPv4Address(ipv4Address: string): string {
-    // [192,168,0,1]
-    const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
-    const firstIndex = 0;
-    const middleIndex = ipv4AddressArray.length / 2;
-    const lastIndex = ipv4AddressArray.length;
-
-    // first half [C0,A8]
-    const firstHalfHex: string[] = ipv4AddressArray
-        .slice(firstIndex, middleIndex)
-        .map((decimal: number) => getHexFromDecimal(decimal));
-
-    // later half [00, 01]
-    const laterHalfHex: string[] = ipv4AddressArray
-        .slice(middleIndex, lastIndex)
-        .map((decimal: number) => getHexFromDecimal(decimal));
-
-    // C0A8.0001
-    return firstHalfHex.join("") + "." + laterHalfHex.join("");
 }
