@@ -1,4 +1,9 @@
-import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableRow from "@mui/material/TableRow";
 import React, { FC } from "react";
 
 import { useAppContext } from "../contexts/AppContext";
@@ -8,9 +13,18 @@ const ResultIPv4Summary: FC = () => {
     const { ipv4SummaryArray } = useAppContext();
 
     return (
-        <Typography align="center" variant="h5" my={3} component="div">
-            {ipv4SummaryCalculator(ipv4SummaryArray)}
-        </Typography>
+        <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 370, maxWidth: 500 }} aria-label="simple table">
+                <TableBody>
+                    <TableRow>
+                        <TableCell>Summary Address</TableCell>
+                        <TableCell align="right">
+                            {ipv4SummaryCalculator(ipv4SummaryArray)}
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 };
 
