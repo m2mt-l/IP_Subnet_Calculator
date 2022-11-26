@@ -8,6 +8,7 @@ import { AppContextProviderForIPv4Summary } from "../contexts/AppContextForIPv4S
 import IPv4Subnet from "./IPv4Subnet";
 import IPv4Summary from "./IPv4Summary";
 import IPv6Subnet from "./IPv6Subnet";
+import IPv6Summary from "./IPv6Summary";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -64,6 +65,9 @@ const MenuTabs: FC = () => {
                 <AppContextProviderForIPv4Summary>
                     <IPv4Summary />
                 </AppContextProviderForIPv4Summary>
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+                <IPv6Summary />
             </TabPanel>
         </Box>
     );
