@@ -8,8 +8,6 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { FC, ChangeEvent, memo } from "react";
 
-// Material UI
-
 import { useAppContextForIPv4Summary } from "../contexts/AppContextForIPv4Summary";
 import { generateIPv4Slash } from "../data/ipv4Subnet";
 import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";

@@ -5,6 +5,7 @@ import React, { FC, useState, SyntheticEvent, ReactElement } from "react";
 import { Link } from "react-router-dom";
 
 import { AppContextProviderForIPv4Summary } from "../contexts/AppContextForIPv4Summary";
+import { AppContextProviderForIPv6Summary } from "../contexts/AppContextForIPv6Summary";
 import IPv4Subnet from "./IPv4Subnet";
 import IPv4Summary from "./IPv4Summary";
 import IPv6Subnet from "./IPv6Subnet";
@@ -67,7 +68,9 @@ const MenuTabs: FC = () => {
                 </AppContextProviderForIPv4Summary>
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <IPv6Summary />
+                <AppContextProviderForIPv6Summary>
+                    <IPv6Summary />
+                </AppContextProviderForIPv6Summary>
             </TabPanel>
         </Box>
     );
