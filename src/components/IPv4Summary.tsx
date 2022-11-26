@@ -26,9 +26,7 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
         ipv4SummaryArray,
         setIPv4SummaryArray,
         allValidIPv4AddressesExist,
-        setAllValidIPv4AddressesExist,
         canCalculateIPv4Summary,
-        setCanCalculateIPv4Summary,
     } = useAppContext();
 
     const handleIPv4AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
