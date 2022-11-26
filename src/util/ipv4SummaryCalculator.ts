@@ -2,42 +2,68 @@ import { IPv4Address } from "../model/IPv4Address";
 import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
 import { ShortestSubnetData } from "../model/ShortestSubnetData";
 
+/*
+    ipv4SummaryCalculator
+    Calculate ipv4 address summary and follow the step below.
+    1. Get shortest subnet from ipv4SummaryArray
+    2. Get first octet that has a different octet value
+    3. Compare min and max value from calculatedOctetArray. That should be the required number of hosts.
+    4. Compare calculatedSubnet and shortestSubnet.
+       If shortestSubnet is shorter, return a network address having shortest subnet. If calculatedSubnet is shorter, get network address again.
+*/
 export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
+    // 1. Get shortest subnet from ipv4SummaryArray
     const shortestSubnet: ShortestSubnetData = getShortestSubnet(ipv4SummaryArray);
     // subnet zero should be a default route
     if (shortestSubnet.subnet === 0) return "0.0.0.0/0";
 
-    // [10,2,0,0],[10,2,1,0],[10,2,2,0],[10,2,3,0] /24
+    // Change all ipv4 addresses to network addresses
+    // [10,2,0,0],[10,2,1,0],[10,2,2,0],[10,2,3,0] -> /24
     const ipv4NetworkAddressArray: number[][] = ipv4SummaryArray.map((ipv4) =>
         getIPv4NetworkAddress(ipv4),
     );
 
+    // 2. Get first octet that has a different octet value
     // 2 -> [10,2,0,0],[10,2,1,0],[10,2,2,0],[10,2,3,0]
     const calculatedOctetIndex: number = getCalculatedOctetIndex(ipv4NetworkAddressArray);
 
-    // 24
     const shortestSubnetNetworkAddress: number[] = ipv4NetworkAddressArray[shortestSubnet.index];
 
     // if all octets are the same, return shortest subnet
     if (calculatedOctetIndex === -1)
         return getCalculatedOutputString(shortestSubnetNetworkAddress, shortestSubnet.subnet);
-
+    // Get all calculated octet index values and change them to array
     const calculatedOctetArray: number[] = getCalculatedOctetArray(
         ipv4NetworkAddressArray,
         calculatedOctetIndex,
     );
 
+    // 3. Compare min and max value from calculatedOctetArray. That should be the required number of hosts.
     const minOctet: number = Math.min(...calculatedOctetArray);
     const maxOctet: number = Math.max(...calculatedOctetArray);
-
+    // This bit shows the required number of hosts
     const numberOfOneBit: number = getNumberOfOneBit(minOctet, maxOctet);
+    // Get subnet from the required number of hosts
     const calculatedSubnet: number = getCalculatedSubnet(calculatedOctetIndex, numberOfOneBit);
 
-    const output: string =
-        calculatedSubnet > shortestSubnet.subnet
-            ? getCalculatedOutputString(shortestSubnetNetworkAddress, shortestSubnet.subnet)
-            : getCalculatedOutputString(shortestSubnetNetworkAddress, calculatedSubnet);
-    return output;
+    // 4. Compare calculatedSubnet and shortestSubnet.
+    // If shortestSubnet is shorter, return a network address having shortest subnet. If calculatedSubnet is shorter, get network address again.
+    interface OutputAddress {
+        networkAddress: number[];
+        subnet: number;
+    }
+
+    const outputAddress: OutputAddress =
+        shortestSubnet.subnet < calculatedSubnet
+            ? { networkAddress: shortestSubnetNetworkAddress, subnet: shortestSubnet.subnet }
+            : {
+                  networkAddress: getOutputNetworkAddress(
+                      shortestSubnetNetworkAddress,
+                      calculatedSubnet,
+                  ),
+                  subnet: calculatedSubnet,
+              };
+    return getCalculatedOutputString(outputAddress.networkAddress, outputAddress.subnet);
 }
 
 export function getShortestSubnet(ipv4SummaryArray: IPv4Address[]): ShortestSubnetData {
@@ -52,6 +78,14 @@ export function getIPv4NetworkAddress(ipv4: IPv4Address): number[] {
 
     const networkAddress = [0, 0, 0, 0].map((octet, index) =>
         operateAND(ipv4AddressArray[index], subnetArray[index]),
+    );
+    return networkAddress;
+}
+
+export function getOutputNetworkAddress(ipAddress: number[], subnet: number) {
+    const subnetArray: number[] = splitSubnetMask(subnet.toString());
+    const networkAddress = [0, 0, 0, 0].map((octet, index) =>
+        operateAND(ipAddress[index], subnetArray[index]),
     );
     return networkAddress;
 }

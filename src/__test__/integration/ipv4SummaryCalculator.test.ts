@@ -37,7 +37,6 @@ describe("ipv4SummaryCalculator", () => {
         { ipAddress: "10.2.3.1", subnet: "22" },
     ];
 
-    // check
     const randomOctetShortBit: IPv4Address[] = [
         { ipAddress: "10.2.0.1", subnet: "21" },
         { ipAddress: "10.17.2.1", subnet: "24" },
@@ -45,7 +44,6 @@ describe("ipv4SummaryCalculator", () => {
         { ipAddress: "10.127.3.1", subnet: "22" },
     ];
 
-    // check
     const randomOctetDefaultRoute: IPv4Address[] = [
         { ipAddress: "10.2.0.1", subnet: "23" },
         { ipAddress: "100.17.2.1", subnet: "8" },
