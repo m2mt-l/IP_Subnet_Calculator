@@ -15,7 +15,7 @@ import { IPv4Address } from "../model/IPv4Address";
 import { getIPv4SubnetValue } from "../util/ipv4SubnetUtil";
 import ResultIPv4Summary from "./ResultIPv4Summary";
 import AddIPv4AddressIcon from "./uiParts/ipv4Summary/AddIPv4AddressIcon";
-import CalculateButton from "./uiParts/ipv4Summary/CalculateButton";
+import CalculateIPv4SummaryButton from "./uiParts/ipv4Summary/CalculateIPv4SummaryButton";
 import RemoveIPv4AddressIcon from "./uiParts/ipv4Summary/RemoveIPv4AddressIcon";
 
 const IPv4Summary: FC = memo(function ipv4Summary() {
@@ -104,7 +104,7 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
                 <RemoveIPv4AddressIcon />
                 <AddIPv4AddressIcon />
             </Stack>
-            <CalculateButton />
+            <CalculateIPv4SummaryButton />
             {!allValidIPv4AddressesExist && (
                 <Typography align="center" sx={{ color: "error.main" }}>
                     {DefaultIPv4.validationError}

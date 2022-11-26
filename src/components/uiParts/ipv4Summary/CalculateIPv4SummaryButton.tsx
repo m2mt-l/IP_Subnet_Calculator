@@ -4,7 +4,7 @@ import React, { FC, memo } from "react";
 import { useAppContextForIPv4Summary } from "../../../contexts/AppContextForIPv4Summary";
 import { checkAllValidIPv4AddressesExist } from "../../../util/ipv4AddressValidation";
 
-const CalculateButton: FC = memo(function calculateButton() {
+const CalculateIPv4SummaryButton: FC = memo(function calculateButton() {
     const { ipv4SummaryArray, setAllValidIPv4AddressesExist, setCanCalculateIPv4Summary } =
         useAppContextForIPv4Summary();
 
@@ -21,4 +21,4 @@ const CalculateButton: FC = memo(function calculateButton() {
     );
 });
 
-export default CalculateButton;
+export default CalculateIPv4SummaryButton;

@@ -13,6 +13,7 @@ import { DefaultIPv6 } from "../data/ipv6SubnetDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
 import { getIPv6SubnetValue } from "../util/ipv6Subnet";
 import AddIPv6AddressIcon from "./uiParts/ipv6Summary/AddIPv6AddressIcon";
+import CalculateIPv6SummaryButton from "./uiParts/ipv6Summary/CalculateIPv6SummaryButton";
 import RemoveIPv6AddressIcon from "./uiParts/ipv6Summary/RemoveIPv6AddressIcon";
 
 const IPv6Summary: FC = memo(function IPv6Summary() {
@@ -38,7 +39,7 @@ const IPv6Summary: FC = memo(function IPv6Summary() {
                 id={index.toString()}
                 label="IPv6 address"
                 variant="filled"
-                sx={{ minWidth: 225 }}
+                sx={{ minWidth: 380 }}
                 placeholder={DefaultIPv6.placeholder}
             />
             {/* SelectIPv6Subnet */}
@@ -70,7 +71,7 @@ const IPv6Summary: FC = memo(function IPv6Summary() {
                 <RemoveIPv6AddressIcon />
                 <AddIPv6AddressIcon />
             </Stack>
-            {/* calculate button and error message */}
+            <CalculateIPv6SummaryButton />
             <Divider flexItem />
             {/* result ipv6 summary */}
         </Stack>
