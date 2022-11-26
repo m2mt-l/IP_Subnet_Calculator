@@ -1,5 +1,5 @@
-import { IPv4Address } from "../model/IPv4Address";
 import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
+import { IPv4Address } from "../model/IPv4Address";
 import { ShortestSubnetData } from "../model/ShortestSubnetData";
 
 /*
@@ -82,7 +82,7 @@ export function getIPv4NetworkAddress(ipv4: IPv4Address): number[] {
     return networkAddress;
 }
 
-export function getOutputNetworkAddress(ipAddress: number[], subnet: number) {
+export function getOutputNetworkAddress(ipAddress: number[], subnet: number): number[] {
     const subnetArray: number[] = splitSubnetMask(subnet.toString());
     const networkAddress = [0, 0, 0, 0].map((octet, index) =>
         operateAND(ipAddress[index], subnetArray[index]),
@@ -95,7 +95,7 @@ export function getOutputNetworkAddress(ipAddress: number[], subnet: number) {
     [0][0] -> [1][0] -> [2][0] -> [3][0] -> [0][1] -> [1][1]...
 */
 export function getCalculatedOctetIndex(ipv4NetworkAddressArray: number[][]): number {
-    const ipv4AddressOctetLength: number = 4;
+    const ipv4AddressOctetLength = 4;
     for (let i = 0; i < ipv4AddressOctetLength; i++) {
         for (let j = 1; j < ipv4NetworkAddressArray.length; j++) {
             if (ipv4NetworkAddressArray[j - 1][i] !== ipv4NetworkAddressArray[j][i]) return i;
@@ -113,7 +113,7 @@ export function getCalculatedOctetArray(
     ipv4NetworkAddressArray: number[][],
     index: number,
 ): number[] {
-    let calculatedOctetArray: number[] = [];
+    const calculatedOctetArray: number[] = [];
     ipv4NetworkAddressArray.forEach((octet) => calculatedOctetArray.push(octet[index]));
     return calculatedOctetArray;
 }
@@ -155,8 +155,6 @@ export function getCalculatedSubnet(octetIndex: number, numberOfOneBit: number):
 export function getCalculatedOutputString(networkAddress: number[], subnet: number): string {
     return networkAddress.join(".") + "/" + subnet.toString();
 }
-
-////////////////////////////
 
 // refactor: move common util
 function splitIPv4Address(ipv4Address: string): number[] {
