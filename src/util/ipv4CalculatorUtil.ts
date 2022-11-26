@@ -51,3 +51,10 @@ export function getHexAddressFromIPv4Address(ipv4Address: string): string {
     // C0A8.0001
     return firstHalfHex.join("") + "." + laterHalfHex.join("");
 }
+
+export function getIPv4NetworkAddress(ipv4Address: number[], subnet: number[]): number[] {
+    const networkAddress = [0, 0, 0, 0].map((octet, index) =>
+        operateAND(ipv4Address[index], subnet[index]),
+    );
+    return networkAddress;
+}

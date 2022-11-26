@@ -1,6 +1,6 @@
 import { IPv4Address } from "../model/IPv4Address";
 import { ShortestSubnetData } from "../model/ShortestSubnetData";
-import { splitIPv4Address, splitSubnetMask, operateAND } from "./ipv4CalculatorUtil";
+import { splitIPv4Address, splitSubnetMask, getIPv4NetworkAddress } from "./ipv4CalculatorUtil";
 /*
     ipv4SummaryCalculator
     Calculate ipv4 address summary and follow the step below.
@@ -75,18 +75,12 @@ export function getIPv4NetworkAddressForSummary(ipv4: IPv4Address): number[] {
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4.ipAddress);
     const subnetArray: number[] = splitSubnetMask(ipv4.subnet);
 
-    const networkAddress = [0, 0, 0, 0].map((octet, index) =>
-        operateAND(ipv4AddressArray[index], subnetArray[index]),
-    );
-    return networkAddress;
+    return getIPv4NetworkAddress(ipv4AddressArray, subnetArray);
 }
 
 export function getOutputNetworkAddress(ipAddress: number[], subnet: number): number[] {
     const subnetArray: number[] = splitSubnetMask(subnet.toString());
-    const networkAddress = [0, 0, 0, 0].map((octet, index) =>
-        operateAND(ipAddress[index], subnetArray[index]),
-    );
-    return networkAddress;
+    return getIPv4NetworkAddress(ipAddress, subnetArray);
 }
 
 /*

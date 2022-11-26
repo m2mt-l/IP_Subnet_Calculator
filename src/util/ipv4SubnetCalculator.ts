@@ -9,13 +9,14 @@ import {
     getWildcardMaskArray,
     countBits,
     getHexAddressFromIPv4Address,
+    getIPv4NetworkAddress,
 } from "./ipv4CalculatorUtil";
 
 export function ipv4SubnetCalculator(type: string, ipv4Address: IPv4Address): string {
     const { ipAddress, subnet } = ipv4Address;
     const ipv4CalculatorHashmap: { [key: string]: string } = {
         [ipv4TypeKey.ipAddress]: displayIPv4Address(ipAddress, subnet),
-        [ipv4TypeKey.networkAddress]: getIPv4NetworkAddress(ipAddress, subnet),
+        [ipv4TypeKey.networkAddress]: getIPv4NetworkAddressForSubnetCalc(ipAddress, subnet),
         [ipv4TypeKey.hostAddressRange]: getIPv4HostAddressRange(ipAddress, subnet),
         [ipv4TypeKey.numberOfHosts]: getIPv4NumberOfHosts(subnet),
         [ipv4TypeKey.broadcastAddress]: getIPv4BroadcastAddress(ipAddress, subnet),
@@ -49,15 +50,11 @@ function displayIPv4Address(ipv4Address: string, subnet: string): string {
     return ipv4Address + "/" + subnet;
 }
 
-function getIPv4NetworkAddress(ipv4Address: string, subnet: string): string {
+function getIPv4NetworkAddressForSubnetCalc(ipv4Address: string, subnet: string): string {
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
     const subnetArray: number[] = splitSubnetMask(subnet);
 
-    const networkAddress = [0, 0, 0, 0].map((octet, index) =>
-        operateAND(ipv4AddressArray[index], subnetArray[index]),
-    );
-
-    return networkAddress.join(".");
+    return getIPv4NetworkAddress(ipv4AddressArray, subnetArray).join(".");
 }
 
 function getIPv4HostAddressRange(ipv4Address: string, subnet: string): string {
