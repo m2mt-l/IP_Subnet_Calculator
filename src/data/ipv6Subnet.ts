@@ -1,4 +1,4 @@
-export function generateIpv6Slash(): string[] {
+export function generateIPv6Slash(): string[] {
     const output = [];
     for (let i = 128; i >= 0; i--) {
         const slash = i.toString();
