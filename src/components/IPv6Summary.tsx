@@ -2,10 +2,10 @@ import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import React, { FC, memo } from "react";
+import React, { FC, ChangeEvent, memo } from "react";
 
 import { useAppContextForIPv6Summary } from "../contexts/AppContextForIPv6Summary";
 import { generateIPv6Slash } from "../data/ipv6Subnet";
@@ -18,7 +18,37 @@ import RemoveIPv6AddressIcon from "./uiParts/ipv6Summary/RemoveIPv6AddressIcon";
 
 const IPv6Summary: FC = memo(function IPv6Summary() {
     const subnetString = generateIPv6Slash();
-    const { ipv6SummaryArray, setIPv6SummaryArray } = useAppContextForIPv6Summary();
+    const {
+        ipv6SummaryArray,
+        setIPv6SummaryArray,
+        allValidIPv6AddressesExist,
+        canCalculateIPv6Summary,
+    } = useAppContextForIPv6Summary();
+
+    const handleIPv6AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
+        const { value, id } = event.target;
+        // console.log(value);
+        setIPv6SummaryArray(
+            ipv6SummaryArray.map((ipv6Address, index) =>
+                index === parseInt(id, 10)
+                    ? { ...ipv6SummaryArray[index], ipAddress: value }
+                    : ipv6Address,
+            ),
+        );
+    };
+
+    const handleSubnetChange = (event: SelectChangeEvent, selectedIndex: number): void => {
+        const { value } = event.target;
+        // console.log(selectedIndex);
+        // console.log(value);
+        setIPv6SummaryArray(
+            ipv6SummaryArray.map((ipv6Address, index) =>
+                index === selectedIndex
+                    ? { ...ipv6SummaryArray[index], subnet: value }
+                    : ipv6Address,
+            ),
+        );
+    };
 
     const renderAddressAndSubnet = ipv6SummaryArray.map((ipv6: IPv6Address, index: number) => (
         <Stack
@@ -41,6 +71,7 @@ const IPv6Summary: FC = memo(function IPv6Summary() {
                 variant="filled"
                 sx={{ minWidth: 380 }}
                 placeholder={DefaultIPv6.placeholder}
+                onChange={handleIPv6AddressChange}
             />
             {/* SelectIPv6Subnet */}
             <FormControl fullWidth>
@@ -51,6 +82,7 @@ const IPv6Summary: FC = memo(function IPv6Summary() {
                     data-testid="subnet"
                     label="Subnet"
                     defaultValue={DefaultIPv6.subnet}
+                    onChange={(event) => handleSubnetChange(event, index)}
                 >
                     {subnetString.map((subnetString, subnetIndex) => {
                         return (
