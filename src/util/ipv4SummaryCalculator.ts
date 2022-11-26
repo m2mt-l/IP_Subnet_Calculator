@@ -1,7 +1,6 @@
-import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
 import { IPv4Address } from "../model/IPv4Address";
 import { ShortestSubnetData } from "../model/ShortestSubnetData";
-
+import { splitIPv4Address, splitSubnetMask, operateAND } from "./ipv4CalculatorUtil";
 /*
     ipv4SummaryCalculator
     Calculate ipv4 address summary and follow the step below.
@@ -154,44 +153,4 @@ export function getCalculatedSubnet(octetIndex: number, numberOfOneBit: number):
 
 export function getCalculatedOutputString(networkAddress: number[], subnet: number): string {
     return networkAddress.join(".") + "/" + subnet.toString();
-}
-
-// refactor: move common util
-function splitIPv4Address(ipv4Address: string): number[] {
-    return ipv4Address.split(".").map((octet) => parseInt(octet, 10));
-}
-
-// refactor: move common util
-function splitSubnetMask(subnet: string): number[] {
-    return ipv4SubnetHashMap[subnet].split(".").map((octet) => parseInt(octet, 10));
-}
-
-// refactor: move common util
-function operateAND(n1: number, n2: number): number {
-    return (n1 &= n2);
-}
-
-// refactor: move common util
-function operateOR(n1: number, n2: number): number {
-    return (n1 |= n2);
-}
-
-// refactor: move common util
-export function getNumberOfPaddingZero(octet: number): number {
-    // 1 or 0
-    if (octet < 2) return 7;
-    // 3 -> 11
-    else if (octet < 4) return 6;
-    // 7 -> 111
-    else if (octet < 8) return 5;
-    // 15 -> 1111
-    else if (octet < 16) return 4;
-    // 31 -> 11111
-    else if (octet < 32) return 3;
-    // 63 -> 111111
-    else if (octet < 64) return 2;
-    // 127 -> 1111111
-    else if (octet < 128) return 1;
-    // 255 -> 11111111
-    else return 0;
 }

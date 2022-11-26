@@ -14,7 +14,7 @@ import { useAppContext } from "../contexts/AppContext";
 import { generateIPv4Slash } from "../data/ipv4Subnet";
 import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
-import { getIPv4SubnetValue } from "../util/ipv4Subnet";
+import { getIPv4SubnetValue } from "../util/ipv4SubnetUtil";
 import ResultIPv4Summary from "./ResultIPv4Summary";
 import AddAddressAndSubnetIcon from "./uiParts/AddAddressAndSubnetIcon";
 import CalculateButton from "./uiParts/CalculateButton";

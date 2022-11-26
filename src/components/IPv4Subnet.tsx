@@ -1,4 +1,3 @@
-
 // Material UI
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
@@ -15,7 +14,7 @@ import { generateIPv4Slash } from "../data/ipv4Subnet";
 import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
 import { isValidIpv4Address } from "../util/ipv4AddressValidation";
-import { getIPv4SubnetValue } from "../util/ipv4Subnet";
+import { getIPv4SubnetValue } from "../util/ipv4SubnetUtil";
 import IPv4ResultTable from "./IPv4ResultTable";
 
 const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
