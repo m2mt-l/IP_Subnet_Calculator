@@ -1,4 +1,5 @@
 import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
+import { defaultIPv4Address } from "../data/ipv4SummaryDefaultValue";
 
 export function splitIPv4Address(ipv4Address: string): number[] {
     return ipv4Address.split(".").map((octet) => parseInt(octet, 10));
@@ -53,7 +54,7 @@ export function getHexAddressFromIPv4Address(ipv4Address: string): string {
 }
 
 export function getIPv4NetworkAddress(ipv4Address: number[], subnet: number[]): number[] {
-    const networkAddress = [0, 0, 0, 0].map((octet, index) =>
+    const networkAddress = defaultIPv4Address.map((octet, index) =>
         operateAND(ipv4Address[index], subnet[index]),
     );
     return networkAddress;

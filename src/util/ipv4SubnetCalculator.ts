@@ -1,5 +1,6 @@
 import { ipv4TypeKey } from "../data/ipv4ResultTable";
 import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
+import { defaultIPv4Address } from "../data/ipv4SummaryDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
 import {
     splitIPv4Address,
@@ -65,18 +66,16 @@ function getIPv4HostAddressRange(ipv4Address: string, subnet: string): string {
     const subnetArray: number[] = splitSubnetMask(subnet);
     const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
 
-    let firstHostAddressArray: number[] = [0, 0, 0, 0];
-    const tailIndexFirstHost: number = firstHostAddressArray.length - 1;
+    const tailIndexFirstHost: number = defaultIPv4Address.length - 1;
     // network address
-    firstHostAddressArray = firstHostAddressArray.map((octet, index) =>
+    const firstHostAddressArray: number[] = defaultIPv4Address.map((octet, index) =>
         operateAND(ipv4AddressArray[index], subnetArray[index]),
     );
     firstHostAddressArray[tailIndexFirstHost] += 1;
 
-    let lastHostAddressArray: number[] = [0, 0, 0, 0];
-    const tailIndexLastHost: number = lastHostAddressArray.length - 1;
+    const tailIndexLastHost: number = defaultIPv4Address.length - 1;
     // broadcast address
-    lastHostAddressArray = lastHostAddressArray.map((octet, index) =>
+    const lastHostAddressArray: number[] = defaultIPv4Address.map((octet, index) =>
         operateOR(ipv4AddressArray[index], wildcardArray[index]),
     );
     lastHostAddressArray[tailIndexLastHost] -= 1;
@@ -97,7 +96,7 @@ function getIPv4BroadcastAddress(ipv4Address: string, subnet: string): string {
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
     const wildcardArray: number[] = getWildcardMaskArray(splitSubnetMask(subnet));
 
-    const broadcastAddress = [0, 0, 0, 0].map((octet, index) =>
+    const broadcastAddress = defaultIPv4Address.map((octet, index) =>
         operateOR(ipv4AddressArray[index], wildcardArray[index]),
     );
 
