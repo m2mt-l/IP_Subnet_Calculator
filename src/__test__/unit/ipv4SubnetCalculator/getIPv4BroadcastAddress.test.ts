@@ -1,6 +1,6 @@
-import { ipv4TypeKey } from "../../data/ipv4ResultTable";
-import { ipv4Calculator } from "../../util/ipv4Calculator";
-import { IPv4Address } from "../../model/IPv4Address";
+import { ipv4TypeKey } from "../../../data/ipv4ResultTable";
+import { IPv4Address } from "../../../model/IPv4Address";
+import { ipv4SubnetCalculator } from "../../../util/ipv4SubnetCalculator";
 
 describe("getIPv4BroadcastAddress test", () => {
     const subnetZeroData: IPv4Address = {
@@ -34,37 +34,37 @@ describe("getIPv4BroadcastAddress test", () => {
     };
 
     test("ipv4 /0 broadcast address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.broadcastAddress, subnetZeroData)).toBe(
+        expect(ipv4SubnetCalculator(ipv4TypeKey.broadcastAddress, subnetZeroData)).toBe(
             "255.255.255.255",
         );
     });
 
     test("ipv4 /8 broadcast address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.broadcastAddress, subnetEightData)).toBe(
+        expect(ipv4SubnetCalculator(ipv4TypeKey.broadcastAddress, subnetEightData)).toBe(
             "192.255.255.255",
         );
     });
 
     test("ipv4 /16 broadcast address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.broadcastAddress, subnetSixteenData)).toBe(
+        expect(ipv4SubnetCalculator(ipv4TypeKey.broadcastAddress, subnetSixteenData)).toBe(
             "192.168.255.255",
         );
     });
 
     test("ipv4 /24 broadcast address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.broadcastAddress, subnetTwentyFourData)).toBe(
+        expect(ipv4SubnetCalculator(ipv4TypeKey.broadcastAddress, subnetTwentyFourData)).toBe(
             "192.168.0.255",
         );
     });
 
     test("ipv4 /25 broadcast address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.broadcastAddress, subnetTwentyFiveData)).toBe(
+        expect(ipv4SubnetCalculator(ipv4TypeKey.broadcastAddress, subnetTwentyFiveData)).toBe(
             "192.168.0.127",
         );
     });
 
     test("ipv4 /32 broadcast address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.broadcastAddress, subnetThirtyTwoData)).toBe(
+        expect(ipv4SubnetCalculator(ipv4TypeKey.broadcastAddress, subnetThirtyTwoData)).toBe(
             "192.168.0.1",
         );
     });

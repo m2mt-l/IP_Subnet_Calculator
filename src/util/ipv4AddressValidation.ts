@@ -1,3 +1,5 @@
+import { IPv4Address } from "../model/IPv4Address";
+
 export function isValidIpv4Address(ipv4Address: string): boolean {
     const splitIpv4Address: string[] = ipv4Address.split(".");
     const splitIpv4AddressLength: number = splitIpv4Address.length;
@@ -12,6 +14,14 @@ export function isValidIpv4Address(ipv4Address: string): boolean {
         if (isNaN(octetValue)) return false;
         // Check if the octet range is from 0 to 255
         if (octetValue < 0 || octetValue > 255) return false;
+    }
+    return true;
+}
+
+export function checkAllValidIPv4AddressesExist(ipv4Array: IPv4Address[]): boolean {
+    for (let i = 0; i < ipv4Array.length; i++) {
+        const { ipAddress } = ipv4Array[i];
+        if (!isValidIpv4Address(ipAddress)) return false;
     }
     return true;
 }

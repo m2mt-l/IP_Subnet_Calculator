@@ -1,6 +1,6 @@
-import { ipv4TypeKey } from "../../data/ipv4ResultTable";
-import { ipv4Calculator } from "../../util/ipv4Calculator";
-import { IPv4Address } from "../../model/IPv4Address";
+import { ipv4TypeKey } from "../../../data/ipv4ResultTable";
+import { IPv4Address } from "../../../model/IPv4Address";
+import { ipv4SubnetCalculator } from "../../../util/ipv4SubnetCalculator";
 
 describe("getIPv4NetworkAddress test", () => {
     const subnetZeroData: IPv4Address = {
@@ -34,30 +34,34 @@ describe("getIPv4NetworkAddress test", () => {
     };
 
     test("ipv4 /0 network address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkAddress, subnetZeroData)).toBe("0.0.0.0");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkAddress, subnetZeroData)).toBe("0.0.0.0");
     });
 
     test("ipv4 /8 network address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkAddress, subnetEightData)).toBe("192.0.0.0");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkAddress, subnetEightData)).toBe("192.0.0.0");
     });
 
     test("ipv4 /16 network address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkAddress, subnetSixteenData)).toBe("192.168.0.0");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkAddress, subnetSixteenData)).toBe(
+            "192.168.0.0",
+        );
     });
 
     test("ipv4 /24 network address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkAddress, subnetTwentyFourData)).toBe(
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkAddress, subnetTwentyFourData)).toBe(
             "192.168.0.0",
         );
     });
 
     test("ipv4 /25 network address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkAddress, subnetTwentyFiveData)).toBe(
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkAddress, subnetTwentyFiveData)).toBe(
             "192.168.0.128",
         );
     });
 
     test("ipv4 /32 network address", () => {
-        expect(ipv4Calculator(ipv4TypeKey.networkAddress, subnetThirtyTwoData)).toBe("192.168.0.1");
+        expect(ipv4SubnetCalculator(ipv4TypeKey.networkAddress, subnetThirtyTwoData)).toBe(
+            "192.168.0.1",
+        );
     });
 });

@@ -1,23 +1,14 @@
-import React, { FC, useState, useEffect, memo } from "react";
-
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-
-import CopyToClipBoard from "react-copy-to-clipboard";
+import React, { FC, memo } from "react";
 
 import { ipv4ResultTable } from "../data/ipv4ResultTable";
-import { ipv4Calculator } from "../util/ipv4Calculator";
 import { IPv4Address } from "../model/IPv4Address";
+import { ipv4SubnetCalculator } from "../util/ipv4SubnetCalculator";
 
 const IPv4ResultTable: FC<IPv4Address> = memo(function IPv4ResultTable(props) {
     // console.log("check render IPv4ResultTable");
@@ -28,7 +19,7 @@ const IPv4ResultTable: FC<IPv4Address> = memo(function IPv4ResultTable(props) {
                     {ipv4ResultTable.map((type, index) => (
                         <TableRow key={index}>
                             <TableCell>{type}</TableCell>
-                            <TableCell align="right">{ipv4Calculator(type, props)}</TableCell>
+                            <TableCell align="right">{ipv4SubnetCalculator(type, props)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

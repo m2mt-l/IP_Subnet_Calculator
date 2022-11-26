@@ -1,6 +1,6 @@
-import { ipv6TypeKey } from "../../data/ipv6ResultTable";
-import { ipv6Calculator } from "../../util/ipv6Calculator";
-import { IPv6Address } from "../../model/IPv6Address";
+import { ipv6TypeKey } from "../../../data/ipv6ResultTable";
+import { IPv6Address } from "../../../model/IPv6Address";
+import { ipv6SubnetCalculator } from "../../../util/ipv6SubnetCalculator";
 
 describe("displayIPAddress test", () => {
     const unspecifiedData: IPv6Address = {
@@ -28,23 +28,23 @@ describe("displayIPAddress test", () => {
     };
 
     test("unspecified", () => {
-        expect(ipv6Calculator(ipv6TypeKey.ipAddress, unspecifiedData)).toBe("::/128");
+        expect(ipv6SubnetCalculator(ipv6TypeKey.ipAddress, unspecifiedData)).toBe("::/128");
     });
 
     test("long to short", () => {
-        expect(ipv6Calculator(ipv6TypeKey.ipAddress, longToShortAddressData)).toBe(
+        expect(ipv6SubnetCalculator(ipv6TypeKey.ipAddress, longToShortAddressData)).toBe(
             "2001:db8:beef:123:3212::1/64",
         );
     });
 
     test("short to long", () => {
-        expect(ipv6Calculator(ipv6TypeKey.ipAddress, shortToLongAddressData)).toBe(
+        expect(ipv6SubnetCalculator(ipv6TypeKey.ipAddress, shortToLongAddressData)).toBe(
             "2001:0db8:beef:0123:3212:0000:0000:0001/64",
         );
     });
 
     test("one zero bit", () => {
-        expect(ipv6Calculator(ipv6TypeKey.ipAddress, onlyOneZeroAddressData)).toBe(
+        expect(ipv6SubnetCalculator(ipv6TypeKey.ipAddress, onlyOneZeroAddressData)).toBe(
             "2001:db8:beef:123:3212:0:567:1/64",
         );
     });

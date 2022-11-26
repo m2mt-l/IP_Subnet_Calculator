@@ -1,11 +1,11 @@
-import React, { FC, useState, SyntheticEvent, ReactNode, ReactElement } from "react";
-
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { BrowserRouter, Route, Routes, Link, matchPath, useLocation } from "react-router-dom";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import React, { FC, useState, SyntheticEvent, ReactElement } from "react";
+import { Link } from "react-router-dom";
+
 import IPv4Subnet from "./IPv4Subnet";
+import IPv4Summary from "./IPv4Summary";
 import IPv6Subnet from "./IPv6Subnet";
 
 interface TabPanelProps {
@@ -40,25 +40,27 @@ const MenuTabs: FC = () => {
         <Box sx={{ minWidth: "370" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <Tabs
-                     value={value}
-                     onChange={handleChange}
-                     aria-label="menu tabs"
-                     centered
-                     variant="scrollable"
-                     scrollButtons
-                     allowScrollButtonsMobile
-                 >
-                     <Tab label="IPv4 subnet" to="/ipv4address" component={Link} wrapped />
-                     <Tab label="IPv6 subnet" to="/ipv6address" component={Link} wrapped />
-                     <Tab label="IPv4 summary" to="/ipv4summary" component={Link} wrapped />
-                     <Tab label="IPv6 summary" to="/ipv6summary" component={Link} wrapped />
-                 </Tabs>
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="menu tabs"
+                    variant="scrollable"
+                    scrollButtons
+                    allowScrollButtonsMobile
+                >
+                    <Tab label="IPv4 subnet" to="/ipv4address" component={Link} wrapped />
+                    <Tab label="IPv6 subnet" to="/ipv6address" component={Link} wrapped />
+                    <Tab label="IPv4 summary" to="/ipv4summary" component={Link} wrapped />
+                    <Tab label="IPv6 summary" to="/ipv6summary" component={Link} wrapped />
+                </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
                 <IPv4Subnet />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <IPv6Subnet />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <IPv4Summary />
             </TabPanel>
         </Box>
     );

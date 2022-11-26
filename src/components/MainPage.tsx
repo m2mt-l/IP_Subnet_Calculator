@@ -1,13 +1,11 @@
+import Grid from "@mui/material/Grid";
 import React, { FC } from "react";
 import { BrowserRouter } from "react-router-dom";
 
 // Material UI
-import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
 
 import Header from "./Header";
 import MenuTabs from "./MenuTabs";
-import IPv4ResultTable from "./IPv4ResultTable";
 
 const MainPage: FC = () => {
     return (
