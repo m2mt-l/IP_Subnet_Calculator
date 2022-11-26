@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import React, { FC, useState, SyntheticEvent, ReactElement } from "react";
 import { Link } from "react-router-dom";
 
+import { AppContextProviderForIPv4Summary } from "../contexts/AppContextForIPv4Summary";
 import IPv4Subnet from "./IPv4Subnet";
 import IPv4Summary from "./IPv4Summary";
 import IPv6Subnet from "./IPv6Subnet";
@@ -60,7 +61,9 @@ const MenuTabs: FC = () => {
                 <IPv6Subnet />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <IPv4Summary />
+                <AppContextProviderForIPv4Summary>
+                    <IPv4Summary />
+                </AppContextProviderForIPv4Summary>
             </TabPanel>
         </Box>
     );

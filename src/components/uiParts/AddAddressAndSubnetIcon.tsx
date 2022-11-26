@@ -2,10 +2,10 @@ import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
 import React, { FC, memo } from "react";
 
-import { useAppContext } from "../../contexts/AppContext";
+import { useAppContextForIPv4Summary } from "../../contexts/AppContextForIPv4Summary";
 
 const AddAddressAndSubnetIcon: FC = memo(function addAddressAndSubnet() {
-    const { ipv4SummaryArray, setIPv4SummaryArray } = useAppContext();
+    const { ipv4SummaryArray, setIPv4SummaryArray } = useAppContextForIPv4Summary();
 
     const addAddressAndSubnet = (): void => {
         setIPv4SummaryArray([...ipv4SummaryArray, { ipAddress: "", subnet: "24" }]);

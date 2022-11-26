@@ -6,11 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import React, { FC } from "react";
 
-import { useAppContext } from "../contexts/AppContext";
+import { useAppContextForIPv4Summary } from "../contexts/AppContextForIPv4Summary";
 import { ipv4SummaryCalculator } from "../util/ipv4SummaryCalculator";
 
 const ResultIPv4Summary: FC = () => {
-    const { ipv4SummaryArray } = useAppContext();
+    const { ipv4SummaryArray } = useAppContextForIPv4Summary();
 
     return (
         <TableContainer component={Paper}>

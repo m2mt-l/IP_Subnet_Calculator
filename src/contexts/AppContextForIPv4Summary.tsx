@@ -13,7 +13,7 @@ interface AppContextValue {
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
 
-export const useAppContext = (): AppContextValue => {
+export const useAppContextForIPv4Summary = (): AppContextValue => {
     const appContext = useContext(AppContext);
     if (appContext === undefined) {
         throw new Error("AppContext is undefined");
@@ -21,7 +21,11 @@ export const useAppContext = (): AppContextValue => {
     return appContext;
 };
 
-export const AppContextProvider = ({ children }: { children: ReactNode }): ReactElement => {
+export const AppContextProviderForIPv4Summary = ({
+    children,
+}: {
+    children: ReactNode;
+}): ReactElement => {
     const [ipv4SummaryArray, setIPv4SummaryArray] = useState([
         { ipAddress: "", subnet: "24" },
         { ipAddress: "", subnet: "24" },

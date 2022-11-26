@@ -10,7 +10,7 @@ import React, { FC, ChangeEvent, memo } from "react";
 
 // Material UI
 
-import { useAppContext } from "../contexts/AppContext";
+import { useAppContextForIPv4Summary } from "../contexts/AppContextForIPv4Summary";
 import { generateIPv4Slash } from "../data/ipv4Subnet";
 import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
@@ -27,7 +27,7 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
         setIPv4SummaryArray,
         allValidIPv4AddressesExist,
         canCalculateIPv4Summary,
-    } = useAppContext();
+    } = useAppContextForIPv4Summary();
 
     const handleIPv4AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { value, id } = event.target;

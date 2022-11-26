@@ -5,7 +5,6 @@ import React from "react";
 
 import "./App.css";
 import MainPage from "./components/MainPage";
-import { AppContextProvider } from "./contexts/AppContext";
 
 const App: React.FunctionComponent = () => {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -22,9 +21,8 @@ const App: React.FunctionComponent = () => {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <AppContextProvider>
-                <MainPage />
-            </AppContextProvider>
+
+            <MainPage />
         </ThemeProvider>
     );
 };

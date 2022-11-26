@@ -1,12 +1,12 @@
 import Button from "@mui/material/Button";
 import React, { FC, memo } from "react";
 
-import { useAppContext } from "../../contexts/AppContext";
+import { useAppContextForIPv4Summary } from "../../contexts/AppContextForIPv4Summary";
 import { checkAllValidIPv4AddressesExist } from "../../util/ipv4AddressValidation";
 
 const CalculateButton: FC = memo(function calculateButton() {
     const { ipv4SummaryArray, setAllValidIPv4AddressesExist, setCanCalculateIPv4Summary } =
-        useAppContext();
+        useAppContextForIPv4Summary();
 
     const handleCalculateClick = (): void => {
         setAllValidIPv4AddressesExist(checkAllValidIPv4AddressesExist(ipv4SummaryArray));
