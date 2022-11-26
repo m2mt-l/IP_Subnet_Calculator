@@ -11,7 +11,7 @@ const CalculateIPv4SummaryButton: FC = memo(function calculateButton() {
     const handleCalculateClick = (): void => {
         setAllValidIPv4AddressesExist(checkAllValidIPv4AddressesExist(ipv4SummaryArray));
         setCanCalculateIPv4Summary(checkAllValidIPv4AddressesExist(ipv4SummaryArray));
-        console.log(ipv4SummaryArray);
+        // console.log(ipv4SummaryArray);
     };
 
     return (
