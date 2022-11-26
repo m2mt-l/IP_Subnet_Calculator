@@ -2,9 +2,9 @@ import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
 import React, { FC, memo } from "react";
 
-import { useAppContextForIPv4Summary } from "../../contexts/AppContextForIPv4Summary";
+import { useAppContextForIPv4Summary } from "../../../contexts/AppContextForIPv4Summary";
 
-const AddAddressAndSubnetIcon: FC = memo(function addAddressAndSubnet() {
+const AddIPv4AddressIcon: FC = memo(function addAddressAndSubnet() {
     const { ipv4SummaryArray, setIPv4SummaryArray } = useAppContextForIPv4Summary();
 
     const addAddressAndSubnet = (): void => {
@@ -30,4 +30,4 @@ const AddAddressAndSubnetIcon: FC = memo(function addAddressAndSubnet() {
     );
 });
 
-export default AddAddressAndSubnetIcon;
+export default AddIPv4AddressIcon;

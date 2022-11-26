@@ -14,9 +14,9 @@ import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
 import { getIPv4SubnetValue } from "../util/ipv4SubnetUtil";
 import ResultIPv4Summary from "./ResultIPv4Summary";
-import AddAddressAndSubnetIcon from "./uiParts/AddAddressAndSubnetIcon";
-import CalculateButton from "./uiParts/CalculateButton";
-import RemoveAddressAndSubnetIcon from "./uiParts/RemoveAddressAndSubnetIcon";
+import AddIPv4AddressIcon from "./uiParts/ipv4Summary/AddIPv4AddressIcon";
+import CalculateButton from "./uiParts/ipv4Summary/CalculateButton";
+import RemoveIPv4AddressIcon from "./uiParts/ipv4Summary/RemoveIPv4AddressIcon";
 
 const IPv4Summary: FC = memo(function ipv4Summary() {
     const subnetString = generateIPv4Slash();
@@ -101,8 +101,8 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
         <Stack spacing={1}>
             {renderAddressAndSubnet}
             <Stack direction={"row"} spacing={5} justifyContent="center" alignItems="center">
-                <RemoveAddressAndSubnetIcon />
-                <AddAddressAndSubnetIcon />
+                <RemoveIPv4AddressIcon />
+                <AddIPv4AddressIcon />
             </Stack>
             <CalculateButton />
             {!allValidIPv4AddressesExist && (

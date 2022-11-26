@@ -12,11 +12,13 @@ import { generateIPv6Slash } from "../data/ipv6Subnet";
 import { DefaultIPv6 } from "../data/ipv6SubnetDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
 import { getIPv6SubnetValue } from "../util/ipv6Subnet";
+import AddIPv6AddressIcon from "./uiParts/ipv6Summary/AddIPv6AddressIcon";
+import RemoveIPv6AddressIcon from "./uiParts/ipv6Summary/RemoveIPv6AddressIcon";
 
 const IPv6Summary: FC = memo(function IPv6Summary() {
     const subnetString = generateIPv6Slash();
     const { ipv6SummaryArray, setIPv6SummaryArray } = useAppContextForIPv6Summary();
-    console.log(ipv6SummaryArray);
+
     const renderAddressAndSubnet = ipv6SummaryArray.map((ipv6: IPv6Address, index: number) => (
         <Stack
             key={index}
@@ -65,7 +67,8 @@ const IPv6Summary: FC = memo(function IPv6Summary() {
         <Stack spacing={1}>
             {renderAddressAndSubnet}
             <Stack direction={"row"} spacing={5} justifyContent="center" alignItems="center">
-                {/* add and remove icons */}
+                <RemoveIPv6AddressIcon />
+                <AddIPv6AddressIcon />
             </Stack>
             {/* calculate button and error message */}
             <Divider flexItem />
