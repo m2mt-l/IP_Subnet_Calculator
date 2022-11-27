@@ -13,6 +13,7 @@ import { generateIPv6Slash } from "../data/ipv6Subnet";
 import { DefaultIPv6 } from "../data/ipv6SubnetDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
 import { getIPv6SubnetValue } from "../util/ipv6Subnet";
+import ResultIPv6Summary from "./ResultIPv6Summary";
 import AddIPv6AddressIcon from "./uiParts/ipv6Summary/AddIPv6AddressIcon";
 import CalculateIPv6SummaryButton from "./uiParts/ipv6Summary/CalculateIPv6SummaryButton";
 import RemoveIPv6AddressIcon from "./uiParts/ipv6Summary/RemoveIPv6AddressIcon";
@@ -111,7 +112,7 @@ const IPv6Summary: FC = memo(function IPv6Summary() {
                 </Typography>
             )}
             <Divider flexItem />
-            {/* result ipv6 summary */}
+            {canCalculateIPv6Summary && <ResultIPv6Summary />}
         </Stack>
     );
 });
