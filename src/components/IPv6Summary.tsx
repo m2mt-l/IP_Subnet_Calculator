@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import React, { FC, ChangeEvent, memo } from "react";
 
 import { useAppContextForIPv6Summary } from "../contexts/AppContextForIPv6Summary";
@@ -104,6 +105,11 @@ const IPv6Summary: FC = memo(function IPv6Summary() {
                 <AddIPv6AddressIcon />
             </Stack>
             <CalculateIPv6SummaryButton />
+            {!allValidIPv6AddressesExist && (
+                <Typography align="center" sx={{ color: "error.main" }}>
+                    {DefaultIPv6.validationError}
+                </Typography>
+            )}
             <Divider flexItem />
             {/* result ipv6 summary */}
         </Stack>

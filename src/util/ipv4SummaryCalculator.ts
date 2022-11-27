@@ -13,7 +13,7 @@ import {
     Calculate ipv4 address summary and follow the step below.
     1. Get shortest subnet from ipv4SummaryArray
     2. Get first octet that has a different octet value
-    3. Compare min and max value from calculatedOctetArray. That should be the required number of hosts.
+    3. Compare min and max value from calculatedOctetArray. That should be a required subnet.
     4. Compare calculatedSubnet and shortestSubnet.
        If shortestSubnet is shorter, return a network address having shortest subnet. If calculatedSubnet is shorter, get network address again.
 */
