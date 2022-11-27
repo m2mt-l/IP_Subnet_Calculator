@@ -51,6 +51,16 @@ describe("ipv4SummaryCalculator", () => {
         { ipAddress: "172.127.3.1", subnet: "16" },
     ];
 
+    const sameSubnetSameNumberZeroBits: IPv4Address[] = [
+        { ipAddress: "10.2.5.1", subnet: "24" },
+        { ipAddress: "10.2.4.1", subnet: "24" },
+    ];
+
+    const sameSubnetDifferentNumberZeroBits: IPv4Address[] = [
+        { ipAddress: "10.2.4.1", subnet: "24" },
+        { ipAddress: "10.2.3.1", subnet: "24" },
+    ];
+
     test("summarize 24 bit", () => {
         expect(ipv4SummaryCalculator(standardSubnetTwentyFour)).toBe("10.2.0.0/22");
     });
@@ -77,5 +87,13 @@ describe("ipv4SummaryCalculator", () => {
 
     test("random octet default route", () => {
         expect(ipv4SummaryCalculator(randomOctetDefaultRoute)).toBe("0.0.0.0/0");
+    });
+
+    test("same subnet same number zero bits", () => {
+        expect(ipv4SummaryCalculator(sameSubnetSameNumberZeroBits)).toBe("10.2.4.0/23");
+    });
+
+    test("same subnet different number zero bits", () => {
+        expect(ipv4SummaryCalculator(sameSubnetDifferentNumberZeroBits)).toBe("10.2.0.0/21");
     });
 });

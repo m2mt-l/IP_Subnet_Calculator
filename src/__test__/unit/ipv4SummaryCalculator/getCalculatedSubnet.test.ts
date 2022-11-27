@@ -1,27 +1,19 @@
 import { getCalculatedSubnet } from "../../../util/ipv4SummaryCalculator";
 
 describe("getCalculatedSubnet", () => {
-    test("get subnet /1", () => {
-        expect(getCalculatedSubnet(0, 1)).toBe(1);
+    const sameZeroBits: number[] = [5, 4];
+    const sameOctet: number[] = [4, 4];
+    const differentZeroBits: number[] = [0, 4];
+
+    test("same Zero bits", () => {
+        expect(getCalculatedSubnet(2, sameZeroBits)).toBe(23);
     });
 
-    test("get subnet /7", () => {
-        expect(getCalculatedSubnet(0, 7)).toBe(7);
+    test("same octet", () => {
+        expect(getCalculatedSubnet(2, sameOctet)).toBe(24);
     });
 
-    test("get subnet /8", () => {
-        expect(getCalculatedSubnet(1, 0)).toBe(8);
-    });
-
-    test("get subnet /16", () => {
-        expect(getCalculatedSubnet(2, 0)).toBe(16);
-    });
-
-    test("get subnet /24", () => {
-        expect(getCalculatedSubnet(3, 0)).toBe(24);
-    });
-
-    test("get subnet /28", () => {
-        expect(getCalculatedSubnet(3, 4)).toBe(28);
+    test("different zero bits", () => {
+        expect(getCalculatedSubnet(2, differentZeroBits)).toBe(21);
     });
 });

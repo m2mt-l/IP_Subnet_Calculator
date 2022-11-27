@@ -59,3 +59,24 @@ export function getIPv4NetworkAddress(ipv4Address: number[], subnet: number[]): 
     );
     return networkAddress;
 }
+
+export function getNumberOfZeroBits(octet: number): number {
+    // 00000000
+    if (octet === 0) return 8;
+    // 00000001
+    else if (octet === 1) return 7;
+    // 00000011
+    else if (octet < 4) return 6;
+    // 00000111
+    else if (octet < 8) return 5;
+    // 00001111
+    else if (octet < 16) return 4;
+    // 00011111
+    else if (octet < 32) return 3;
+    // 00111111
+    else if (octet < 64) return 2;
+    // 01111111
+    else if (octet < 128) return 1;
+    // 11111111
+    else return 0;
+}

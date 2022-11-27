@@ -4,12 +4,12 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 
 import { useAppContextForIPv4Summary } from "../contexts/AppContextForIPv4Summary";
 import { ipv4SummaryCalculator } from "../util/ipv4SummaryCalculator";
 
-const ResultIPv4Summary: FC = () => {
+const ResultIPv4Summary: FC = memo(function resultIPv4Summary() {
     const { ipv4SummaryArray } = useAppContextForIPv4Summary();
 
     return (
@@ -26,6 +26,6 @@ const ResultIPv4Summary: FC = () => {
             </Table>
         </TableContainer>
     );
-};
+});
 
 export default ResultIPv4Summary;
