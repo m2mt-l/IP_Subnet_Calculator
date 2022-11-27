@@ -53,7 +53,7 @@ describe("getFullIPv6Address", () => {
     ];
 
     // end 16
-    const endSixTeenZeroBits: string = "2001:db8:beef:1234:5678:9abc:de::";
+    const endSixTeenZeroBits: string = "2001:db8:beef:1234:5678:9abc:de:0";
     const endSixTeenZeroOutput: string[] = [
         "2001",
         "0db8",

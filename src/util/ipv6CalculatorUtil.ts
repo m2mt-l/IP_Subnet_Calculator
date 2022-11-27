@@ -61,3 +61,58 @@ function paddingZeroFrontOctet(octet: string): string {
     if (paddingLength === 0) return "The argument is not allowed.";
     else return padding.repeat(paddingLength) + octet;
 }
+
+// get shorten IPv6 address from full IPv6 address
+export function getShortenIPv6Address(fullIPv6address: string[]): string[] {
+    // ["2001", "0db8", "0000", "0000", "0000", "0000", "0000" "0001"] => ["2001", "db8" "", "", "1"]
+    // "::" -> ["","",""]
+    const tailOctetIndex: number = fullIPv6address.length - 1;
+    const shortenIPv6Address: string[] = [];
+    // count 16 bit 0 field("0000")
+    const zeroBitCount: number = fullIPv6address.reduce(
+        (count, octet) => (octet === defaultStringValue.allZeroBitOctet ? count + 1 : count),
+        0,
+    );
+    const zeroIndex: number = fullIPv6address.indexOf(defaultStringValue.allZeroBitOctet);
+
+    if (zeroBitCount === 0) {
+        // If there is no 0 field, just omit front zero.
+        for (let i = 0; i <= tailOctetIndex; i++) {
+            const octet: string = omitFrontZeroFromOctet(fullIPv6address[i]);
+            shortenIPv6Address.push(octet);
+        }
+    } else if (zeroBitCount === 1) {
+        // If only one 0 field, use 0 not ""(::) -> RFC5952 4.2.2
+        for (let i = 0; i <= tailOctetIndex; i++) {
+            if (fullIPv6address[i] === defaultStringValue.allZeroBitOctet)
+                shortenIPv6Address.push("0");
+            else {
+                const octet: string = omitFrontZeroFromOctet(fullIPv6address[i]);
+                shortenIPv6Address.push(octet);
+            }
+        }
+    } else if (zeroBitCount === 8) {
+        // for unspecified
+        return ["", "", ""];
+    } else {
+        // filter 0 field
+        const tempIPv6Address = fullIPv6address.filter(
+            (octet) => octet !== defaultStringValue.allZeroBitOctet,
+        );
+        for (let i = 0; i < tempIPv6Address.length; i++) {
+            const octet = omitFrontZeroFromOctet(tempIPv6Address[i]);
+            shortenIPv6Address.push(octet);
+        }
+        shortenIPv6Address.splice(zeroIndex, 0, "");
+        if (fullIPv6address[tailOctetIndex] === defaultStringValue.allZeroBitOctet)
+            shortenIPv6Address.push("");
+    }
+    return shortenIPv6Address;
+}
+
+function omitFrontZeroFromOctet(octet: string): string {
+    while (octet[0] === "0") {
+        octet = octet.slice(1);
+    }
+    return octet;
+}

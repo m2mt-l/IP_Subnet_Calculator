@@ -1,7 +1,7 @@
 import { ipv6TypeKey, defaultStringValue, defaultNumberValue } from "../data/ipv6ResultTable";
 import { ipv6SubnetHash } from "../data/ipv6Subnet";
 import { IPv6Address } from "../model/IPv6Address";
-import { getFullIPv6Address } from "./ipv6CalculatorUtil";
+import { getFullIPv6Address, getShortenIPv6Address } from "./ipv6CalculatorUtil";
 
 export function ipv6SubnetCalculator(type: string, ipv6Address: IPv6Address): string {
     const ipv6CalculatorHashmap: { [key: string]: string } = {
@@ -84,57 +84,6 @@ function getNumberOfHosts(ipv6Address: IPv6Address): string {
 Operation functions
 These functions are used in Calculator functions.
 */
-
-// get shorten IPv6 address from full IPv6 address
-function getShortenIPv6Address(fullIPv6address: string[]): string[] {
-    // ["2001", "0db8", "0000", "0000", "0000", "0000", "0000" "0001"] => ["2001", "db8" "", "", "1"]
-    // "::" -> ["","",""]
-    const tailOctetIndex: number = fullIPv6address.length - 1;
-    const shortenIPv6Address: string[] = [];
-    const zeroBitCount: number = fullIPv6address.reduce(
-        (count, octet) => (octet === defaultStringValue.allZeroBitOctet ? count + 1 : count),
-        0,
-    );
-    const zeroIndex: number = fullIPv6address.indexOf(defaultStringValue.allZeroBitOctet);
-
-    if (zeroBitCount === 0) {
-        for (let i = 0; i <= tailOctetIndex; i++) {
-            const octet: string = omitFrontZeroFromOctet(fullIPv6address[i]);
-            shortenIPv6Address.push(octet);
-        }
-    } else if (zeroBitCount === 1) {
-        for (let i = 0; i <= tailOctetIndex; i++) {
-            if (fullIPv6address[i] === defaultStringValue.allZeroBitOctet)
-                shortenIPv6Address.push("0");
-            else {
-                const octet: string = omitFrontZeroFromOctet(fullIPv6address[i]);
-                shortenIPv6Address.push(octet);
-            }
-        }
-    } else if (zeroBitCount === 8) {
-        // for unspecified
-        return ["", "", ""];
-    } else {
-        const tempIPv6Address = fullIPv6address.filter(
-            (octet) => octet !== defaultStringValue.allZeroBitOctet,
-        );
-        for (let i = 0; i < tempIPv6Address.length; i++) {
-            const octet = omitFrontZeroFromOctet(tempIPv6Address[i]);
-            shortenIPv6Address.push(octet);
-        }
-        shortenIPv6Address.splice(zeroIndex, 0, "");
-        if (fullIPv6address[tailOctetIndex] === defaultStringValue.allZeroBitOctet)
-            shortenIPv6Address.push("");
-    }
-    return shortenIPv6Address;
-}
-
-function omitFrontZeroFromOctet(octet: string): string {
-    while (octet[0] === "0") {
-        octet = octet.slice(1);
-    }
-    return octet;
-}
 
 function getStartAndEndIPv6Address(
     ipv6Address: string[],
