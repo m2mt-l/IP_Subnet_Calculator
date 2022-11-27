@@ -1,4 +1,5 @@
 import { defaultStringValue, defaultNumberValue } from "../data/ipv6ResultTable";
+import { ipv6SubnetHash } from "../data/ipv6Subnet";
 
 export function getFullIPv6Address(ipv6Address: string): string[] {
     // ["2001", "db8", "", ""]
@@ -115,4 +116,85 @@ function omitFrontZeroFromOctet(octet: string): string {
         octet = octet.slice(1);
     }
     return octet;
+}
+
+export function getStartAndEndIPv6Address(
+    ipv6Address: string[],
+    subnet: string,
+): { [key: string]: string[] } {
+    const ipAddressRange: { [key: string]: string[] } = {
+        startIPv6Address: [],
+        endIPv6Address: [],
+    };
+
+    /*
+    ex:
+    subnet 67
+    2001:0db8:beef:0123:3212:0000:0000:0001
+    */
+    // targetIndex = 4 -> "3212"
+    const targetOctetIndex: number = Math.floor(parseInt(subnet, 10) / 16);
+    // hexIndexInOctet = 0 -> "3212" -> "3"
+    const hexIndexInOctet: number = Math.floor(
+        (parseInt(subnet, 10) % 16) / defaultNumberValue.octetLength,
+    );
+    // bitIndexInHexIndex = 3 -> refer to ipv6SubnetHash 3: "e"
+    // /67 -> ffff:ffff:ffff:ffff:e000:0000:0000:0000
+    const bitIndexInHexIndex: number = parseInt(subnet, 10) % defaultNumberValue.octetLength;
+
+    let { startIPv6Address, endIPv6Address } = ipAddressRange;
+
+    // 128 bit
+    if (targetOctetIndex === defaultNumberValue.maxNumberOfIPv6Array) {
+        startIPv6Address = ipv6Address;
+        endIPv6Address = ipv6Address;
+        return ipAddressRange;
+    }
+
+    for (let i = 0; i < ipv6Address.length; i++) {
+        if (i < targetOctetIndex) {
+            startIPv6Address.push(ipv6Address[i]);
+            endIPv6Address.push(ipv6Address[i]);
+        }
+        // bitwise AND or OR
+        else if (i === targetOctetIndex) {
+            // ipv6TargeDecimal = 3 -> "3212"
+            const ipv6TargeDecimal: number = parseInt(ipv6Address[i][hexIndexInOctet], 16);
+            // subnetDecimalForStart = 14 -> 3: "e"
+            const subnetDecimalForStart: number = parseInt(ipv6SubnetHash[bitIndexInHexIndex], 16);
+            // subnetDecimalForEnd = 1 -> 15 - 14
+            const subnetDecimalForEnd: number =
+                15 - parseInt(ipv6SubnetHash[bitIndexInHexIndex], 16);
+            // bitwise AND for start
+            const targetBitHexForStart: string = (
+                ipv6TargeDecimal & subnetDecimalForStart
+            ).toString(16);
+            // bitwise OR for end
+            const targetBitHexForEnd: string = (ipv6TargeDecimal | subnetDecimalForEnd).toString(
+                16,
+            );
+            // frontOctet with unchanged bits
+            // /67 -> frontOctet = ""
+            const frontOctet: string = ipv6Address[i].slice(0, hexIndexInOctet);
+            // "" + "2" + "000" = "2000"
+            const targetOctetForStart =
+                frontOctet +
+                targetBitHexForStart +
+                defaultStringValue.allZeroBitOctet.slice(hexIndexInOctet + 1);
+            // "" + "3" + "fff" = "3fff"
+            const targetOctetForEnd =
+                frontOctet +
+                targetBitHexForEnd +
+                defaultStringValue.allOneBitOctet.slice(hexIndexInOctet + 1);
+            startIPv6Address.push(targetOctetForStart);
+            endIPv6Address.push(targetOctetForEnd);
+        }
+        // padding 0 or 1
+        else {
+            startIPv6Address.push(defaultStringValue.allZeroBitOctet);
+            endIPv6Address.push(defaultStringValue.allOneBitOctet);
+        }
+    }
+
+    return ipAddressRange;
 }
