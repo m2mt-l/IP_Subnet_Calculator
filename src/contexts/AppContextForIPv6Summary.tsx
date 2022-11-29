@@ -27,8 +27,8 @@ export const AppContextProviderForIPv6Summary = ({
     children: ReactNode;
 }): ReactElement => {
     const [ipv6SummaryArray, setIPv6SummaryArray] = useState([
-        { ipAddress: "", subnet: "64", isShort: true },
-        { ipAddress: "", subnet: "64", isShort: true },
+        { ipAddress: "", subnet: "64" },
+        { ipAddress: "", subnet: "64" },
     ]);
 
     const [allValidIPv6AddressesExist, setAllValidIPv6AddressesExist] = useState(true);
