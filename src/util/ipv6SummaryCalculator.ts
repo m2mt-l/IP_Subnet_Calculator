@@ -24,6 +24,18 @@ export function ipv6SummaryCalculator(ipv6SummaryArray: IPv6Address[]): string {
                 .startIPv6Address,
     );
 
+    // 2. Get first octet that has a different octet value
+    const calculatedOctetIndex: number = getCalculatedOctetIndex(ipv6StartAddressArray);
+    const shortestSubnetStartAddress: string[] = ipv6StartAddressArray[shortestSubnet.index];
+    // if all octets are the same, return shortest subnet
+    if (calculatedOctetIndex === -1)
+        return getCalculatedOutputString(shortestSubnetStartAddress, shortestSubnet.subnet);
+    // Get all calculated octet index values and change them to array
+    const calculatedOctetArray: string[] = getCalculatedOctetArray(
+        ipv6StartAddressArray,
+        calculatedOctetIndex,
+    );
+
     return "";
 }
 
@@ -31,4 +43,28 @@ export function getShortestSubnet(ipv6SummaryArray: IPv6Address[]): ShortestSubn
     const subnetArray: number[] = ipv6SummaryArray.map((ipv6) => parseInt(ipv6.subnet, 10));
     const shortestSubnet: number = Math.min(...subnetArray);
     return { subnet: shortestSubnet, index: subnetArray.indexOf(shortestSubnet) };
+}
+
+export function getCalculatedOctetIndex(ipv6StartAddressArray: string[][]): number {
+    const ipv6AddressOctetLength = 4;
+    for (let i = 0; i < ipv6AddressOctetLength; i++) {
+        for (let j = 1; j < ipv6StartAddressArray.length; j++) {
+            if (ipv6StartAddressArray[j - 1][i] !== ipv6StartAddressArray[j][i]) return i;
+        }
+    }
+    // all octets are the same
+    return -1;
+}
+
+export function getCalculatedOctetArray(
+    ipv6StartAddressArray: string[][],
+    index: number,
+): string[] {
+    const calculatedOctetArray: string[] = [];
+    ipv6StartAddressArray.forEach((octet) => calculatedOctetArray.push(octet[index]));
+    return calculatedOctetArray;
+}
+
+export function getCalculatedOutputString(startAddress: string[], subnet: number): string {
+    return startAddress.join(":") + "/" + subnet.toString();
 }
