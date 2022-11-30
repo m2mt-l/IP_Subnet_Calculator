@@ -47,7 +47,27 @@ export function ipv6SummaryCalculator(ipv6SummaryArray: IPv6Address[]): string {
         calculatedOctetArray,
     );
 
-    return "";
+    // 4. Compare calculatedSubnet and shortestSubnet.
+
+    interface OutputAddress {
+        startAddress: string[];
+        subnet: number;
+    }
+
+    const outputAddress: OutputAddress =
+        // If shortestSubnet is shorter, return a network address having shortest subnet.
+        shortestSubnet.subnet < calculatedSubnet
+            ? { startAddress: shortestSubnetStartAddress, subnet: shortestSubnet.subnet }
+            : // If calculatedSubnet is shorter, get network address again.
+              {
+                  startAddress: getStartAndEndIPv6Address(
+                      shortestSubnetStartAddress,
+                      calculatedSubnet.toString(),
+                  ).startAddress,
+                  subnet: calculatedSubnet,
+              };
+
+    return getCalculatedOutputString(outputAddress.startAddress, outputAddress.subnet);
 }
 
 export function getShortestSubnet(ipv6SummaryArray: IPv6Address[]): ShortestSubnetData {
