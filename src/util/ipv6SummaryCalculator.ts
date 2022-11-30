@@ -3,6 +3,7 @@ import { ShortestSubnetData } from "../model/ShortestSubnetData";
 import { defaultStringValue } from "../data/ipv6ResultTable";
 import { getStartAndEndIPv6Address } from "./ipv6CalculatorUtil";
 import { hexToBinaryMap } from "./hexToBinary";
+import { DEFAULT_ROUTE } from "../data/ipv6SummaryDefaultValue";
 
 /*
     ipv6SummaryCalculator
@@ -17,7 +18,7 @@ export function ipv6SummaryCalculator(ipv6SummaryArray: IPv6Address[]): string {
     // 1. Get shortest subnet from ipv6SummaryArray
     const shortestSubnet: ShortestSubnetData = getShortestSubnet(ipv6SummaryArray);
     // subnet zero should be a default route
-    // if (shortestSubnet.subnet === 0) return defaultRoute;
+    if (shortestSubnet.subnet === 0) return DEFAULT_ROUTE;
 
     // Change all ipv6 addresses to start address
     // [["2001","0410","00a0","0000"...], ["2001","0410","00a1","0000"...], ...]

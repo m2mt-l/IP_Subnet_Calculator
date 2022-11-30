@@ -1,4 +1,4 @@
-import { defaultRoute } from "../data/ipv4SummaryDefaultValue";
+import { DEFAULT_ROUTE } from "../data/ipv4SummaryDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
 import { ShortestSubnetData } from "../model/ShortestSubnetData";
 import {
@@ -21,7 +21,7 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     // 1. Get shortest subnet from ipv4SummaryArray
     const shortestSubnet: ShortestSubnetData = getShortestSubnet(ipv4SummaryArray);
     // subnet zero should be a default route
-    if (shortestSubnet.subnet === 0) return defaultRoute;
+    if (shortestSubnet.subnet === 0) return DEFAULT_ROUTE;
 
     // Change all ipv4 addresses to network addresses
     // [10,2,0,0],[10,2,1,0],[10,2,2,0],[10,2,3,0] -> /24
