@@ -1,7 +1,7 @@
 import { IPv6Address } from "../model/IPv6Address";
 import { ShortestSubnetData } from "../model/ShortestSubnetData";
 import { defaultStringValue } from "../data/ipv6ResultTable";
-import { getStartAndEndIPv6Address } from "./ipv6CalculatorUtil";
+import { getStartAndEndIPv6Address, getFullIPv6Address } from "./ipv6CalculatorUtil";
 import { hexToBinaryMap } from "./hexToBinary";
 import { DEFAULT_ROUTE } from "../data/ipv6SummaryDefaultValue";
 
@@ -24,7 +24,7 @@ export function ipv6SummaryCalculator(ipv6SummaryArray: IPv6Address[]): string {
     // [["2001","0410","00a0","0000"...], ["2001","0410","00a1","0000"...], ...]
     const ipv6StartAddressArray: string[][] = ipv6SummaryArray.map(
         (ipv6) =>
-            getStartAndEndIPv6Address(ipv6.ipAddress.split(defaultStringValue.colon), ipv6.subnet)
+            getStartAndEndIPv6Address(getFullIPv6Address(ipv6.ipAddress), ipv6.subnet)
                 .startIPv6Address,
     );
 
