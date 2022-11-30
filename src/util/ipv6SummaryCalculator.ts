@@ -20,7 +20,7 @@ export function ipv6SummaryCalculator(ipv6SummaryArray: IPv6Address[]): string {
     // subnet zero should be a default route
     if (shortestSubnet.subnet === 0) return DEFAULT_ROUTE;
 
-    // Change all ipv6 addresses to start address
+    // Change all ipv6 addresses to start address, also need to change full ipv6 address
     // [["2001","0410","00a0","0000"...], ["2001","0410","00a1","0000"...], ...]
     const ipv6StartAddressArray: string[][] = ipv6SummaryArray.map(
         (ipv6) =>
