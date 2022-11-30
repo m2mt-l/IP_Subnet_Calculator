@@ -78,7 +78,7 @@ export function getShortestSubnet(ipv6SummaryArray: IPv6Address[]): ShortestSubn
 }
 
 export function getCalculatedOctetIndex(ipv6StartAddressArray: string[][]): number {
-    const ipv6AddressOctetLength = 4;
+    const ipv6AddressOctetLength = 8;
     for (let i = 0; i < ipv6AddressOctetLength; i++) {
         for (let j = 1; j < ipv6StartAddressArray.length; j++) {
             if (ipv6StartAddressArray[j - 1][i] !== ipv6StartAddressArray[j][i]) return i;
