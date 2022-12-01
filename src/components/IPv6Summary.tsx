@@ -8,32 +8,33 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { FC, ChangeEvent, memo } from "react";
 
-import { useAppContextForIPv4Summary } from "../contexts/AppContextForIPv4Summary";
-import { generateIPv4Slash } from "../data/ipv4Subnet";
-import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
-import { IPv4Address } from "../model/IPv4Address";
-import { getIPv4SubnetValue } from "../util/ipv4SubnetUtil";
-import ResultIPv4Summary from "./ResultIPv4Summary";
-import AddIPv4AddressIcon from "./uiParts/ipv4Summary/AddIPv4AddressIcon";
-import CalculateIPv4SummaryButton from "./uiParts/ipv4Summary/CalculateIPv4SummaryButton";
-import RemoveIPv4AddressIcon from "./uiParts/ipv4Summary/RemoveIPv4AddressIcon";
+import { useAppContextForIPv6Summary } from "../contexts/AppContextForIPv6Summary";
+import { generateIPv6Slash } from "../data/ipv6Subnet";
+import { DefaultIPv6 } from "../data/ipv6SubnetDefaultValue";
+import { IPv6Address } from "../model/IPv6Address";
+import { getIPv6SubnetValue } from "../util/ipv6Subnet";
+import ResultIPv6Summary from "./ResultIPv6Summary";
+import AddIPv6AddressIcon from "./uiParts/ipv6Summary/AddIPv6AddressIcon";
+import CalculateIPv6SummaryButton from "./uiParts/ipv6Summary/CalculateIPv6SummaryButton";
+import RemoveIPv6AddressIcon from "./uiParts/ipv6Summary/RemoveIPv6AddressIcon";
 
-const IPv4Summary: FC = memo(function ipv4Summary() {
-    const subnetString = generateIPv4Slash();
+const IPv6Summary: FC = memo(function IPv6Summary() {
+    const subnetString = generateIPv6Slash();
     const {
-        ipv4SummaryArray,
-        setIPv4SummaryArray,
-        allValidIPv4AddressesExist,
-        canCalculateIPv4Summary,
-    } = useAppContextForIPv4Summary();
+        ipv6SummaryArray,
+        setIPv6SummaryArray,
+        allValidIPv6AddressesExist,
+        canCalculateIPv6Summary,
+    } = useAppContextForIPv6Summary();
 
-    const handleIPv4AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const handleIPv6AddressChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { value, id } = event.target;
-        setIPv4SummaryArray(
-            ipv4SummaryArray.map((ipv4Address, index) =>
+        // console.log(value);
+        setIPv6SummaryArray(
+            ipv6SummaryArray.map((ipv6Address, index) =>
                 index === parseInt(id, 10)
-                    ? { ...ipv4SummaryArray[index], ipAddress: value }
-                    : ipv4Address,
+                    ? { ...ipv6SummaryArray[index], ipAddress: value }
+                    : ipv6Address,
             ),
         );
     };
@@ -42,16 +43,16 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
         const { value } = event.target;
         // console.log(selectedIndex);
         // console.log(value);
-        setIPv4SummaryArray(
-            ipv4SummaryArray.map((ipv4Address, index) =>
+        setIPv6SummaryArray(
+            ipv6SummaryArray.map((ipv6Address, index) =>
                 index === selectedIndex
-                    ? { ...ipv4SummaryArray[index], subnet: value }
-                    : ipv4Address,
+                    ? { ...ipv6SummaryArray[index], subnet: value }
+                    : ipv6Address,
             ),
         );
     };
 
-    const renderAddressAndSubnet = ipv4SummaryArray.map((ipv4: IPv4Address, index: number) => (
+    const renderAddressAndSubnet = ipv6SummaryArray.map((ipv6: IPv6Address, index: number) => (
         <Stack
             key={index}
             direction={"row"}
@@ -65,16 +66,16 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
             justifyContent="center"
             alignItems="center"
         >
-            {/* InputIPv4AddressForSummary */}
+            {/* InputIPv6AddressForSummary */}
             <TextField
                 id={index.toString()}
-                label="IPv4 address"
+                label="IPv6 address"
                 variant="filled"
-                sx={{ minWidth: 225 }}
-                placeholder={DefaultIPv4.placeholder}
-                onChange={handleIPv4AddressChange}
+                sx={{ minWidth: 380 }}
+                placeholder={DefaultIPv6.placeholder}
+                onChange={handleIPv6AddressChange}
             />
-            {/* SelectIPv4Subnet */}
+            {/* SelectIPv6Subnet */}
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Subnet</InputLabel>
                 <Select
@@ -82,12 +83,12 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
                     id={index.toString()}
                     data-testid="subnet"
                     label="Subnet"
-                    defaultValue={DefaultIPv4.subnet}
+                    defaultValue={DefaultIPv6.subnet}
                     onChange={(event) => handleSubnetChange(event, index)}
                 >
                     {subnetString.map((subnetString, subnetIndex) => {
                         return (
-                            <MenuItem key={subnetString} value={getIPv4SubnetValue(subnetIndex)}>
+                            <MenuItem key={subnetString} value={getIPv6SubnetValue(subnetIndex)}>
                                 {subnetString}
                             </MenuItem>
                         );
@@ -101,19 +102,19 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
         <Stack spacing={1}>
             {renderAddressAndSubnet}
             <Stack direction={"row"} spacing={5} justifyContent="center" alignItems="center">
-                <RemoveIPv4AddressIcon />
-                <AddIPv4AddressIcon />
+                <RemoveIPv6AddressIcon />
+                <AddIPv6AddressIcon />
             </Stack>
-            <CalculateIPv4SummaryButton />
-            {!allValidIPv4AddressesExist && (
+            <CalculateIPv6SummaryButton />
+            {!allValidIPv6AddressesExist && (
                 <Typography align="center" sx={{ color: "error.main" }}>
-                    {DefaultIPv4.validationError}
+                    {DefaultIPv6.validationError}
                 </Typography>
             )}
             <Divider flexItem />
-            {canCalculateIPv4Summary && <ResultIPv4Summary />}
+            {canCalculateIPv6Summary && <ResultIPv6Summary />}
         </Stack>
     );
 });
 
-export default IPv4Summary;
+export default IPv6Summary;

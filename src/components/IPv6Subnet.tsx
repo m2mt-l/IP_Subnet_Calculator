@@ -1,4 +1,3 @@
-
 // Material UI
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
@@ -11,7 +10,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { FC, useState, ChangeEvent, memo } from "react";
 
-import { generateIpv6Slash, shortOrLong } from "../data/ipv6Subnet";
+import { generateIPv6Slash, shortOrLong } from "../data/ipv6Subnet";
 import { DefaultIPv6 } from "../data/ipv6SubnetDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
 import { isValidIpv6Address } from "../util/ipv6AddressValidation";
@@ -86,7 +85,7 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
         });
     };
 
-    const subnetString = generateIpv6Slash();
+    const subnetString = generateIPv6Slash();
 
     return (
         <Stack spacing={2}>

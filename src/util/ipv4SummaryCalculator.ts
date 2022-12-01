@@ -1,14 +1,19 @@
-import { defaultRoute } from "../data/ipv4SummaryDefaultValue";
+import { DEFAULT_ROUTE } from "../data/ipv4SummaryDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
 import { ShortestSubnetData } from "../model/ShortestSubnetData";
-import { splitIPv4Address, splitSubnetMask, getIPv4NetworkAddress } from "./ipv4CalculatorUtil";
+import {
+    splitIPv4Address,
+    splitSubnetMask,
+    getIPv4NetworkAddress,
+    getNumberOfZeroBits,
+} from "./ipv4CalculatorUtil";
 
 /*
     ipv4SummaryCalculator
     Calculate ipv4 address summary and follow the step below.
     1. Get shortest subnet from ipv4SummaryArray
     2. Get first octet that has a different octet value
-    3. Compare min and max value from calculatedOctetArray. That should be the required number of hosts.
+    3. Compare min and max value from calculatedOctetArray. That should be a required subnet.
     4. Compare calculatedSubnet and shortestSubnet.
        If shortestSubnet is shorter, return a network address having shortest subnet. If calculatedSubnet is shorter, get network address again.
 */
@@ -16,7 +21,7 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
     // 1. Get shortest subnet from ipv4SummaryArray
     const shortestSubnet: ShortestSubnetData = getShortestSubnet(ipv4SummaryArray);
     // subnet zero should be a default route
-    if (shortestSubnet.subnet === 0) return defaultRoute;
+    if (shortestSubnet.subnet === 0) return DEFAULT_ROUTE;
 
     // Change all ipv4 addresses to network addresses
     // [10,2,0,0],[10,2,1,0],[10,2,2,0],[10,2,3,0] -> /24
@@ -39,13 +44,11 @@ export function ipv4SummaryCalculator(ipv4SummaryArray: IPv4Address[]): string {
         calculatedOctetIndex,
     );
 
-    // 3. Compare min and max value from calculatedOctetArray. That should be the required number of hosts.
-    const minOctet: number = Math.min(...calculatedOctetArray);
-    const maxOctet: number = Math.max(...calculatedOctetArray);
-    // This bit shows the required number of hosts
-    const numberOfOneBit: number = getNumberOfOneBit(minOctet, maxOctet);
-    // Get subnet from the required number of hosts
-    const calculatedSubnet: number = getCalculatedSubnet(calculatedOctetIndex, numberOfOneBit);
+    // 3. Compare min and max value from calculatedOctetArray. That should be a required subnet.
+    const calculatedSubnet: number = getCalculatedSubnet(
+        calculatedOctetIndex,
+        calculatedOctetArray,
+    );
 
     // 4. Compare calculatedSubnet and shortestSubnet.
     // If shortestSubnet is shorter, return a network address having shortest subnet. If calculatedSubnet is shorter, get network address again.
@@ -113,29 +116,17 @@ export function getCalculatedOctetArray(
     return calculatedOctetArray;
 }
 
-export function getNumberOfOneBit(minN: number, maxN: number): number {
-    const difference: number = maxN - minN;
-    if (difference === 0)
-        console.log("this should not happen because it is checked by getCalculatedOctetIndex");
-    // 11111110
-    if (difference < 2) return 7;
-    // 11111100
-    else if (difference < 4) return 6;
-    // 11111000
-    else if (difference < 8) return 5;
-    // 11110000
-    else if (difference < 16) return 4;
-    // 11100000
-    else if (difference < 32) return 3;
-    // 11000000
-    else if (difference < 64) return 2;
-    // 10000000
-    else if (difference < 128) return 1;
-    // 00000000
-    else return 0;
-}
-
-export function getCalculatedSubnet(octetIndex: number, numberOfOneBit: number): number {
+export function getCalculatedSubnet(octetIndex: number, calculatedOctetArray: number[]): number {
+    // 4
+    const minOctet: number = Math.min(...calculatedOctetArray);
+    // 5
+    const maxOctet: number = Math.max(...calculatedOctetArray);
+    // 5 -> 00000100
+    const countMinZeroBits: number = getNumberOfZeroBits(minOctet);
+    // 5 -> 00000101
+    const countMaxZeroBits: number = getNumberOfZeroBits(maxOctet);
+    // This should be the same bit count for both cases.
+    const paddingZeroBits: number = countMaxZeroBits;
     // key is an octet index, value is a subnet
     const octetSubnetHash: { [key: number]: number } = {
         0: 0,
@@ -143,8 +134,21 @@ export function getCalculatedSubnet(octetIndex: number, numberOfOneBit: number):
         2: 16,
         3: 24,
     };
+    const baseSubnet: number = octetSubnetHash[octetIndex] + paddingZeroBits;
 
-    return octetSubnetHash[octetIndex] + numberOfOneBit;
+    if (countMinZeroBits === countMaxZeroBits) {
+        // If zero bits length between max and min octets are the same, check binary bits after the one bit.
+        const binaryMinOctet: string = minOctet.toString(2);
+        const binaryMaxOctet: string = maxOctet.toString(2);
+        const countMaxBits: number = binaryMaxOctet.length;
+        for (let i = 0; i < countMaxBits; i++) {
+            if (binaryMinOctet[i] !== binaryMaxOctet[i]) return baseSubnet + i;
+        }
+        return baseSubnet + countMaxBits;
+    } else {
+        // If any difference between them, the subnet length should be the same as the max octet.
+        return baseSubnet;
+    }
 }
 
 export function getCalculatedOutputString(networkAddress: number[], subnet: number): string {

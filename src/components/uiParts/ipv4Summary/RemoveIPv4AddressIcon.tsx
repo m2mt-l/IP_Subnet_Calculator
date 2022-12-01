@@ -2,10 +2,10 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import IconButton from "@mui/material/IconButton";
 import React, { FC, memo } from "react";
 
-import { useAppContext } from "../../contexts/AppContext";
+import { useAppContextForIPv4Summary } from "../../../contexts/AppContextForIPv4Summary";
 
-const RemoveAddressAndSubnetIcon: FC = memo(function removeAddressAndSubnet() {
-    const { ipv4SummaryArray, setIPv4SummaryArray } = useAppContext();
+const RemoveIPv4AddressIcon: FC = memo(function removeAddressAndSubnet() {
+    const { ipv4SummaryArray, setIPv4SummaryArray } = useAppContextForIPv4Summary();
 
     const removeAddressAndSubnet = (): void => {
         setIPv4SummaryArray(
@@ -32,4 +32,4 @@ const RemoveAddressAndSubnetIcon: FC = memo(function removeAddressAndSubnet() {
     );
 });
 
-export default RemoveAddressAndSubnetIcon;
+export default RemoveIPv4AddressIcon;
