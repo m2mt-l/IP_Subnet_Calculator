@@ -101,8 +101,9 @@ export function getCalculatedOutputString(startAddress: string[], subnet: number
     return startAddress.join(":") + "/" + subnet.toString();
 }
 
-// ["00a0", "00a1","00a2"...]
+// octetIndex = 6(/48), calculatedOctetArray = ["00a0", "00a1","00a2"]
 export function getCalculatedSubnet(octetIndex: number, calculatedOctetArray: string[]): number {
+    // 3 <- ["00a0", "00a1","00a2"]
     const calculatedHexIndex: number = getCalculatedHexIndexFromOctet(calculatedOctetArray);
     // ["0","1","2"]
     const hexArray: string[] = calculatedOctetArray.map((octet) => octet[calculatedHexIndex]);
@@ -112,46 +113,38 @@ export function getCalculatedSubnet(octetIndex: number, calculatedOctetArray: st
     const maxHex: string = hexArray.reduce((prevValue, currentValue) =>
         parseInt(prevValue, 16) > parseInt(currentValue, 16) ? prevValue : currentValue,
     );
-    const countMinZeroBits: number = getNumberOfZeroBits(minHex);
-    const countMaxZeroBits: number = getNumberOfZeroBits(maxHex);
 
-    // This should be the same bit count for both cases.
-    const paddingZeroBits: number = countMaxZeroBits;
+    // key is an octet index, value is a subnet
+    const hexSubnetHash: { [key: number]: number } = {
+        0: 0,
+        1: 4,
+        2: 8,
+        3: 12,
+    };
+
     // key is an octet index, value is a subnet
     const octetSubnetHash: { [key: number]: number } = {
         0: 0,
-        1: 8,
-        2: 16,
-        3: 24,
-        4: 32,
-        5: 40,
-        6: 48,
-        7: 56,
-        8: 64,
-        9: 72,
-        10: 80,
-        11: 88,
-        12: 96,
-        13: 104,
-        14: 112,
-        15: 120,
-        16: 128,
+        1: 16,
+        2: 32,
+        3: 48,
+        4: 64,
+        5: 80,
+        6: 96,
+        7: 112,
+        8: 128,
     };
-    const baseSubnet: number = octetSubnetHash[octetIndex] + paddingZeroBits;
+    const baseSubnet: number = octetSubnetHash[octetIndex] + hexSubnetHash[calculatedHexIndex];
 
-    if (countMinZeroBits === countMaxZeroBits) {
-        // If zero bits length between max and min octets are the same, check binary bits after the one bit.
-        const binaryMinHex: string = hexToBinaryMap[minHex];
-        const binaryMaxHex: string = hexToBinaryMap[maxHex];
-        const countMaxBits: number = binaryMaxHex.length;
-        for (let i = 0; i < countMaxBits; i++) {
-            if (binaryMinHex[i] !== binaryMaxHex[i]) return baseSubnet + i;
-        }
-        return baseSubnet + countMaxBits;
-    } else {
-        // If any difference between them, the subnet length should be the same as the max octet.
-        return baseSubnet;
+    // 4 <- 0100
+    const binaryMinHex: string = hexToBinaryMap[minHex];
+    // 5 <- 0100
+    const binaryMaxHex: string = hexToBinaryMap[maxHex];
+    const countMaxBits: number = binaryMaxHex.length;
+    for (let i = 0; i < countMaxBits; i++) {
+        if (binaryMinHex[i] !== binaryMaxHex[i]) return baseSubnet + i;
     }
+    return baseSubnet + countMaxBits;
 }
 
 // ["00a0", "00a1","00a2"...]
@@ -170,18 +163,4 @@ export function getCalculatedHexIndexFromOctet(calculatedOctetArray: string[]): 
     }
     // all octets are the same
     return -1;
-}
-
-function getNumberOfZeroBits(hex: string): number {
-    const decimal: number = parseInt(hex, 16);
-    // 0000
-    if (decimal === 0) return 4;
-    // 0001
-    else if (decimal === 1) return 3;
-    // 0010 - 0011
-    else if (decimal < 3) return 2;
-    // 0100 - 0111
-    else if (decimal < 8) return 1;
-    // 1000 - 1111
-    else return 0;
 }
