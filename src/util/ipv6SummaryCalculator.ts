@@ -64,7 +64,7 @@ export function ipv6SummaryCalculator(ipv6SummaryArray: IPv6Address[]): string {
                   startAddress: getStartAndEndIPv6Address(
                       shortestSubnetStartAddress,
                       calculatedSubnet.toString(),
-                  ).startAddress,
+                  ).startIPv6Address,
                   subnet: calculatedSubnet,
               };
 
