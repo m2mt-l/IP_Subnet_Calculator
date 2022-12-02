@@ -9,6 +9,10 @@ interface AppContextValue {
     setAllValidIPv6AddressesExist: (switchValidIPv6: boolean) => void;
     canCalculateIPv6Summary: boolean;
     setCanCalculateIPv6Summary: (switchCanCalculate: boolean) => void;
+    isShort: boolean;
+    setIsShort: (switchIsShort: boolean) => void;
+    alignment: string;
+    setAlignment: (alignmentString: string) => void;
 }
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
@@ -35,6 +39,10 @@ export const AppContextProviderForIPv6Summary = ({
 
     const [canCalculateIPv6Summary, setCanCalculateIPv6Summary] = useState(false);
 
+    const [isShort, setIsShort] = useState(true);
+
+    const [alignment, setAlignment] = useState("short");
+
     const value = {
         ipv6SummaryArray,
         setIPv6SummaryArray,
@@ -42,6 +50,10 @@ export const AppContextProviderForIPv6Summary = ({
         setAllValidIPv6AddressesExist,
         canCalculateIPv6Summary,
         setCanCalculateIPv6Summary,
+        isShort,
+        setIsShort,
+        alignment,
+        setAlignment,
     };
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

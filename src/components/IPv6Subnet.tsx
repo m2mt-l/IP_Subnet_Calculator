@@ -45,7 +45,7 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
     // Text Representation is short or not
     const [isShort, setIsShort] = useState<boolean>(true);
 
-    const [alignment, setAlignment] = React.useState("short");
+    const [alignment, setAlignment] = useState("short");
 
     /*
     Handle method for state
