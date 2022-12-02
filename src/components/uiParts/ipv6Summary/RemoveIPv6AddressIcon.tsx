@@ -3,6 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import React, { FC, memo } from "react";
 
 import { useAppContextForIPv6Summary } from "../../../contexts/AppContextForIPv6Summary";
+import { MIN_IPV6_ADDRESS_SUMMARY } from "../../../data/ipv6SummaryDefaultValue";
 
 const RemoveIPv6AddressIcon: FC = memo(function removeIPv6AddressIcon() {
     const { ipv6SummaryArray, setIPv6SummaryArray } = useAppContextForIPv6Summary();
@@ -14,7 +15,7 @@ const RemoveIPv6AddressIcon: FC = memo(function removeIPv6AddressIcon() {
     };
 
     const isMinimumIPv6SummaryArray = (): boolean => {
-        return ipv6SummaryArray.length <= 2;
+        return ipv6SummaryArray.length <= MIN_IPV6_ADDRESS_SUMMARY;
     };
 
     return (

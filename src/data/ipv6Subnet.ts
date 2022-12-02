@@ -13,5 +13,3 @@ export const ipv6SubnetHash: { [key: number]: string } = {
     2: "c",
     3: "e",
 };
-
-export const shortOrLong: string[] = ["short", "long"];

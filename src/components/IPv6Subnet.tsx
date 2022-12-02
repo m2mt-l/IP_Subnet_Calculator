@@ -7,10 +7,12 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
-import React, { FC, useState, ChangeEvent, memo } from "react";
+import React, { FC, useState, ChangeEvent, memo, MouseEvent } from "react";
 
-import { generateIPv6Slash, shortOrLong } from "../data/ipv6Subnet";
+import { generateIPv6Slash } from "../data/ipv6Subnet";
 import { DefaultIPv6 } from "../data/ipv6SubnetDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
 import { isValidIpv6Address } from "../util/ipv6AddressValidation";
@@ -43,6 +45,8 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
     // Text Representation is short or not
     const [isShort, setIsShort] = useState<boolean>(true);
 
+    const [alignment, setAlignment] = useState("short");
+
     /*
     Handle method for state
     */
@@ -62,10 +66,10 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
         setIsValidIpv6AddressState(isValidIpv6Address);
     };
 
-    const handleIsShort = (event: SelectChangeEvent): void => {
-        const { value } = event.target;
-        // console.log(value);
-        if (value === "short") setIsShort(true);
+    const handleShortLongToggle = (event: MouseEvent, newAlignment: string): void => {
+        // console.log(newAlignment);
+        if (newAlignment !== null) setAlignment(newAlignment);
+        if (newAlignment === "short") setIsShort(true);
         else setIsShort(false);
     };
 
@@ -115,24 +119,18 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
                     })}
                 </Select>
             </FormControl>
-            <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Representation</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Representation"
-                    defaultValue={DefaultIPv6.representation}
-                    onChange={handleIsShort}
-                >
-                    {shortOrLong.map((shortOrLong, index) => {
-                        return (
-                            <MenuItem key={index} value={shortOrLong}>
-                                {shortOrLong}
-                            </MenuItem>
-                        );
-                    })}
-                </Select>
-            </FormControl>
+            <ToggleButtonGroup
+                fullWidth
+                color="primary"
+                value={alignment}
+                exclusive
+                onChange={handleShortLongToggle}
+                aria-label="Platform"
+            >
+                <ToggleButton value="short">short</ToggleButton>
+                <ToggleButton value="long">long</ToggleButton>
+            </ToggleButtonGroup>
+
             <Button variant="contained" onClick={handleCalculateClick}>
                 {DefaultIPv6.calculate}
             </Button>
