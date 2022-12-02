@@ -3,6 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import React, { FC, memo } from "react";
 
 import { useAppContextForIPv4Summary } from "../../../contexts/AppContextForIPv4Summary";
+import { MAX_IPV4_ADDRESS_SUMMARY } from "../../../data/ipv4SummaryDefaultValue";
 
 const AddIPv4AddressIcon: FC = memo(function addAddressAndSubnet() {
     const { ipv4SummaryArray, setIPv4SummaryArray } = useAppContextForIPv4Summary();
@@ -12,7 +13,7 @@ const AddIPv4AddressIcon: FC = memo(function addAddressAndSubnet() {
     };
 
     const isMaximumIPv4SummaryArray = (): boolean => {
-        return ipv4SummaryArray.length >= 10;
+        return ipv4SummaryArray.length >= MAX_IPV4_ADDRESS_SUMMARY;
     };
 
     return (
