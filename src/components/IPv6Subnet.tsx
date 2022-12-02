@@ -66,16 +66,9 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
         setIsValidIpv6AddressState(isValidIpv6Address);
     };
 
-    const handleIsShort = (event: SelectChangeEvent): void => {
-        const { value } = event.target;
-        // console.log(value);
-        if (value === "short") setIsShort(true);
-        else setIsShort(false);
-    };
-
-    const handleMouseIsShort = (event: MouseEvent, newAlignment: string): void => {
-        console.log(newAlignment);
-        setAlignment(newAlignment);
+    const handleShortLongToggle = (event: MouseEvent, newAlignment: string): void => {
+        // console.log(newAlignment);
+        if (newAlignment !== null) setAlignment(newAlignment);
         if (newAlignment === "short") setIsShort(true);
         else setIsShort(false);
     };
@@ -131,7 +124,7 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
                 color="primary"
                 value={alignment}
                 exclusive
-                onChange={handleMouseIsShort}
+                onChange={handleShortLongToggle}
                 aria-label="Platform"
             >
                 <ToggleButton value="short">short</ToggleButton>
