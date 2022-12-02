@@ -17,6 +17,7 @@ import ResultIPv6Summary from "./ResultIPv6Summary";
 import AddIPv6AddressIcon from "./uiParts/ipv6Summary/AddIPv6AddressIcon";
 import CalculateIPv6SummaryButton from "./uiParts/ipv6Summary/CalculateIPv6SummaryButton";
 import RemoveIPv6AddressIcon from "./uiParts/ipv6Summary/RemoveIPv6AddressIcon";
+import ShortAndLongToggle from "./uiParts/ipv6Summary/ShortAndLongToggle";
 
 const IPv6Summary: FC = memo(function IPv6Summary() {
     const subnetString = generateIPv6Slash();
@@ -105,7 +106,10 @@ const IPv6Summary: FC = memo(function IPv6Summary() {
                 <RemoveIPv6AddressIcon />
                 <AddIPv6AddressIcon />
             </Stack>
-            <CalculateIPv6SummaryButton />
+            <Stack spacing={3}>
+                <ShortAndLongToggle />
+                <CalculateIPv6SummaryButton />
+            </Stack>
             {!allValidIPv6AddressesExist && (
                 <Typography align="center" sx={{ color: "error.main" }}>
                     {DefaultIPv6.validationError}
