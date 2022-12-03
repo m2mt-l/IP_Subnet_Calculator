@@ -57,47 +57,47 @@ describe("ipv6SummaryCalculator", () => {
     ];
 
     test("summarize 48 bit", () => {
-        expect(ipv6SummaryCalculator(standardSubnetFortyEight)).toBe(
+        expect(ipv6SummaryCalculator(standardSubnetFortyEight, false)).toBe(
             "2001:0db8:00a0:0000:0000:0000:0000:0000/46",
         );
     });
 
     test("output default route", () => {
-        expect(ipv6SummaryCalculator(outputDefaultRoute)).toBe("::/0");
+        expect(ipv6SummaryCalculator(outputDefaultRoute, false)).toBe("::/0");
     });
 
     test("shortest subnet", () => {
-        expect(ipv6SummaryCalculator(sameAddressDifferentSubnet)).toBe(
+        expect(ipv6SummaryCalculator(sameAddressDifferentSubnet, false)).toBe(
             "2001:0db8:00a0:0000:0000:0000:0000:0000/44",
         );
     });
 
     test("check second octet", () => {
-        expect(ipv6SummaryCalculator(checkSecondOctetWith48Subnet)).toBe(
+        expect(ipv6SummaryCalculator(checkSecondOctetWith48Subnet, false)).toBe(
             "2001:0db8:0000:0000:0000:0000:0000:0000/30",
         );
     });
 
     test("check shorter subnet than calculated octet", () => {
-        expect(ipv6SummaryCalculator(checkShorterSubnetThanCalculatedOctet)).toBe(
+        expect(ipv6SummaryCalculator(checkShorterSubnetThanCalculatedOctet, false)).toBe(
             "2001:0db8:0000:0000:0000:0000:0000:0000/32",
         );
     });
 
     test("random octet default route", () => {
-        expect(ipv6SummaryCalculator(randomOctetDefaultRoute)).toBe(
+        expect(ipv6SummaryCalculator(randomOctetDefaultRoute, false)).toBe(
             "0000:0000:0000:0000:0000:0000:0000:0000/0",
         );
     });
 
     test("same subnet same number zero bits", () => {
-        expect(ipv6SummaryCalculator(sameSubnetSameNumberZeroBits)).toBe(
+        expect(ipv6SummaryCalculator(sameSubnetSameNumberZeroBits, false)).toBe(
             "2001:0db8:00a0:0000:0000:0000:0000:0000/45",
         );
     });
 
     test("same subnet different number zero bits", () => {
-        expect(ipv6SummaryCalculator(sameSubnetDifferentNumberZeroBits)).toBe(
+        expect(ipv6SummaryCalculator(sameSubnetDifferentNumberZeroBits, false)).toBe(
             "2001:0db8:00a4:0000:0000:0000:0000:0000/47",
         );
     });
