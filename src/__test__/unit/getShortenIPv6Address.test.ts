@@ -1,6 +1,6 @@
 import { getShortenIPv6Address } from "../../util/ipv6CalculatorUtil";
 
-describe("getShortenIPv6Address", () => {
+describe("getShortenIPv6Address RFC5952", () => {
     const defaultRoute: string[] = ["0000", "0000", "0000", "0000", "0000", "0000", "0000", "0000"];
     const defaultRouteOutput: string[] = ["", "", ""];
 
@@ -100,7 +100,7 @@ describe("getShortenIPv6Address", () => {
         "0000",
         "0001",
     ];
-    const sameZeroFieldLengthOutput: string[] = ["2001", "db8", "", "1", "", "1"];
+    const sameZeroFieldLengthOutput: string[] = ["2001", "db8", "", "1", "0", "0", "1"];
 
     test("default route", () => {
         expect(getShortenIPv6Address(defaultRoute)).toEqual(defaultRouteOutput);
@@ -111,7 +111,7 @@ describe("getShortenIPv6Address", () => {
     });
 
     test("80 zero bits", () => {
-        expect(getShortenIPv6Address(noZeroBitOctet)).toEqual(noZeroBitOutput);
+        expect(getShortenIPv6Address(eightyZeroBits)).toEqual(eightyZeroOutput);
     });
 
     test("middle 32 zero bits", () => {
@@ -123,7 +123,7 @@ describe("getShortenIPv6Address", () => {
     });
 
     test("no zero bit octet", () => {
-        expect(getShortenIPv6Address(eightyZeroBits)).toEqual(eightyZeroOutput);
+        expect(getShortenIPv6Address(noZeroBitOctet)).toEqual(noZeroBitOutput);
     });
 
     test("two zero vs three zero", () => {
