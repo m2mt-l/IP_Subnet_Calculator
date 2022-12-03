@@ -1,9 +1,8 @@
+import { DEFAULT_ROUTE } from "../data/ipv6SummaryDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
 import { ShortestSubnetData } from "../model/ShortestSubnetData";
-import { defaultStringValue } from "../data/ipv6ResultTable";
-import { getStartAndEndIPv6Address, getFullIPv6Address } from "./ipv6CalculatorUtil";
 import { hexToBinaryMap } from "./hexToBinary";
-import { DEFAULT_ROUTE } from "../data/ipv6SummaryDefaultValue";
+import { getStartAndEndIPv6Address, getFullIPv6Address } from "./ipv6CalculatorUtil";
 
 /*
     ipv6SummaryCalculator
@@ -149,7 +148,7 @@ export function getCalculatedSubnet(octetIndex: number, calculatedOctetArray: st
 
 // ["00a0", "00a1","00a2"...]
 export function getCalculatedHexIndexFromOctet(calculatedOctetArray: string[]): number {
-    const octetLength: number = 4;
+    const octetLength = 4;
     // chase octet index
     for (let octetIndex = 0; octetIndex < octetLength; octetIndex++) {
         // chase array index
