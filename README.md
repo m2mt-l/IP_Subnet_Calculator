@@ -1,7 +1,7 @@
 # IP Subnet Calculator
 
 This project is a web application providing IP address subnet calculator.
-![Screen Shot 2022-12-04 at 14 50 31](https://user-images.githubusercontent.com/6548931/205476799-5cc4327b-87b8-4c93-bf0f-5b2cd82b766e.png)
+![Screen Shot 2022-12-04 at 14 56 00](https://user-images.githubusercontent.com/6548931/205476876-5139e1cb-fcdb-4f67-8a24-3fc523accffe.png)
 
 ## Built with
 
