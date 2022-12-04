@@ -1,8 +1,8 @@
 export const ipv4TypeKey: { [key: string]: string } = {
-    ipAddress: "IP address",
+    ipAddress: "IP Address",
     networkAddress: "Network Address",
     hostAddressRange: "Host Address Range",
-    numberOfHosts: "Number of hosts",
+    numberOfHosts: "Number of Hosts",
     broadcastAddress: "Broadcast Address",
     subnetMask: "Subnet Mask",
     ipType: "IP Type",

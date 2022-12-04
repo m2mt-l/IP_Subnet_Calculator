@@ -1,8 +1,8 @@
 export const ipv6TypeKey: { [key: string]: string } = {
-    ipAddress: "IP address",
+    ipAddress: "IP Address",
     networkType: "Network Type",
     ipAddressRange: "IP Address Range",
-    numberOfHosts: "Number of hosts",
+    numberOfHosts: "Number of Hosts",
 };
 
 export const ipv6ResultTable: string[] = [

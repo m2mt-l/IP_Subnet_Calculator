@@ -1,7 +1,7 @@
 # IP Subnet Calculator
 
 This project is a web application providing IP address subnet calculator.
-![Screen Shot 2022-12-04 at 14 56 00](https://user-images.githubusercontent.com/6548931/205476876-5139e1cb-fcdb-4f67-8a24-3fc523accffe.png)
+![Screen Shot 2022-12-04 at 16 38 26](https://user-images.githubusercontent.com/6548931/205479728-da534955-88e5-4911-a17a-6a71c931da38.png)
 
 ## Built with
 
@@ -31,20 +31,20 @@ Support both IPv4 adn IPv6. There are 4 tabs below.
 This tab has the function of IPv4 subnet calculator.
 Input an IPv4 address, select a subnet and press CALCULATE button, then return the following values.
 
--   IP address  
+-   IP Address  
     Show the input address and selected subnet
--   Network address
--   Number of hosts  
+-   Network Address
+-   Number of Hosts  
     Show the number of hosts. This number is excluding the network address and broadcast address.
--   Broadcast address
--   Subnet mask
--   IP type  
+-   Broadcast Address
+-   Subnet Mask
+-   IP Type  
     Show the IP type, private or public
--   Network class  
+-   Network Class  
     Show the network class, A, B, C, D and E
--   IPv4 mapped address  
+-   IPv4 Mapped Address  
     Show the IPv4 mapped address based on RFC4291 section 2.5.5.2, for the usage refer to RFC4038
--   6to4 prefix
+-   6to4 Prefix
     Show the 6to4 prefix based on RFC3056
 
 ### IPv6 subnet
@@ -59,12 +59,12 @@ Input an IPv6 address, select a subnet and select SHORT or LONG. The SHORT and L
 
 After input above values and press CALCULATE button, return the following values.
 
--   IP address  
+-   IP Address  
     Show the input address and selected subnet
--   Network type
+-   Network Type
     Show the network type, Multicast, Link-Local Unicast, Global Unicast, Unspecified or Loopback
--   IP address range
--   Number of hosts
+-   IP Address Range
+-   Number of Hosts
 
 ### IPv4 summary
 
