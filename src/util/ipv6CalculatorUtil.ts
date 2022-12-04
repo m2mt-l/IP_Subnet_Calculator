@@ -101,7 +101,7 @@ export function getShortenIPv6Address(fullIPv6address: string[]): string[] {
     else replacedIPv6Address = revertIPv6Address;
 
     if (replacedIPv6Address.at(-1) === ":") replacedIPv6Address += ":";
-    console.log(replacedIPv6Address);
+    // console.log(replacedIPv6Address);
 
     // "2001::beef:0001:0000:0000:0001" -> ["2001","","beef","1","0","0","1"]
     const shortenIPv6Address: string[] = replacedIPv6Address
