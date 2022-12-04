@@ -10,7 +10,7 @@ import { useAppContextForIPv6Summary } from "../contexts/AppContextForIPv6Summar
 import { ipv6SummaryCalculator } from "../util/ipv6SummaryCalculator";
 
 const ResultIPv6Summary: FC = memo(function resultIPv6Summary() {
-    const { ipv6SummaryArray, isShort } = useAppContextForIPv6Summary();
+    const { resultIPv6Summary } = useAppContextForIPv6Summary();
 
     return (
         <TableContainer component={Paper}>
@@ -19,7 +19,7 @@ const ResultIPv6Summary: FC = memo(function resultIPv6Summary() {
                     <TableRow>
                         <TableCell>Summary Address</TableCell>
                         <TableCell align="right">
-                            {ipv6SummaryCalculator(ipv6SummaryArray, isShort)}
+                            {ipv6SummaryCalculator(resultIPv6Summary)}
                         </TableCell>
                     </TableRow>
                 </TableBody>

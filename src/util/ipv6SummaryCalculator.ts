@@ -1,5 +1,6 @@
 import { DEFAULT_ROUTE } from "../data/ipv6SummaryDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
+import { ResultIPv6Summary } from "../model/ResultIPv6Summary";
 import { ShortestSubnetData } from "../model/ShortestSubnetData";
 import { hexToBinaryMap } from "./hexToBinary";
 import {
@@ -17,7 +18,8 @@ import {
     4. Compare calculatedSubnet and shortestSubnet.
        If shortestSubnet is shorter, return a network address having shortest subnet. If calculatedSubnet is shorter, get network address again.
 */
-export function ipv6SummaryCalculator(ipv6SummaryArray: IPv6Address[], isShort: boolean): string {
+export function ipv6SummaryCalculator(resultIPv6Summary: ResultIPv6Summary): string {
+    const { ipv6SummaryArray, isShort } = resultIPv6Summary;
     // 1. Get shortest subnet from ipv6SummaryArray
     const shortestSubnet: ShortestSubnetData = getShortestSubnet(ipv6SummaryArray);
     // subnet zero should be a default route

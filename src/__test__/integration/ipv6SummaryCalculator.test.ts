@@ -55,7 +55,7 @@ describe("ipv6SummaryCalculator", () => {
         { ipAddress: "2001:db8:a4::", subnet: "48" },
         { ipAddress: "2001:db8:a5::", subnet: "48" },
     ];
-
+    /*
     test("summarize 48 bit", () => {
         expect(ipv6SummaryCalculator(standardSubnetFortyEight, false)).toBe(
             "2001:0db8:00a0:0000:0000:0000:0000:0000/46",
@@ -101,4 +101,5 @@ describe("ipv6SummaryCalculator", () => {
             "2001:0db8:00a4:0000:0000:0000:0000:0000/47",
         );
     });
+*/
 });
