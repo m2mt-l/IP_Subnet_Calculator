@@ -2,9 +2,7 @@ import Grid from "@mui/material/Grid";
 import React, { FC } from "react";
 import { BrowserRouter } from "react-router-dom";
 
-// Material UI
-
-import Header from "./Header";
+import Header from "../pages/Header";
 import MenuTabs from "./MenuTabs";
 
 const MainPage: FC = () => {

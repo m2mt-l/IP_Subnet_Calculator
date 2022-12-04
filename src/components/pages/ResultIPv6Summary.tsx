@@ -6,11 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import React, { FC, memo } from "react";
 
-import { useAppContextForIPv4Summary } from "../contexts/AppContextForIPv4Summary";
-import { ipv4SummaryCalculator } from "../util/ipv4SummaryCalculator";
+import { useAppContextForIPv6Summary } from "../../contexts/AppContextForIPv6Summary";
+import { ipv6SummaryCalculator } from "../../util/ipv6SummaryCalculator";
 
-const ResultIPv4Summary: FC = memo(function resultIPv4Summary() {
-    const { resultIPv4Summary } = useAppContextForIPv4Summary();
+const ResultIPv6Summary: FC = memo(function resultIPv6Summary() {
+    const { resultIPv6Summary } = useAppContextForIPv6Summary();
 
     return (
         <TableContainer component={Paper}>
@@ -19,7 +19,7 @@ const ResultIPv4Summary: FC = memo(function resultIPv4Summary() {
                     <TableRow>
                         <TableCell>Summary Address</TableCell>
                         <TableCell align="right">
-                            {ipv4SummaryCalculator(resultIPv4Summary)}
+                            {ipv6SummaryCalculator(resultIPv6Summary)}
                         </TableCell>
                     </TableRow>
                 </TableBody>
@@ -28,4 +28,4 @@ const ResultIPv4Summary: FC = memo(function resultIPv4Summary() {
     );
 });
 
-export default ResultIPv4Summary;
+export default ResultIPv6Summary;

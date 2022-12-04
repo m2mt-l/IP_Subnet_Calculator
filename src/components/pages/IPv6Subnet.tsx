@@ -12,11 +12,11 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
 import React, { FC, useState, ChangeEvent, memo, MouseEvent } from "react";
 
-import { generateIPv6Slash } from "../data/ipv6Subnet";
-import { DefaultIPv6 } from "../data/ipv6SubnetDefaultValue";
-import { IPv6Address } from "../model/IPv6Address";
-import { isValidIpv6Address } from "../util/ipv6AddressValidation";
-import { getIPv6SubnetValue } from "../util/ipv6Subnet";
+import { generateIPv6Slash } from "../../data/ipv6Subnet";
+import { DefaultIPv6 } from "../../data/ipv6SubnetDefaultValue";
+import { IPv6Address } from "../../model/IPv6Address";
+import { isValidIpv6Address } from "../../util/ipv6AddressValidation";
+import { getIPv6SubnetValue } from "../../util/ipv6Subnet";
 import IPv6ResultTable from "./IPv6ResultTable";
 
 const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {

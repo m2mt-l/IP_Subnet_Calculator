@@ -8,15 +8,15 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { FC, ChangeEvent, memo } from "react";
 
-import { useAppContextForIPv4Summary } from "../contexts/AppContextForIPv4Summary";
-import { generateIPv4Slash } from "../data/ipv4Subnet";
-import { DefaultIPv4 } from "../data/ipv4SubnetDefaultValue";
-import { IPv4Address } from "../model/IPv4Address";
-import { getIPv4SubnetValue } from "../util/ipv4SubnetUtil";
+import { useAppContextForIPv4Summary } from "../../contexts/AppContextForIPv4Summary";
+import { generateIPv4Slash } from "../../data/ipv4Subnet";
+import { DefaultIPv4 } from "../../data/ipv4SubnetDefaultValue";
+import { IPv4Address } from "../../model/IPv4Address";
+import { getIPv4SubnetValue } from "../../util/ipv4SubnetUtil";
+import AddIPv4AddressIcon from "../uiParts/ipv4Summary/AddIPv4AddressIcon";
+import CalculateIPv4SummaryButton from "../uiParts/ipv4Summary/CalculateIPv4SummaryButton";
+import RemoveIPv4AddressIcon from "../uiParts/ipv4Summary/RemoveIPv4AddressIcon";
 import ResultIPv4Summary from "./ResultIPv4Summary";
-import AddIPv4AddressIcon from "./uiParts/ipv4Summary/AddIPv4AddressIcon";
-import CalculateIPv4SummaryButton from "./uiParts/ipv4Summary/CalculateIPv4SummaryButton";
-import RemoveIPv4AddressIcon from "./uiParts/ipv4Summary/RemoveIPv4AddressIcon";
 
 const IPv4Summary: FC = memo(function ipv4Summary() {
     const subnetString = generateIPv4Slash();

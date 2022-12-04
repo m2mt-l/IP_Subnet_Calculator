@@ -6,9 +6,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import React, { FC, memo } from "react";
 
-import { ipv4ResultTable } from "../data/ipv4ResultTable";
-import { IPv4Address } from "../model/IPv4Address";
-import { ipv4SubnetCalculator } from "../util/ipv4SubnetCalculator";
+import { ipv4ResultTable } from "../../data/ipv4ResultTable";
+import { IPv4Address } from "../../model/IPv4Address";
+import { ipv4SubnetCalculator } from "../../util/ipv4SubnetCalculator";
 
 const IPv4ResultTable: FC<IPv4Address> = memo(function IPv4ResultTable(props) {
     // console.log("check render IPv4ResultTable");

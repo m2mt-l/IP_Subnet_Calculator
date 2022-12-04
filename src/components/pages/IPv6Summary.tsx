@@ -8,16 +8,16 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { FC, ChangeEvent, memo } from "react";
 
-import { useAppContextForIPv6Summary } from "../contexts/AppContextForIPv6Summary";
-import { generateIPv6Slash } from "../data/ipv6Subnet";
-import { DefaultIPv6 } from "../data/ipv6SubnetDefaultValue";
-import { IPv6Address } from "../model/IPv6Address";
-import { getIPv6SubnetValue } from "../util/ipv6Subnet";
+import { useAppContextForIPv6Summary } from "../../contexts/AppContextForIPv6Summary";
+import { generateIPv6Slash } from "../../data/ipv6Subnet";
+import { DefaultIPv6 } from "../../data/ipv6SubnetDefaultValue";
+import { IPv6Address } from "../../model/IPv6Address";
+import { getIPv6SubnetValue } from "../../util/ipv6Subnet";
+import AddIPv6AddressIcon from "../uiParts/ipv6Summary/AddIPv6AddressIcon";
+import CalculateIPv6SummaryButton from "../uiParts/ipv6Summary/CalculateIPv6SummaryButton";
+import RemoveIPv6AddressIcon from "../uiParts/ipv6Summary/RemoveIPv6AddressIcon";
+import ShortAndLongToggle from "../uiParts/ipv6Summary/ShortAndLongToggle";
 import ResultIPv6Summary from "./ResultIPv6Summary";
-import AddIPv6AddressIcon from "./uiParts/ipv6Summary/AddIPv6AddressIcon";
-import CalculateIPv6SummaryButton from "./uiParts/ipv6Summary/CalculateIPv6SummaryButton";
-import RemoveIPv6AddressIcon from "./uiParts/ipv6Summary/RemoveIPv6AddressIcon";
-import ShortAndLongToggle from "./uiParts/ipv6Summary/ShortAndLongToggle";
 
 const IPv6Summary: FC = memo(function IPv6Summary() {
     const subnetString = generateIPv6Slash();
