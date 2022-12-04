@@ -106,7 +106,7 @@ export function getCalculatedOctetArray(
 }
 
 export function getCalculatedOutputString(startAddress: string[], subnet: number): string {
-    return startAddress.join(":") + "/" + subnet.toString();
+    return startAddress.join(":").toLowerCase() + "/" + subnet.toString();
 }
 
 // octetIndex = 6(/48), calculatedOctetArray = ["00a0", "00a1","00a2"]

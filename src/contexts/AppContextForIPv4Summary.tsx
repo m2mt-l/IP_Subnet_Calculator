@@ -9,6 +9,8 @@ interface AppContextValue {
     setAllValidIPv4AddressesExist: (switchValidIPv4: boolean) => void;
     canCalculateIPv4Summary: boolean;
     setCanCalculateIPv4Summary: (switchCanCalculate: boolean) => void;
+    resultIPv4Summary: IPv4Address[];
+    setResultIPv4Summary: (ipv4array: IPv4Address[]) => void;
 }
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
@@ -35,6 +37,11 @@ export const AppContextProviderForIPv4Summary = ({
 
     const [canCalculateIPv4Summary, setCanCalculateIPv4Summary] = useState(false);
 
+    const [resultIPv4Summary, setResultIPv4Summary] = useState([
+        { ipAddress: "", subnet: "24" },
+        { ipAddress: "", subnet: "24" },
+    ]);
+
     const value = {
         ipv4SummaryArray,
         setIPv4SummaryArray,
@@ -42,6 +49,8 @@ export const AppContextProviderForIPv4Summary = ({
         setAllValidIPv4AddressesExist,
         canCalculateIPv4Summary,
         setCanCalculateIPv4Summary,
+        resultIPv4Summary,
+        setResultIPv4Summary,
     };
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

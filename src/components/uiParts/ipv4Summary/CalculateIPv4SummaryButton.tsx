@@ -5,12 +5,17 @@ import { useAppContextForIPv4Summary } from "../../../contexts/AppContextForIPv4
 import { checkAllValidIPv4AddressesExist } from "../../../util/ipv4AddressValidation";
 
 const CalculateIPv4SummaryButton: FC = memo(function calculateButton() {
-    const { ipv4SummaryArray, setAllValidIPv4AddressesExist, setCanCalculateIPv4Summary } =
-        useAppContextForIPv4Summary();
+    const {
+        ipv4SummaryArray,
+        setAllValidIPv4AddressesExist,
+        setCanCalculateIPv4Summary,
+        setResultIPv4Summary,
+    } = useAppContextForIPv4Summary();
 
     const handleCalculateClick = (): void => {
         setAllValidIPv4AddressesExist(checkAllValidIPv4AddressesExist(ipv4SummaryArray));
         setCanCalculateIPv4Summary(checkAllValidIPv4AddressesExist(ipv4SummaryArray));
+        setResultIPv4Summary(ipv4SummaryArray);
         // console.log(ipv4SummaryArray);
     };
 
