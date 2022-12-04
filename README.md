@@ -1,6 +1,7 @@
 # IP Subnet Calculator
 
 This project is a web application providing IP address subnet calculator.
+![Screen Shot 2022-12-04 at 14 50 31](https://user-images.githubusercontent.com/6548931/205476799-5cc4327b-87b8-4c93-bf0f-5b2cd82b766e.png)
 
 ## Built with
 
@@ -14,12 +15,16 @@ This project is a web application providing IP address subnet calculator.
 -   Summarize IP addresses
 -   Dark mode based on OS setting
 
+![Screen Shot 2022-12-04 at 14 49 56](https://user-images.githubusercontent.com/6548931/205476818-8fb6dfdc-4fb4-43fd-ba9e-a4ffd6ffc695.png)
+
 Support both IPv4 adn IPv6. There are 4 tabs below.
 
 -   IPv4 subnet
 -   IPv6 subnet
 -   IPv4 summary
 -   IPv6 summary
+
+## Usage
 
 ### IPv4 subnet
 
