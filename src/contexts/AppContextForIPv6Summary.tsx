@@ -1,7 +1,7 @@
 import React, { ReactElement, createContext, useContext, ReactNode, useState } from "react";
 
 import { IPv6Address } from "../model/IPv6Address";
-
+import { ResultIPv6Summary } from "../model/ResultIPv6Summary";
 interface AppContextValue {
     ipv6SummaryArray: IPv6Address[];
     setIPv6SummaryArray: (ipv6array: IPv6Address[]) => void;
@@ -13,6 +13,8 @@ interface AppContextValue {
     setIsShort: (switchIsShort: boolean) => void;
     alignment: string;
     setAlignment: (alignmentString: string) => void;
+    resultIPv6Summary: ResultIPv6Summary;
+    setResultIPv6Summary: (resultIPv6: ResultIPv6Summary) => void;
 }
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
@@ -43,6 +45,11 @@ export const AppContextProviderForIPv6Summary = ({
 
     const [alignment, setAlignment] = useState("short");
 
+    const [resultIPv6Summary, setResultIPv6Summary] = useState({
+        ipv6SummaryArray: [{ ipAddress: "", subnet: "64" }],
+        isShort: true,
+    });
+
     const value = {
         ipv6SummaryArray,
         setIPv6SummaryArray,
@@ -54,6 +61,8 @@ export const AppContextProviderForIPv6Summary = ({
         setIsShort,
         alignment,
         setAlignment,
+        resultIPv6Summary,
+        setResultIPv6Summary,
     };
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

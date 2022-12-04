@@ -5,12 +5,21 @@ import { useAppContextForIPv6Summary } from "../../../contexts/AppContextForIPv6
 import { checkAllValidIPv6AddressesExist } from "../../../util/ipv6AddressValidation";
 
 const CalculateIPv6SummaryButton: FC = memo(function calculateIPv6Summary() {
-    const { ipv6SummaryArray, setAllValidIPv6AddressesExist, setCanCalculateIPv6Summary } =
-        useAppContextForIPv6Summary();
+    const {
+        ipv6SummaryArray,
+        setAllValidIPv6AddressesExist,
+        setCanCalculateIPv6Summary,
+        isShort,
+        setResultIPv6Summary,
+    } = useAppContextForIPv6Summary();
 
     const handleCalculateClick = (): void => {
         setAllValidIPv6AddressesExist(checkAllValidIPv6AddressesExist(ipv6SummaryArray));
         setCanCalculateIPv6Summary(checkAllValidIPv6AddressesExist(ipv6SummaryArray));
+        setResultIPv6Summary({
+            ipv6SummaryArray: ipv6SummaryArray,
+            isShort: isShort,
+        });
         // console.log(ipv6SummaryArray);
     };
 

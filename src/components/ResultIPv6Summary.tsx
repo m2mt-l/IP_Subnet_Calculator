@@ -6,14 +6,21 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import React, { FC, memo } from "react";
 
+import { useAppContextForIPv6Summary } from "../contexts/AppContextForIPv6Summary";
+import { ipv6SummaryCalculator } from "../util/ipv6SummaryCalculator";
+
 const ResultIPv6Summary: FC = memo(function resultIPv6Summary() {
+    const { resultIPv6Summary } = useAppContextForIPv6Summary();
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 370, maxWidth: 500 }} aria-label="simple table">
                 <TableBody>
                     <TableRow>
                         <TableCell>Summary Address</TableCell>
-                        <TableCell align="right">IPv6 summary result</TableCell>
+                        <TableCell align="right">
+                            {ipv6SummaryCalculator(resultIPv6Summary)}
+                        </TableCell>
                     </TableRow>
                 </TableBody>
             </Table>

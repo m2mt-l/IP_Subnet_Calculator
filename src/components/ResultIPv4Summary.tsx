@@ -10,7 +10,7 @@ import { useAppContextForIPv4Summary } from "../contexts/AppContextForIPv4Summar
 import { ipv4SummaryCalculator } from "../util/ipv4SummaryCalculator";
 
 const ResultIPv4Summary: FC = memo(function resultIPv4Summary() {
-    const { ipv4SummaryArray } = useAppContextForIPv4Summary();
+    const { resultIPv4Summary } = useAppContextForIPv4Summary();
 
     return (
         <TableContainer component={Paper}>
@@ -19,7 +19,7 @@ const ResultIPv4Summary: FC = memo(function resultIPv4Summary() {
                     <TableRow>
                         <TableCell>Summary Address</TableCell>
                         <TableCell align="right">
-                            {ipv4SummaryCalculator(ipv4SummaryArray)}
+                            {ipv4SummaryCalculator(resultIPv4Summary)}
                         </TableCell>
                     </TableRow>
                 </TableBody>
