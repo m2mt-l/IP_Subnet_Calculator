@@ -1,4 +1,4 @@
-import { DEFAULT_ROUTE } from "../data/ipv6SummaryDefaultValue";
+import { SHORT_DEFAULT_ROUTE, LONG_DEFAULT_ROUTE } from "../data/ipv6SummaryDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
 import { ResultIPv6Summary } from "../model/ResultIPv6Summary";
 import { ShortestSubnetData } from "../model/ShortestSubnetData";
@@ -23,7 +23,7 @@ export function ipv6SummaryCalculator(resultIPv6Summary: ResultIPv6Summary): str
     // 1. Get shortest subnet from ipv6SummaryArray
     const shortestSubnet: ShortestSubnetData = getShortestSubnet(ipv6SummaryArray);
     // subnet zero should be a default route
-    if (shortestSubnet.subnet === 0) return DEFAULT_ROUTE;
+    if (shortestSubnet.subnet === 0) return isShort ? SHORT_DEFAULT_ROUTE : LONG_DEFAULT_ROUTE;
 
     // Change all ipv6 addresses to start address, also need to change full ipv6 address
     // [["2001","0410","00a0","0000"...], ["2001","0410","00a1","0000"...], ...]
@@ -39,7 +39,13 @@ export function ipv6SummaryCalculator(resultIPv6Summary: ResultIPv6Summary): str
     const shortestSubnetStartAddress: string[] = ipv6StartAddressArray[shortestSubnet.index];
     // if all octets are the same, return shortest subnet
     if (calculatedOctetIndex === -1)
-        return getCalculatedOutputString(shortestSubnetStartAddress, shortestSubnet.subnet);
+        return isShort
+            ? getCalculatedOutputString(
+                  getShortenIPv6Address(shortestSubnetStartAddress),
+                  shortestSubnet.subnet,
+              )
+            : getCalculatedOutputString(shortestSubnetStartAddress, shortestSubnet.subnet);
+
     // Get all calculated octet index values and change them to array
     // ["00a0", "00a1",...] <- [["2001","0410","00a0","0000"...], ["2001","0410","00a1","0000"...], ...]
     const calculatedOctetArray: string[] = getCalculatedOctetArray(

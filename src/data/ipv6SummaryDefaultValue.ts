@@ -1,4 +1,6 @@
-export const DEFAULT_ROUTE = "::/0";
+export const SHORT_DEFAULT_ROUTE = "::/0";
+
+export const LONG_DEFAULT_ROUTE = "0000:0000:0000:0000:0000:0000:0000:0000/0";
 
 export const MAX_IPV6_ADDRESS_SUMMARY = 5;
 
