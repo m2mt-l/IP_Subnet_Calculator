@@ -25,7 +25,7 @@ const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
     const [ipv4Address, setIPv4Address] = useState<string>("");
 
     // Select subnet state
-    const [ipv4Subnet, setIPv4Subnet] = useState<string>(DefaultIPv4.subnet); // default value
+    const [ipv4Subnet, setIPv4Subnet] = useState<string>(DefaultIPv4.SUBNET); // default value
 
     // If IP address is input or not
     const [isValidIPv4AddressState, setIsValidIPv4AddressState] = useState<boolean>(true);
@@ -83,7 +83,7 @@ const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
                 label="IPv4 address"
                 variant="filled"
                 sx={{ minWidth: 370 }}
-                placeholder={DefaultIPv4.placeholder}
+                placeholder={DefaultIPv4.PLACEHOLDER}
                 onChange={handleIPv4AddressChange}
             />
             <FormControl fullWidth>
@@ -93,7 +93,7 @@ const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
                     id="select-subnet"
                     data-testid="subnet"
                     label="Subnet"
-                    defaultValue={DefaultIPv4.subnet}
+                    defaultValue={DefaultIPv4.SUBNET}
                     onChange={handleIPv4SubnetChange}
                 >
                     {subnetString.map((subnetString, index) => {
@@ -106,11 +106,11 @@ const IPv4Subnet: FC = memo(function ipv4SubnetComponent() {
                 </Select>
             </FormControl>
             <Button variant="contained" onClick={handleCalculateClick} data-testid="calculate">
-                {DefaultIPv4.calculate}
+                {DefaultIPv4.CALCULATE}
             </Button>
             {!isValidIPv4AddressState && (
                 <Typography align="center" sx={{ color: "error.main" }}>
-                    {DefaultIPv4.validationError}
+                    {DefaultIPv4.VALIDATION_ERROR}
                 </Typography>
             )}
             <Divider flexItem />

@@ -31,8 +31,8 @@ function displayIPAddress(ipv6Address: IPv6Address): string {
     const { ipAddress, subnet, isShort } = ipv6Address;
     const fullIPv6Address: string[] = getFullIPv6Address(ipAddress);
     if (isShort) {
-        return getShortenIPv6Address(fullIPv6Address).join(defaultStringValue.colon) + "/" + subnet;
-    } else return fullIPv6Address.join(defaultStringValue.colon) + "/" + subnet;
+        return getShortenIPv6Address(fullIPv6Address).join(defaultStringValue.COLON) + "/" + subnet;
+    } else return fullIPv6Address.join(defaultStringValue.COLON) + "/" + subnet;
 }
 
 // RFC 4291 Section 2.4
@@ -42,16 +42,16 @@ function getNetworkType(ipv6Address: IPv6Address): string {
     const headOctet: string = fullIPv6Address[0];
     const tailOctetIndex: number = fullIPv6Address.length - 1;
     // ff00
-    if (headOctet === defaultStringValue.multicast) return "Multicast";
+    if (headOctet === defaultStringValue.MULTICAST) return "Multicast";
     // fe80
-    if (headOctet === defaultStringValue.linkLocal) return "Link-Local Unicast";
+    if (headOctet === defaultStringValue.LINK_LOCAL) return "Link-Local Unicast";
 
     // until 112 bits
     for (let i = 0; i < tailOctetIndex; i++) {
-        if (fullIPv6Address[i] !== defaultStringValue.allZeroBitOctet) return "Global Unicast";
+        if (fullIPv6Address[i] !== defaultStringValue.ZERO_FIELD) return "Global Unicast";
     }
     // for last 16 bits, :: or ::1
-    return fullIPv6Address[tailOctetIndex] === defaultStringValue.allZeroBitOctet
+    return fullIPv6Address[tailOctetIndex] === defaultStringValue.ZERO_FIELD
         ? "Unspecified"
         : "Loopback";
 }
@@ -63,22 +63,22 @@ function getIPAddressRange(ipv6Address: IPv6Address): string {
 
     if (isShort) {
         return (
-            getShortenIPv6Address(startIPv6Address).join(defaultStringValue.colon) +
+            getShortenIPv6Address(startIPv6Address).join(defaultStringValue.COLON) +
             " - " +
-            getShortenIPv6Address(endIPv6Address).join(defaultStringValue.colon)
+            getShortenIPv6Address(endIPv6Address).join(defaultStringValue.COLON)
         );
     } else {
         return (
-            startIPv6Address.join(defaultStringValue.colon) +
+            startIPv6Address.join(defaultStringValue.COLON) +
             " - " +
-            endIPv6Address.join(defaultStringValue.colon)
+            endIPv6Address.join(defaultStringValue.COLON)
         );
     }
 }
 
 function getNumberOfHosts(ipv6Address: IPv6Address): string {
     const { subnet } = ipv6Address;
-    const totalBits: number = defaultNumberValue.maxNumberOfBits - parseInt(subnet, 10);
+    const totalBits: number = defaultNumberValue.MAX_NUMBER_OF_BITS - parseInt(subnet, 10);
     const numberOfHosts: bigint = totalBits < 1 ? BigInt(1) : BigInt(Math.pow(2, totalBits));
     return numberOfHosts.toLocaleString();
 }

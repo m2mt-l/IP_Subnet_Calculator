@@ -27,7 +27,7 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
     const [ipv6Address, setIpv6Address] = useState<string>("");
 
     // Select subnet state
-    const [ipv6Subnet, setIpv6Subnet] = useState<string>(DefaultIPv6.subnet); // default value
+    const [ipv6Subnet, setIpv6Subnet] = useState<string>(DefaultIPv6.SUBNET); // default value
 
     // If IP address is input or not
     const [isValidIpv6AddressState, setIsValidIpv6AddressState] = useState<boolean>(true);
@@ -98,7 +98,7 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
                 label="IPv6 address"
                 variant="filled"
                 sx={{ minWidth: 370 }}
-                placeholder={DefaultIPv6.placeholder}
+                placeholder={DefaultIPv6.PLACEHOLDER}
                 onChange={handleIpv6AddressChange}
             />
             <FormControl fullWidth>
@@ -107,7 +107,7 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     label="Subnet"
-                    defaultValue={DefaultIPv6.subnet}
+                    defaultValue={DefaultIPv6.SUBNET}
                     onChange={handleIpv6SubnetChange}
                 >
                     {subnetString.map((subnetString, index) => {
@@ -132,11 +132,11 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
             </ToggleButtonGroup>
 
             <Button variant="contained" onClick={handleCalculateClick}>
-                {DefaultIPv6.calculate}
+                {DefaultIPv6.CALCULATE}
             </Button>
             {!isValidIpv6AddressState && (
                 <Typography align="center" sx={{ color: "error.main" }}>
-                    {DefaultIPv6.validationError}
+                    {DefaultIPv6.VALIDATION_ERROR}
                 </Typography>
             )}
             <Divider flexItem />

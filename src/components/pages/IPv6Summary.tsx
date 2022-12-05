@@ -73,7 +73,7 @@ const IPv6Summary: FC = memo(function IPv6Summary() {
                 label="IPv6 address"
                 variant="filled"
                 sx={{ minWidth: 380 }}
-                placeholder={DefaultIPv6.placeholder}
+                placeholder={DefaultIPv6.PLACEHOLDER}
                 onChange={handleIPv6AddressChange}
             />
             {/* SelectIPv6Subnet */}
@@ -84,7 +84,7 @@ const IPv6Summary: FC = memo(function IPv6Summary() {
                     id={index.toString()}
                     data-testid="subnet"
                     label="Subnet"
-                    defaultValue={DefaultIPv6.subnet}
+                    defaultValue={DefaultIPv6.SUBNET}
                     onChange={(event) => handleSubnetChange(event, index)}
                 >
                     {subnetString.map((subnetString, subnetIndex) => {
@@ -112,7 +112,7 @@ const IPv6Summary: FC = memo(function IPv6Summary() {
             </Stack>
             {!allValidIPv6AddressesExist && (
                 <Typography align="center" sx={{ color: "error.main" }}>
-                    {DefaultIPv6.validationError}
+                    {DefaultIPv6.VALIDATION_ERROR}
                 </Typography>
             )}
             <Divider flexItem />

@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
 
-import IPv6Subnet from "../../components/IPv4Subnet";
+import IPv6Subnet from "../../components/pages/IPv4Subnet";
 
 describe("render IPv6 input", () => {
     test("input ipv6 address text", () => {

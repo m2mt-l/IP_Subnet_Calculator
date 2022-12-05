@@ -19,14 +19,14 @@ This project is a web application providing IP address subnet calculator.
 
 Support both IPv4 adn IPv6. There are 4 tabs below.
 
--   IPv4 subnet
--   IPv6 subnet
--   IPv4 summary
--   IPv6 summary
+-   IPV4 SUBNET
+-   IPV6 SUBNET
+-   IPV4 SUMMARY
+-   IPV6 SUMMARY
 
 ## Usage
 
-### IPv4 subnet
+### IPV4 SUBNET
 
 This tab has the function of IPv4 subnet calculator.
 Input an IPv4 address, select a subnet and press CALCULATE button, then return the following values.
@@ -47,7 +47,7 @@ Input an IPv4 address, select a subnet and press CALCULATE button, then return t
 -   6to4 Prefix
     Show the 6to4 prefix based on RFC3056
 
-### IPv6 subnet
+### IPV6 SUBNET
 
 This tab has the function of IPv6 subnet calculator.
 Input an IPv6 address, select a subnet and select SHORT or LONG. The SHORT and LONG is to change the representation below.
@@ -66,12 +66,12 @@ After input above values and press CALCULATE button, return the following values
 -   IP Address Range
 -   Number of Hosts
 
-### IPv4 summary
+### IPV4 SUMMARY
 
 This tab has the function of summarizing IPv4 addresses. Minimum 2 addresses and maximum 5 addresses can be summarized.
 Input IPv4 addresses, select subnets and press CALCULATE button, then return a summarized IP address, which as small range of addresses as possible.
 
-### IPv6 summary
+### IPV6 SUMMARY
 
 This tab has the function of summarizing IPv6 addresses. Minimum 2 addresses and maximum 5 addresses can be summarized.
 Input IPv4 addresses, select subnets, select SHORT or LONG and press CALCULATE button, then return a summarized IP address, which as small range of addresses as possible. The SHORT and LONG is to change the representation below, the same as IPv6 subnet.

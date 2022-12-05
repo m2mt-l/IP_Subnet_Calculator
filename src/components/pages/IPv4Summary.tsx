@@ -71,7 +71,7 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
                 label="IPv4 address"
                 variant="filled"
                 sx={{ minWidth: 225 }}
-                placeholder={DefaultIPv4.placeholder}
+                placeholder={DefaultIPv4.PLACEHOLDER}
                 onChange={handleIPv4AddressChange}
             />
             {/* SelectIPv4Subnet */}
@@ -82,7 +82,7 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
                     id={index.toString()}
                     data-testid="subnet"
                     label="Subnet"
-                    defaultValue={DefaultIPv4.subnet}
+                    defaultValue={DefaultIPv4.SUBNET}
                     onChange={(event) => handleSubnetChange(event, index)}
                 >
                     {subnetString.map((subnetString, subnetIndex) => {
@@ -107,7 +107,7 @@ const IPv4Summary: FC = memo(function ipv4Summary() {
             <CalculateIPv4SummaryButton />
             {!allValidIPv4AddressesExist && (
                 <Typography align="center" sx={{ color: "error.main" }}>
-                    {DefaultIPv4.validationError}
+                    {DefaultIPv4.VALIDATION_ERROR}
                 </Typography>
             )}
             <Divider flexItem />

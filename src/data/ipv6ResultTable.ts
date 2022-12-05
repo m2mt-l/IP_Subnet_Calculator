@@ -13,15 +13,15 @@ export const ipv6ResultTable: string[] = [
 ];
 
 export const defaultStringValue: { [key: string]: string } = {
-    multicast: "ff00",
-    linkLocal: "fe80",
-    allZeroBitOctet: "0000",
-    allOneBitOctet: "ffff",
-    colon: ":",
+    MULTICAST: "ff00",
+    LINK_LOCAL: "fe80",
+    ZERO_FIELD: "0000",
+    ALL_ONE_BIT_FIELD: "ffff",
+    COLON: ":",
 };
 
 export const defaultNumberValue: { [key: string]: number } = {
-    octetLength: 4,
-    maxNumberOfBits: 128,
-    maxNumberOfIPv6Array: 8,
+    OCTET_LENGTH: 4,
+    MAX_NUMBER_OF_BITS: 128,
+    MAX_NUMBER_OF_IPV6_ARRAY: 8,
 };
