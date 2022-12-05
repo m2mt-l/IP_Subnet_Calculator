@@ -83,7 +83,7 @@ const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {
 
     const handleAddressAndSubnet = (): void => {
         setAddressAndSubnet({
-            ipAddress: ipv6Address,
+            ipAddress: ipv6Address.toLowerCase(),
             subnet: ipv6Subnet,
             isShort,
         });
