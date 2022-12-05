@@ -30,7 +30,7 @@ The arguments are only ipv6Address(string) or subnet(string).
 function displayIPAddress(ipv6Address: IPv6Address): string {
     const { ipAddress, subnet, isShort } = ipv6Address;
     const fullIPv6Address: string[] = getFullIPv6Address(ipAddress);
-    if (isShort) {
+    if (isShort === true) {
         return getShortenIPv6Address(fullIPv6Address).join(defaultStringValue.COLON) + "/" + subnet;
     } else return fullIPv6Address.join(defaultStringValue.COLON) + "/" + subnet;
 }
@@ -61,7 +61,7 @@ function getIPAddressRange(ipv6Address: IPv6Address): string {
     const fullIPv6Address: string[] = getFullIPv6Address(ipAddress);
     const { startIPv6Address, endIPv6Address } = getStartAndEndIPv6Address(fullIPv6Address, subnet);
 
-    if (isShort) {
+    if (isShort === true) {
         return (
             getShortenIPv6Address(startIPv6Address).join(defaultStringValue.COLON) +
             " - " +

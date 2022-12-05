@@ -16,7 +16,7 @@ import { generateIPv6Slash } from "../../data/ipv6Subnet";
 import { DefaultIPv6 } from "../../data/ipv6SubnetDefaultValue";
 import { IPv6Address } from "../../model/IPv6Address";
 import { isValidIpv6Address } from "../../util/ipv6AddressValidation";
-import { getIPv6SubnetValue } from "../../util/ipv6Subnet";
+import { getIPv6SubnetValue } from "../../util/ipv6SubnetUtil";
 import IPv6ResultTable from "./IPv6ResultTable";
 
 const IPv6Subnet: FC = memo(function IPv6SubnetComponent() {

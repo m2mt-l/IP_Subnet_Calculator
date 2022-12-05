@@ -1,5 +1,21 @@
 import { ipv4TypeKey } from "../data/ipv4ResultTable";
 import { ipv4SubnetHashMap } from "../data/ipv4Subnet";
+import {
+    CLASS_A_FIRST_OCTET_END,
+    CLASS_A_FIRST_OCTET_START,
+    CLASS_B_FIRST_OCTET_END,
+    CLASS_B_FIRST_OCTET_START,
+    CLASS_C_FIRST_OCTET_END,
+    CLASS_C_FIRST_OCTET_START,
+    CLASS_D_FIRST_OCTET_END,
+    CLASS_D_FIRST_OCTET_START,
+    PRIVATE_CLASS_A_FIRST_OCTET,
+    PRIVATE_CLASS_B_FIRST_OCTET,
+    PRIVATE_CLASS_B_SECOND_OCTET_END,
+    PRIVATE_CLASS_B_SECOND_OCTET_START,
+    PRIVATE_CLASS_C_FIRST_OCTET,
+    PRIVATE_CLASS_C_SECOND_OCTET,
+} from "../data/ipv4SubnetDefaultValue";
 import { defaultIPv4Address } from "../data/ipv4SummaryDefaultValue";
 import { IPv4Address } from "../model/IPv4Address";
 import {
@@ -113,11 +129,20 @@ function getIPv4Type(ipv4Address: string): string {
     const secondOctet: number = ipv4AddressArray[1];
     const isPrivate = (firstOctet: number, secondOctet: number): boolean => {
         // Private Class A
-        if (firstOctet === 10) return true;
+        if (firstOctet === PRIVATE_CLASS_A_FIRST_OCTET) return true;
         // Private Class B
-        else if (firstOctet === 172 && secondOctet >= 16 && secondOctet <= 31) return true;
+        else if (
+            firstOctet === PRIVATE_CLASS_B_FIRST_OCTET &&
+            secondOctet >= PRIVATE_CLASS_B_SECOND_OCTET_START &&
+            secondOctet <= PRIVATE_CLASS_B_SECOND_OCTET_END
+        )
+            return true;
         // Private Class C
-        else if (firstOctet === 192 && secondOctet === 168) return true;
+        else if (
+            firstOctet === PRIVATE_CLASS_C_FIRST_OCTET &&
+            secondOctet === PRIVATE_CLASS_C_SECOND_OCTET
+        )
+            return true;
         // Global
         else return false;
     };
@@ -129,10 +154,14 @@ function getIPv4NetworkClass(ipv4Address: string): string {
     const ipv4AddressArray: number[] = splitIPv4Address(ipv4Address);
     const firstOctet: number = ipv4AddressArray[0];
 
-    if (firstOctet >= 0 && firstOctet <= 127) return "A";
-    else if (firstOctet >= 128 && firstOctet <= 191) return "B";
-    else if (firstOctet >= 192 && firstOctet <= 223) return "C";
-    else if (firstOctet >= 224 && firstOctet <= 239) return "D(Multicast)";
+    if (firstOctet >= CLASS_A_FIRST_OCTET_START && firstOctet <= CLASS_A_FIRST_OCTET_END)
+        return "A";
+    else if (firstOctet >= CLASS_B_FIRST_OCTET_START && firstOctet <= CLASS_B_FIRST_OCTET_END)
+        return "B";
+    else if (firstOctet >= CLASS_C_FIRST_OCTET_START && firstOctet <= CLASS_C_FIRST_OCTET_END)
+        return "C";
+    else if (firstOctet >= CLASS_D_FIRST_OCTET_START && firstOctet <= CLASS_D_FIRST_OCTET_END)
+        return "D(Multicast)";
     // firstOctet >= 240 && firstOctet <= 255
     else return "E";
 }

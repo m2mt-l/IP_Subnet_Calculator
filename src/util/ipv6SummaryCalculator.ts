@@ -1,3 +1,4 @@
+import { defaultStringValue } from "../data/ipv6ResultTable";
 import { SHORT_DEFAULT_ROUTE, LONG_DEFAULT_ROUTE } from "../data/ipv6SummaryDefaultValue";
 import { IPv6Address } from "../model/IPv6Address";
 import { ResultIPv6Summary } from "../model/ResultIPv6Summary";
@@ -114,7 +115,7 @@ export function getCalculatedOctetArray(
 }
 
 export function getCalculatedOutputString(startAddress: string[], subnet: number): string {
-    return startAddress.join(":").toLowerCase() + "/" + subnet.toString();
+    return startAddress.join(defaultStringValue.COLON).toLowerCase() + "/" + subnet.toString();
 }
 
 // octetIndex = 6(/48), calculatedOctetArray = ["00a0", "00a1","00a2"]

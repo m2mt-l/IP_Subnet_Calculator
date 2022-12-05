@@ -8,8 +8,8 @@ export function isValidIpv4Address(ipv4Address: string): boolean {
     if (splitIpv4AddressLength !== 4) return false;
 
     // Check the octet value is correct
-    for (let i = 0; i < splitIpv4AddressLength; i++) {
-        const octetValue = Number(splitIpv4Address[i]);
+    for (const octetValueString of splitIpv4Address) {
+        const octetValue: number = parseInt(octetValueString, 10);
         // Check if this is Number
         if (isNaN(octetValue)) return false;
         // Check if the octet range is from 0 to 255

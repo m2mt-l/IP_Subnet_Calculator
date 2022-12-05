@@ -12,7 +12,7 @@ import { useAppContextForIPv6Summary } from "../../contexts/AppContextForIPv6Sum
 import { generateIPv6Slash } from "../../data/ipv6Subnet";
 import { DefaultIPv6 } from "../../data/ipv6SubnetDefaultValue";
 import { IPv6Address } from "../../model/IPv6Address";
-import { getIPv6SubnetValue } from "../../util/ipv6Subnet";
+import { getIPv6SubnetValue } from "../../util/ipv6SubnetUtil";
 import AddIPv6AddressIcon from "../uiParts/ipv6Summary/AddIPv6AddressIcon";
 import CalculateIPv6SummaryButton from "../uiParts/ipv6Summary/CalculateIPv6SummaryButton";
 import RemoveIPv6AddressIcon from "../uiParts/ipv6Summary/RemoveIPv6AddressIcon";
