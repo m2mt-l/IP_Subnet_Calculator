@@ -5,7 +5,7 @@ import React, { FC, memo, MouseEvent } from "react";
 import { useAppContextForIPv6Summary } from "../../../contexts/AppContextForIPv6Summary";
 
 const ShortAndLongToggle: FC = memo(function shortAndLongToggle() {
-    const { isShort, setIsShort, alignment, setAlignment } = useAppContextForIPv6Summary();
+    const { setIsShort, alignment, setAlignment } = useAppContextForIPv6Summary();
 
     const handleShortLongToggle = (event: MouseEvent, newAlignment: string): void => {
         // console.log(newAlignment);
