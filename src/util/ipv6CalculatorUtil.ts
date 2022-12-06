@@ -165,6 +165,25 @@ function omitFrontZeroFromOctet(octet: string): string {
     return octet;
 }
 
+/*
+getStartAndEndIPv6Address
+1.Check calculated hex from subnet.
+    ex:
+    subnet 67
+    2001:0db8:beef:0123:3212:0000:0000:0001
+
+    targetIndex = 4 -> "3212" -> 67 / 16 = 4
+    hexIndexInOctet = 0 -> "3212" -> "3" -> 67 % 16 / 4 = 0
+    bitIndexInHexIndex = 3 -> 67 % 4 -> refer to ipv6SubnetHash 3: "e" ("1110")
+    /67 -> ffff:ffff:ffff:ffff:e000:0000:0000:0000
+
+2.bitwise AND or OR
+Get decimal values from above Indexes.
+start address: ipv6 hex AND subnet hex
+end address: ipv6 hex OR subnet hex
+
+3.Padding 0 for start address and padding 1 for end address
+*/
 export function getStartAndEndIPv6Address(
     ipv6Address: string[],
     subnet: string,
@@ -174,24 +193,18 @@ export function getStartAndEndIPv6Address(
         endIPv6Address: [],
     };
 
-    /*
-    ex:
-    subnet 67
-    2001:0db8:beef:0123:3212:0000:0000:0001
-    */
-    // targetIndex = 4 -> "3212"
+    // targetIndex = 4 -> "3212" 67 / 16 = 4
     const targetOctetIndex: number = Math.floor(parseInt(subnet, 10) / 16);
     // hexIndexInOctet = 0 -> "3212" -> "3"
     const hexIndexInOctet: number = Math.floor(
         (parseInt(subnet, 10) % 16) / defaultNumberValue.OCTET_LENGTH,
     );
     // bitIndexInHexIndex = 3 -> refer to ipv6SubnetHash 3: "e"
-    // /67 -> ffff:ffff:ffff:ffff:e000:0000:0000:0000
     const bitIndexInHexIndex: number = parseInt(subnet, 10) % defaultNumberValue.OCTET_LENGTH;
 
     let { startIPv6Address, endIPv6Address } = ipAddressRange;
 
-    // 128 bit
+    // All 128 bits are the same
     if (targetOctetIndex === defaultNumberValue.MAX_NUMBER_OF_IPV6_ARRAY) {
         startIPv6Address = ipv6Address;
         endIPv6Address = ipv6Address;
@@ -199,6 +212,7 @@ export function getStartAndEndIPv6Address(
     }
 
     for (let i = 0; i < ipv6Address.length; i++) {
+        // Push ipv6 address until targetOctetIndex
         if (i < targetOctetIndex) {
             startIPv6Address.push(ipv6Address[i]);
             endIPv6Address.push(ipv6Address[i]);
