@@ -11,13 +11,24 @@ import {
     EIGHT_ZERO_FIELDS,
 } from "../data/ipv6SummaryDefaultValue";
 
+/*
+getFullIPv6Address
+1. Split ipv6 address string
+2. Count the number of zero octets
+3. If there is no zero bit, just padding zero in splitIPv6address.
+4. Push octets before zero bit
+5. Padding zero bits
+6. Padding after zero bits
+*/
 export function getFullIPv6Address(ipv6Address: string): string[] {
+    // 1. Split IPv6 address
     // ["2001", "db8", "", ""]
     // ["2001", "db8", "", "1"]
     const splitIPv6address: string[] = ipv6Address.split(defaultStringValue.COLON);
     const fullIPv6AddressLength: number = defaultNumberValue.MAX_NUMBER_OF_IPV6_ARRAY;
-    // 6
-    // 5
+    // 2. Count the number of zero octets
+    // 6 <- ["2001", "db8", "", ""]
+    // 5 <- ["2001", "db8", "", "1"]
     const numberOfZeroOctet: number =
         fullIPv6AddressLength -
         splitIPv6address.filter((octet: string) => {
@@ -29,27 +40,27 @@ export function getFullIPv6Address(ipv6Address: string): string[] {
 
     const fullIPv6Address: string[] = [];
 
-    // no zero bit
+    // 3. If there is no zero bit, just padding zero in splitIPv6address.
     if (zeroIndex === -1) {
-        for (let i = 0; i <= tailOctetIndex; i++) {
-            paddingAddress(fullIPv6Address, splitIPv6address[i]);
+        for (const ipv6 of splitIPv6address) {
+            paddingAddress(fullIPv6Address, ipv6);
         }
         return fullIPv6Address;
     }
 
-    // push before zero bit
+    // 4. Push octets before zero bit
     // ["2001", "0db8"]
     for (let i = 0; i < zeroIndex; i++) {
         paddingAddress(fullIPv6Address, splitIPv6address[i]);
     }
 
-    // padding zero bit
+    // 5. Padding zero bits
     // ["2001", "0db8", "0000", "0000", "0000", "0000", "0000"]
     for (let i = zeroIndex; i < zeroIndex + numberOfZeroOctet; i++) {
         paddingAddress(fullIPv6Address, paddingZero);
     }
 
-    // padding after zero bit
+    // 6. Padding after zero bits
     if (splitIPv6address[tailOctetIndex] !== "") {
         for (let i = zeroIndex + 1; i <= tailOctetIndex; i++) {
             paddingAddress(fullIPv6Address, splitIPv6address[i]);
@@ -60,6 +71,7 @@ export function getFullIPv6Address(ipv6Address: string): string[] {
 }
 
 function paddingAddress(ipv6Address: string[], octet: string): string[] {
+    // If the octet is shorter than 4, padding zero in font of the octet.
     if (octet.length < defaultNumberValue.OCTET_LENGTH) {
         ipv6Address.push(paddingZeroFrontOctet(octet));
     } else ipv6Address.push(octet);
@@ -67,9 +79,11 @@ function paddingAddress(ipv6Address: string[], octet: string): string[] {
 }
 
 function paddingZeroFrontOctet(octet: string): string {
+    // paddingLength should be 0, 1, 2, 3
     const paddingLength: number = defaultNumberValue.OCTET_LENGTH - octet.length;
     const padding = "0";
-    if (paddingLength === 0) return "The argument is not allowed.";
+    // Octet length 4 is not allowed.
+    if (paddingLength === 0) throw new Error("The argument is not allowed.");
     else return padding.repeat(paddingLength) + octet;
 }
 
