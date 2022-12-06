@@ -17,8 +17,8 @@ const CalculateIPv6SummaryButton: FC = memo(function calculateIPv6Summary() {
         setAllValidIPv6AddressesExist(checkAllValidIPv6AddressesExist(ipv6SummaryArray));
         setCanCalculateIPv6Summary(checkAllValidIPv6AddressesExist(ipv6SummaryArray));
         setResultIPv6Summary({
-            ipv6SummaryArray: ipv6SummaryArray,
-            isShort: isShort,
+            ipv6SummaryArray,
+            isShort,
         });
         // console.log(ipv6SummaryArray);
     };
