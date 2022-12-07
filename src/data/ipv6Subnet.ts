@@ -8,8 +8,8 @@ export function generateIPv6Slash(): string[] {
 }
 
 export const ipv6SubnetHash: { [key: number]: string } = {
-    0: "0",
-    1: "8",
-    2: "c",
-    3: "e",
+    0: "0", // "0000"
+    1: "8", // "1000"
+    2: "c", // "1100"
+    3: "e", // "1110"
 };

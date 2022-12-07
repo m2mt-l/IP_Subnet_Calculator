@@ -11,13 +11,24 @@ import {
     EIGHT_ZERO_FIELDS,
 } from "../data/ipv6SummaryDefaultValue";
 
+/*
+getFullIPv6Address
+1. Split ipv6 address string
+2. Count the number of zero octets
+3. If there is no zero bit, just padding zero in splitIPv6address.
+4. Push octets before zero bit
+5. Padding zero bits
+6. Padding after zero bits
+*/
 export function getFullIPv6Address(ipv6Address: string): string[] {
+    // 1. Split IPv6 address
     // ["2001", "db8", "", ""]
     // ["2001", "db8", "", "1"]
     const splitIPv6address: string[] = ipv6Address.split(defaultStringValue.COLON);
     const fullIPv6AddressLength: number = defaultNumberValue.MAX_NUMBER_OF_IPV6_ARRAY;
-    // 6
-    // 5
+    // 2. Count the number of zero octets
+    // 6 <- ["2001", "db8", "", ""]
+    // 5 <- ["2001", "db8", "", "1"]
     const numberOfZeroOctet: number =
         fullIPv6AddressLength -
         splitIPv6address.filter((octet: string) => {
@@ -29,27 +40,27 @@ export function getFullIPv6Address(ipv6Address: string): string[] {
 
     const fullIPv6Address: string[] = [];
 
-    // no zero bit
+    // 3. If there is no zero bit, just padding zero in splitIPv6address.
     if (zeroIndex === -1) {
-        for (let i = 0; i <= tailOctetIndex; i++) {
-            paddingAddress(fullIPv6Address, splitIPv6address[i]);
+        for (const ipv6 of splitIPv6address) {
+            paddingAddress(fullIPv6Address, ipv6);
         }
         return fullIPv6Address;
     }
 
-    // push before zero bit
+    // 4. Push octets before zero bit
     // ["2001", "0db8"]
     for (let i = 0; i < zeroIndex; i++) {
         paddingAddress(fullIPv6Address, splitIPv6address[i]);
     }
 
-    // padding zero bit
+    // 5. Padding zero bits
     // ["2001", "0db8", "0000", "0000", "0000", "0000", "0000"]
     for (let i = zeroIndex; i < zeroIndex + numberOfZeroOctet; i++) {
         paddingAddress(fullIPv6Address, paddingZero);
     }
 
-    // padding after zero bit
+    // 6. Padding after zero bits
     if (splitIPv6address[tailOctetIndex] !== "") {
         for (let i = zeroIndex + 1; i <= tailOctetIndex; i++) {
             paddingAddress(fullIPv6Address, splitIPv6address[i]);
@@ -60,6 +71,7 @@ export function getFullIPv6Address(ipv6Address: string): string[] {
 }
 
 function paddingAddress(ipv6Address: string[], octet: string): string[] {
+    // If the octet is shorter than 4, padding zero in font of the octet.
     if (octet.length < defaultNumberValue.OCTET_LENGTH) {
         ipv6Address.push(paddingZeroFrontOctet(octet));
     } else ipv6Address.push(octet);
@@ -67,26 +79,58 @@ function paddingAddress(ipv6Address: string[], octet: string): string[] {
 }
 
 function paddingZeroFrontOctet(octet: string): string {
+    // paddingLength should be 0, 1, 2, 3
     const paddingLength: number = defaultNumberValue.OCTET_LENGTH - octet.length;
     const padding = "0";
-    if (paddingLength === 0) return "The argument is not allowed.";
+    // Octet length 4 is not allowed.
+    if (paddingLength === 0) throw new Error("The argument is not allowed.");
     else return padding.repeat(paddingLength) + octet;
 }
 
-// RFC5952: get shorten IPv6 address from full IPv6 address
-export function getShortenIPv6Address(fullIPv6address: string[]): string[] {
-    // ["2001", "0db8", "0000", "0000", "0000", "0000", "0000" "0001"] => ["2001", "db8", "", "1"]
-    // ["2001", "0000", "0000", "beef", "0000", "0000", "0000", "0001"] => ["2001", "0", "0" , "beef", "", "1"]
-    // ["2001", "0000", "0000", "beef", "0001", "0000", "0000", "0001"] => ["2001", "", "beef", "1", "0", "0", "1"]
-    // "::" -> ["","",""]
+/*
+getShortenIPv6Address
+Get shorten IPv6 address from full IPv6 address based on RFC5952.
 
-    // ["2001", "0000", "0000", "beef", "0000", "0000", "0000", "0001"] => "2001:0000:0000:beef:0000:0000:0000:0001"
+4.1.  Handling Leading Zeros in a 16-Bit Field
+Leading zeros MUST be suppressed.  For example, 2001:0db8::0001 is
+not acceptable and must be represented as 2001:db8::1.  A single 16-
+bit 0000 field MUST be represented as 0.
+
+4.2.1.  Shorten as Much as Possible
+The use of the symbol "::" MUST be used to its maximum capability.
+For example, 2001:db8:0:0:0:0:2:1 must be shortened to 2001:db8::2:1.
+Likewise, 2001:db8::0:1 is not acceptable, because the symbol "::"
+could have been used to produce a shorter representation 2001:db8::1.
+
+4.2.2.  Handling One 16-Bit 0 Field
+The symbol "::" MUST NOT be used to shorten just one 16-bit 0 field.
+
+4.2.3.  Choice in Placement of "::"
+When there is an alternative choice in the placement of a "::", the
+longest run of consecutive 16-bit 0 fields MUST be shortened (i.e.,
+the sequence with three consecutive zero fields is shortened in 2001:
+0:0:1:0:0:0:1).  When the length of the consecutive 16-bit 0 fields
+are equal (i.e., 2001:db8:0:0:1:0:0:1), the first sequence of zero
+bits MUST be shortened.  For example, 2001:db8::1:0:0:1 is correct
+representation.
+
+output:
+["2001", "0db8", "0000", "0000", "0000", "0000", "0000" "0001"] => ["2001", "db8", "", "1"]
+["2001", "0000", "0000", "beef", "0000", "0000", "0000", "0001"] => ["2001", "0", "0" , "beef", "", "1"]
+["2001", "0000", "0000", "beef", "0001", "0000", "0000", "0001"] => ["2001", "", "beef", "1", "0", "0", "1"]
+*/
+
+export function getShortenIPv6Address(fullIPv6address: string[]): string[] {
+    // Change string array to string
     const revertIPv6Address: string = fullIPv6address.join(":");
 
-    let replacedIPv6Address = "";
     // :: unspecified
     if (revertIPv6Address.includes(EIGHT_ZERO_FIELDS)) return ["", "", ""];
-    else if (revertIPv6Address.includes(SEVEN_ZERO_FIELDS))
+
+    // Suppress zero fields of revertIPv6Address
+    // includes can get the first maximum consecutive zero fields.
+    let replacedIPv6Address = "";
+    if (revertIPv6Address.includes(SEVEN_ZERO_FIELDS))
         replacedIPv6Address = revertIPv6Address.replace(SEVEN_ZERO_FIELDS, "");
     else if (revertIPv6Address.includes(SIX_ZERO_FIELDS))
         replacedIPv6Address = revertIPv6Address.replace(SIX_ZERO_FIELDS, "");
@@ -98,11 +142,15 @@ export function getShortenIPv6Address(fullIPv6address: string[]): string[] {
         replacedIPv6Address = revertIPv6Address.replace(THREE_ZERO_FIELDS, "");
     else if (revertIPv6Address.includes(TWO_ZERO_FIELDS))
         replacedIPv6Address = revertIPv6Address.replace(TWO_ZERO_FIELDS, "");
+    // Only one zero field is never changed
     else replacedIPv6Address = revertIPv6Address;
 
-    if (replacedIPv6Address.at(-1) === ":") replacedIPv6Address += ":";
+    // If the last replacedIPv6Address string is a colon, add one more colon.
+    if (replacedIPv6Address.at(-1) === defaultStringValue.COLON)
+        replacedIPv6Address += defaultStringValue.COLON;
     // console.log(replacedIPv6Address);
 
+    // Change replacedIPv6Address to array
     // "2001::beef:0001:0000:0000:0001" -> ["2001","","beef","1","0","0","1"]
     const shortenIPv6Address: string[] = replacedIPv6Address
         .split(":")
@@ -117,6 +165,25 @@ function omitFrontZeroFromOctet(octet: string): string {
     return octet;
 }
 
+/*
+getStartAndEndIPv6Address
+1.Check calculated hex from subnet.
+    ex:
+    subnet 67
+    2001:0db8:beef:0123:3212:0000:0000:0001
+
+    targetIndex = 4 -> "3212" -> 67 / 16 = 4
+    hexIndexInOctet = 0 -> "3212" -> "3" -> 67 % 16 / 4 = 0
+    bitIndexInHexIndex = 3 -> 67 % 4 -> refer to ipv6SubnetHash 3: "e" ("1110")
+    /67 -> ffff:ffff:ffff:ffff:e000:0000:0000:0000
+
+2.bitwise AND or OR
+Get decimal values from above Indexes.
+start address: ipv6 hex AND subnet hex
+end address: ipv6 hex OR subnet hex
+
+3.Padding 0 for start address and padding 1 for end address
+*/
 export function getStartAndEndIPv6Address(
     ipv6Address: string[],
     subnet: string,
@@ -126,24 +193,18 @@ export function getStartAndEndIPv6Address(
         endIPv6Address: [],
     };
 
-    /*
-    ex:
-    subnet 67
-    2001:0db8:beef:0123:3212:0000:0000:0001
-    */
-    // targetIndex = 4 -> "3212"
+    // targetIndex = 4 -> "3212" 67 / 16 = 4
     const targetOctetIndex: number = Math.floor(parseInt(subnet, 10) / 16);
     // hexIndexInOctet = 0 -> "3212" -> "3"
     const hexIndexInOctet: number = Math.floor(
         (parseInt(subnet, 10) % 16) / defaultNumberValue.OCTET_LENGTH,
     );
     // bitIndexInHexIndex = 3 -> refer to ipv6SubnetHash 3: "e"
-    // /67 -> ffff:ffff:ffff:ffff:e000:0000:0000:0000
     const bitIndexInHexIndex: number = parseInt(subnet, 10) % defaultNumberValue.OCTET_LENGTH;
 
     let { startIPv6Address, endIPv6Address } = ipAddressRange;
 
-    // 128 bit
+    // All 128 bits are the same
     if (targetOctetIndex === defaultNumberValue.MAX_NUMBER_OF_IPV6_ARRAY) {
         startIPv6Address = ipv6Address;
         endIPv6Address = ipv6Address;
@@ -151,6 +212,7 @@ export function getStartAndEndIPv6Address(
     }
 
     for (let i = 0; i < ipv6Address.length; i++) {
+        // Push ipv6 address until targetOctetIndex
         if (i < targetOctetIndex) {
             startIPv6Address.push(ipv6Address[i]);
             endIPv6Address.push(ipv6Address[i]);

@@ -206,6 +206,27 @@ describe("ipv6SummaryCalculator", () => {
 
     const longSameSubnetDifferentNumberZeroBitsOutput: string =
         "2001:0db8:00a4:0000:0000:0000:0000:0000/47";
+
+    const shortSecondOctetCheck: ResultIPv6Summary = {
+        ipv6SummaryArray: [
+            { ipAddress: "2001:db8:a4::", subnet: "48" },
+            { ipAddress: "2001:beef:a5::", subnet: "48" },
+        ],
+        isShort: true,
+    };
+
+    const shortSecondOctetCheckOutput: string = "2001::/16";
+
+    const longSecondOctetCheck: ResultIPv6Summary = {
+        ipv6SummaryArray: [
+            { ipAddress: "2001:db8:a4::", subnet: "48" },
+            { ipAddress: "2001:beef:a5::", subnet: "48" },
+        ],
+        isShort: false,
+    };
+
+    const longSecondOctetCheckOutput: string = "2001:0000:0000:0000:0000:0000:0000:0000/16";
+
     test("summarize 48 bit short", () => {
         expect(ipv6SummaryCalculator(shortStandardSubnetFortyEight)).toBe(
             shortStandardSubnetFortyEightOutput,
@@ -287,5 +308,12 @@ describe("ipv6SummaryCalculator", () => {
         expect(ipv6SummaryCalculator(longSameSubnetDifferentNumberZeroBits)).toBe(
             longSameSubnetDifferentNumberZeroBitsOutput,
         );
+    });
+    test("second octet check short", () => {
+        expect(ipv6SummaryCalculator(shortSecondOctetCheck)).toBe(shortSecondOctetCheckOutput);
+    });
+
+    test("second octet check long", () => {
+        expect(ipv6SummaryCalculator(longSecondOctetCheck)).toBe(longSecondOctetCheckOutput);
     });
 });
